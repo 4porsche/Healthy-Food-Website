@@ -192,3 +192,9 @@ VALUES (N'Tofu Spring Rolls', 7, 3, 53000, N'Vegan rolls with tofu and mint', 15
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
 VALUES (N'Chicken Quinoa Bowl', 7, 2, 65000, N'Bowl with grilled chicken and quinoa', 250, 300, 25, 7, 20, N'chicken,healthy');
+
+ALTER TABLE Products
+ADD Image NVARCHAR(100);
+
+UPDATE Products
+SET Image = REPLACE(ProductName, ' ', '') + '.jpg';
