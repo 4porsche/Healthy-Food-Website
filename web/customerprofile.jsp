@@ -73,41 +73,139 @@
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <strong>Email:</strong>
-                                <p id="email">${customer.email}</p>
+                                <p>${customer.email}</p>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <strong>Số điện thoại:</strong>
-                                <p id="phone">${customer.phone}</p>
+                                <p>${customer.phone}</p>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <strong>Giới tính:</strong>
-                                <p id="gender">${customer.gender}</p>
+                                <p>${customer.gender}</p>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <strong>Chiều cao:</strong>
-                                <p id="height">${customer.height} cm</p>
+                                <p>${customer.height} cm</p>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <strong>Cân nặng:</strong>
-                                <p id="weight">${customer.weight} kg</p>
+                                <p>${customer.weight} kg</p>
                             </div>
                             <div class="col-sm-6 mb-3">
                                 <strong>BMI:</strong>
-                                <p id="bmi">${customer.BMI}</p>
+                                <p>${customer.BMI}</p>
                             </div>
                             <div class="col-sm-6 mb-3">
-                                <strong>Activity Level:</strong>
-                                <p id="activityLevel">${customer.activitylevel}</p>
+                                <strong>Mức độ hoạt động:</strong>
+                                <p>${customer.activitylevel}</p>
                             </div>
                             <div class="col-12 mb-3">
                                 <strong>Mục tiêu:</strong>
-                                <p id="goal">${customer.goal}</p>
+                                <p>${customer.goal}</p>
                             </div>
+                              <a class="btn btn-primary btn-sm" href="load?userid=${customer.userid}">Sửa</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+                              
+        <!-- Footer Start -->
+        <div class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h1>E Shop</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sollicitudin rutrum massa. Suspendisse sollicitudin rutrum massa. Vestibulum porttitor, metus sed pretium elementum, nisi nibh sodales quam, non lobortis neque felis id mauris.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h3 class="title">Useful Pages</h3>
+                            <ul>
+                                <li><a href="product.html">Product</a></li>
+                                <li><a href="product-detail.html">Product Detail</a></li>
+                                <li><a href="cart.html">Cart</a></li>
+                                <li><a href="checkout.html">Checkout</a></li>
+                                <li><a href="login.html">Login & Register</a></li>
+                                <li><a href="my-account.html">My Account</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h3 class="title">Quick Links</h3>
+                            <ul>
+                                <li><a href="product.html">Product</a></li>
+                                <li><a href="cart.html">Cart</a></li>
+                                <li><a href="checkout.html">Checkout</a></li>
+                                <li><a href="login.html">Login & Register</a></li>
+                                <li><a href="my-account.html">My Account</a></li>
+                                <li><a href="wishlist.html">Wishlist</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h3 class="title">Get in Touch</h3>
+                            <div class="contact-info">
+                                <p><i class="fa fa-map-marker"></i>123 E Shop, Los Angeles, CA, USA</p>
+                                <p><i class="fa fa-envelope"></i>email@example.com</p>
+                                <p><i class="fa fa-phone"></i>+123-456-7890</p>
+                                <div class="social">
+                                    <a href=""><i class="fa fa-twitter"></i></a>
+                                    <a href=""><i class="fa fa-facebook"></i></a>
+                                    <a href=""><i class="fa fa-linkedin"></i></a>
+                                    <a href=""><i class="fa fa-instagram"></i></a>
+                                    <a href=""><i class="fa fa-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row payment">
+                    <div class="col-md-6">
+                        <div class="payment-method">
+                            <p>We Accept:</p>
+                            <img src="img/payment-method.png" alt="Payment Method" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="payment-security">
+                            <p>Secured By:</p>
+                            <img src="img/godaddy.svg" alt="Payment Security" />
+                            <img src="img/norton.svg" alt="Payment Security" />
+                            <img src="img/ssl.svg" alt="Payment Security" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        
+        <!-- Footer Bottom Start -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 copyright">
+                        <p>Copyright &copy; <a href="https://htmlcodex.com">HTML Codex</a>. All Rights Reserved</p>
+                    </div>
+
+                    <div class="col-md-6 template-by">
+                        <p>Template By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Bottom End -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>

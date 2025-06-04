@@ -9,12 +9,13 @@ package model;
  * @author Admin
  */
 public class CustomerProfile {
+    private int userid;
     private String fullname;
     private String email;
     private String phone;
     private String gender;
-    private int height;
-    private int weight;
+    private double height;
+    private double weight;
     private double BMI;
     private String activitylevel;
     private String goal;
@@ -22,7 +23,8 @@ public class CustomerProfile {
     public CustomerProfile() {
     }
 
-    public CustomerProfile(String fullname, String email, String phone, String gender, int height, int weight, double BMI, String activitylevel, String goal) {
+    public CustomerProfile(int userid, String fullname, String email, String phone, String gender, double height, double weight, double BMI, String activitylevel, String goal) {
+        this.userid = userid;
         this.fullname = fullname;
         this.email = email;
         this.phone = phone;
@@ -34,6 +36,15 @@ public class CustomerProfile {
         this.goal = goal;
     }
 
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+    
+    
     public String getFullname() {
         return fullname;
     }
@@ -66,19 +77,19 @@ public class CustomerProfile {
         this.gender = gender;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
@@ -108,8 +119,9 @@ public class CustomerProfile {
 
     @Override
     public String toString() {
-        return "CustomerProfile{" + "fullname=" + fullname + ", email=" + email + ", phone=" + phone + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", BMI=" + BMI + ", activitylevel=" + activitylevel + ", goal=" + goal + '}';
+        return "CustomerProfile{" + "userid=" + userid + ", fullname=" + fullname + ", email=" + email + ", phone=" + phone + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", BMI=" + BMI + ", activitylevel=" + activitylevel + ", goal=" + goal + '}';
     }
+
     
     
 }

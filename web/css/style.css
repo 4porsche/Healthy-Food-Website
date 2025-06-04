@@ -187,7 +187,7 @@ button.btn {
         text-align: center;
         margin-bottom: 15px;
     }
-    
+
     .top-header .user {
         margin-bottom: 0;
     }
@@ -219,11 +219,11 @@ button.btn {
     .header .navbar {
         background: #3F69AA !important;
     }
-    
+
     .header .navbar-brand {
         display: none;
     }
-    
+
     .header a.nav-link {
         padding: 8px 15px;
         font-size: 15px;
@@ -231,16 +231,16 @@ button.btn {
     }
 }
 
-@media (max-width: 768px) {   
+@media (max-width: 768px) {
     .header,
     .header .navbar {
         background: #333333 !important;
     }
-    
+
     .header a.nav-link {
         padding: 5px;
     }
-    
+
     .header .dropdown-menu {
         box-shadow: none;
     }
@@ -384,9 +384,9 @@ button.btn {
 
 .category .category-name {
     position: absolute;
-    top: 0; 
+    top: 0;
     right: 0;
-    bottom: 0; 
+    bottom: 0;
     left: 0;
     opacity: 0;
     background: rgba(63, 105, 170, .5);
@@ -396,7 +396,7 @@ button.btn {
 }
 
 .category .category-name:hover {
-    opacity: 1;     
+    opacity: 1;
 }
 
 .category .category-name h2 {
@@ -411,7 +411,7 @@ button.btn {
 }
 
 .category .category-name:hover h2 {
-    margin: 0;       
+    margin: 0;
 }
 
 
@@ -517,7 +517,7 @@ button.btn {
 .product-item .product-image a {
     display: block;
     background: #3F69AA;
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
     transition: .3s;
 }
 
@@ -526,7 +526,7 @@ button.btn {
 }
 
 .product-item .product-image img {
-    width: 100%; 
+    width: 100%;
 }
 
 .product-item:hover .product-image img {
@@ -543,12 +543,12 @@ button.btn {
     top: 50%;
     text-align: center;
     transition: .5s;
-    opacity: 0; 
+    opacity: 0;
 }
 
 .product-item:hover .product-image .product-action {
     top: calc(50% - 25px);
-    opacity: 1; 
+    opacity: 1;
 }
 
 .product-item .product-image .product-action a {
@@ -604,7 +604,7 @@ button.btn {
 .product-item .product-content .price {
     font-size: 30px;
     color: #3F69AA;
-    font-weight: 700; 
+    font-weight: 700;
 }
 
 .product-item .product-content .price span {
@@ -993,12 +993,12 @@ button.btn {
 
 .sidebar-widget.brands ul li,
 .sidebar-widget.category ul li {
-    margin-bottom: 12px; 
+    margin-bottom: 12px;
 }
 
 .sidebar-widget.brands ul li:last-child,
 .sidebar-widget.category ul li:last-child {
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .sidebar-widget.brands ul li a,
@@ -1020,7 +1020,7 @@ button.btn {
 
 .sidebar-widget.brands ul li a:hover,
 .sidebar-widget.category ul li a:hover {
-    padding-left: 10px; 
+    padding-left: 10px;
 }
 
 .sidebar-widget.brands ul li span,
@@ -1433,12 +1433,12 @@ button.btn {
 }
 
 .brand-item {
-    text-align: center; 
+    text-align: center;
 }
 
 .brand-item img {
     max-width: 100%;
-    margin: auto; 
+    margin: auto;
 }
 
 
@@ -1586,7 +1586,7 @@ button.btn {
 
 .footer .footer-widget h1 {
     color: #ffffff;
-    margin-bottom: 18px; 
+    margin-bottom: 18px;
 }
 
 .footer .footer-widget .title {
@@ -1605,11 +1605,11 @@ button.btn {
 }
 
 .footer .footer-widget ul li {
-    margin-bottom: 12px; 
+    margin-bottom: 12px;
 }
 
 .footer .footer-widget ul li:last-child {
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .footer .footer-widget ul li a {
@@ -1626,7 +1626,7 @@ button.btn {
 }
 
 .footer .footer-widget ul li a:hover {
-    padding-left: 10px; 
+    padding-left: 10px;
 }
 
 .footer .contact-info p {
@@ -1689,8 +1689,8 @@ button.btn {
 @media (max-width: 768.98px) {
     .footer .payment-method,
     .footer .payment-security {
-        text-align: center; 
-    } 
+        text-align: center;
+    }
 }
 
 .footer .payment-method p,
@@ -1742,6 +1742,46 @@ button.btn {
 @media (max-width: 768.98px) {
     .footer-bottom .copyright,
     .footer-bottom .template-by {
-        text-align: center; 
-    } 
+        text-align: center;
+    }
 }
+/* Custom styles for profile form */
+.profile .form-container {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-top: 50px;
+}
+
+#profile .form h3 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #333;
+}
+
+#profile .form-group label {
+    font-weight: 500;
+}
+
+#profile .form-control {
+    border-radius: 6px;
+}
+
+#profile input[type="submit"] {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#profile input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
+
