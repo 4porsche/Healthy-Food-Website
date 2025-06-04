@@ -10,7 +10,7 @@ public class DBContext {
 
     public DBContext() {
         try {
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=HealthyFood";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=HealthyFoodDB";
             String username = "sa";
             String password = "123";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
