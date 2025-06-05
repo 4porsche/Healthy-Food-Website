@@ -14,7 +14,7 @@ public class DBContext {
 
     public DBContext() {
         try {
-            String url = "jdbc:sqlserver://DESKTOP-DU9E5B7\\NINH:1433;databaseName=HealthyFoodDB";
+            String url = "jdbc:sqlserver://LILDUCKY\\DUC:1433;databaseName=HealthyFoodDB";
             String username = "sa";
             String password = "123";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

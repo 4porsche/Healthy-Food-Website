@@ -156,17 +156,16 @@
                                 <div class="col-lg-4">
                                     <div class="product-item">
                                         <div class="product-image">
-                                            <a href="product-detail.html">
+                                            <a href="productDetail?productID=${product.productID}&categoryID=${product.categoryID}">
                                                 <img src="img/${product.image}" alt="Product Image">
                                             </a>
                                             <div class="product-action">
-                                                <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                                <a href="#"><i class="fa fa-heart"></i></a>
-                                                <a href="#"><i class="fa fa-search"></i></a>
+                                                <a href="#"><i class="fa fa-cart-plus"></i></a>          
+                                                <a href="productDetail?productID=${product.productID}&categoryID=${product.categoryID}"><i class="fa fa-search"></i></a>
                                             </div>
                                         </div>
                                         <div class="product-content">
-                                            <div class="title"><a href="#">${product.productName}</a></div>
+                                            <div class="title"><a href="productDetail?productID=${product.productID}&categoryID=${product.categoryID}">${product.productName}</a></div>
                                             <div class="">
                                                 <a>Calories: ${product.calories}g - </a>
                                                 <a>Protein: ${product.protein}g</a>

@@ -1,13 +1,13 @@
 <%-- 
-    Document   : product-list
-    Created on : Jun 4, 2025, 1:36:37 AM
-    Author     : Home
+    Document   : product-detail.jsp
+    Created on : Jun 4, 2025, 9:43:30 AM
+    Author     : Admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <title>E Shop - Bootstrap Ecommerce Template</title>
@@ -43,14 +43,10 @@
                             </a>
                         </div>
                     </div>
-                    <!-- SearchBar -->
                     <div class="col-md-6">
                         <div class="search">
-                            <form action="ShopServlet" method="get">
-                                <input type="hidden" name="service" value="search">
-                                <input type="text" name="searchQuery" placeholder="Search">
-                                <button type="submit"><i class="fa fa-search"></i></button>
-                            </form>
+                            <input type="text" placeholder="Search">
+                            <button><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -72,8 +68,8 @@
             </div>
         </div>
         <!-- Top Header End -->
-        
-        
+
+
         <!-- Header Start -->
         <div class="header">
             <div class="container">
@@ -106,121 +102,157 @@
             </div>
         </div>
         <!-- Header End -->
-        
-        
+
+
         <!-- Breadcrumb Start -->
         <div class="breadcrumb-wrap">
             <div class="container">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">product details</li>
                 </ul>
             </div>
         </div>
         <!-- Breadcrumb End -->
-        
-        
-        <!-- Product List Start -->
-        <div class="product-view">
+
+
+        <!-- Product Detail Start -->
+        <div class="product-detail">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <!-- SearchBar -->
-                                    <div class="col-md-8">
-                                        <div class="product-search">
-                                           <form action="ShopServlet" method="get">
-                                               <input type="hidden" name="service" value="search">
-                                               <input type="text" name="searchQuery" value="Search">
-                                               <button type="submit"><i class="fa fa-search"></i></button>
-                                           </form>
-                                       </div>
-                                   </div>
-                                    <div class="col-md-4">
-                                        <div class="product-short">
-                                            <div class="dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product short by</a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item">Newest</a>
-                                                    <a href="#" class="dropdown-item">Popular</a>
-                                                </div>
-                                            </div>
+                    <div class="col-lg-9">
+                        <div class="row align-items-center product-detail-top">
+                            <div class="col-md-5">
+                                <div class="product-slider-single">
+                                    <img src="img/${detail.image}">
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="product-content">
+                                    <div class="title"><h2>${detail.productName}</h2></div>
+                                    <div class="ratting">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="price">${detail.price}VND<span>$25</span></div>
+                                    <div class="details">
+                                        <p>
+                                            ${detail.description}
+                                        </p>
+                                    </div>
+
+                                    <div class="quantity">
+                                        <h4>Quantity:</h4>
+                                        <div class="qty">
+                                            <button class="btn-minus"><i class="fa fa-minus"></i></button>
+                                            <input type="text" value="1">
+                                            <button class="btn-plus"><i class="fa fa-plus"></i></button>
                                         </div>
+                                    </div>
+                                    <div class="action">
+                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                        <a href="#"><i class="fa fa-heart"></i></a>
+                                        <a href="#"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Product Start -->
-                            <c:forEach var="product" items="${productList}">
-                                <div class="col-lg-4">
-                                    <div class="product-item">
-                                        <div class="product-image">
-                                            <a href="productDetail?productID=${product.productID}&categoryID=${product.categoryID}">
-                                                <img src="img/${product.image}" alt="Product Image">
-                                            </a>
-                                            <div class="product-action">
-                                                <a href="#"><i class="fa fa-cart-plus"></i></a>          
-                                                <a href="productDetail?productID=${product.productID}&categoryID=${product.categoryID}"><i class="fa fa-search"></i></a>
+                        </div>
+
+                        <div class="row product-detail-bottom">
+                            <div class="col-lg-12">
+                                <ul class="nav nav-pills nav-justified">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
+                                    </li>
+                                
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div id="description" class="container tab-pane active"><br>
+                                        <h4>Product description</h4>
+                                        <p>
+                                            ${detail.description}
+                                        </p>
+                                    </div>
+                                    <div id="specification" class="container tab-pane fade"><br>
+                                        <h4>Product nutrition facts</h4>
+                                        <ul>
+                                            <li>Weight: ${detail.weight}</li>     
+                                            <li>Calories: ${detail.calories}</li>  
+                                            <li>Protein: ${detail.protein}</li>  
+                                            <li>Fat: ${detail.fat}</li>  
+                                            <li>Carbs: ${detail.carbs}</li>  
+                                        </ul>
+                                    </div>
+                             
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="section-header">
+                                <h3>Related Products</h3>
+                                <p>
+                                    Products you may interested
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center product-slider product-slider-3">                             
+                                <c:forEach items="${relatedProducts}" var="r">
+                                    <div class="col-lg-3">
+                                        <div class="product-item">
+                                            <div class="product-image">
+                                                <a href="product-detail.html">
+                                                    <img src="img/${r.image}">
+                                                </a>
+                                                <div class="product-action">
+                                                    <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                                    <a href="#"><i class="fa fa-heart"></i></a>
+                                                    <a href="#"><i class="fa fa-search"></i></a>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="product-content">
-                                            <div class="title"><a href="productDetail?productID=${product.productID}&categoryID=${product.categoryID}">${product.productName}</a></div>
-                                            <div class="">
-                                                <a>Calories: ${product.calories}g - </a>
-                                                <a>Protein: ${product.protein}g</a>
+                                            <div class="product-content">
+                                                <div class="title"><a href="#">${r.productName}</a></div>
+                                                <div class="ratting">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <div class="price">${r.price}VND <span>$25</span></div>
                                             </div>
-                                            <div class="">
-                                                <a>Fat: ${product.fat}g - </a>
-                                                <a>Carbs: ${product.carbs}g</a>
-                                            </div>
-                                            <div class="price">${product.price} VND</div>
                                         </div>
                                     </div>
-                                </div>
-                            </c:forEach>
-                            <!-- Product End -->
-                        </div>
-                        
-                        <div class="col-lg-12">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                                </c:forEach>
                         </div>
                     </div>
-                    
-                    
-                    
-                    <div class="col-md-3">
+
+                    <div class="col-lg-3">
                         <div class="sidebar-widget category">
                             <h2 class="title">Category</h2>
-                            <ul>
-                                <li><a href="#">Vegan</a><span>(83)</span></li>
-                                <li><a href="#">Cras sagittis</a><span>(198)</span></li>
-                                <li><a href="#">Vivamus</a><span>(95)</span></li>
-                                <li><a href="#">Fusce vitae</a><span>(48)</span></li>
-                                <li><a href="#">Vestibulum</a><span>(210)</span></li>
-                                <li><a href="#">Proin phar</a><span>(78)</span></li>
-                            </ul>
+                            <c:forEach items="${categories}" var="o">
+                                <ul>
+                                    <li><a href="category?categoryID=${o.categoryID}">${o.categoryName}</a></li>
+                                </ul>
+                            </c:forEach>
                         </div>
-                        
+
                         <div class="sidebar-widget image">
                             <h2 class="title">Featured Product</h2>
                             <a href="#">
                                 <img src="img/category-1.jpg" alt="Image">
                             </a>
                         </div>
-                        
+
                         <div class="sidebar-widget brands">
                             <h2 class="title">Our Brands</h2>
                             <ul>
@@ -232,7 +264,7 @@
                                 <li><a href="#">Sagittis</a><span>(28)</span></li>
                             </ul>
                         </div>
-                        
+
                         <div class="sidebar-widget tag">
                             <h2 class="title">Tags Cloud</h2>
                             <a href="#">Lorem ipsum</a>
@@ -252,9 +284,9 @@
                 </div>
             </div>
         </div>
-        <!-- Product List End -->
-        
-        
+        <!-- Product Detail End -->
+
+
         <!-- Footer Start -->
         <div class="footer">
             <div class="container-fluid">
@@ -314,7 +346,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row payment">
                     <div class="col-md-6">
                         <div class="payment-method">
@@ -335,7 +367,7 @@
         </div>
         <!-- Footer End -->
 
-        
+
         <!-- Footer Bottom Start -->
         <div class="footer-bottom">
             <div class="container">
@@ -351,19 +383,19 @@
             </div>
         </div>
         <!-- Footer Bottom End -->
-        
-        
+
+
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-        
+
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
         <script src="lib/slick/slick.min.js"></script>
 
-        
+
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
     </body>

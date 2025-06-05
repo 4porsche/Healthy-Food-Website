@@ -8,6 +8,7 @@ package repository;
  *
  * @author Home
  */
+import java.sql.Connection;
 import java.util.Vector;
 import model.Product;
 import java.sql.PreparedStatement;
@@ -19,6 +20,9 @@ import java.sql.SQLException;
  * @author Home
  */
 public class ProductDAO extends DBContext {
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
 
     public Vector<Product> getAllProduct(String sql) {
         Vector<Product> listProduct = new Vector<>();
@@ -47,6 +51,36 @@ public class ProductDAO extends DBContext {
             ex.printStackTrace();
         }
         return listProduct;
+    }
+    
+    public Product getProductByID(String productID) {
+        String query = "select* from Products\n"
+                + "where ProductID = ?";
+        try {
+            conn = new DBContext().connection;
+            ps = conn.prepareStatement(query);
+            ps.setString(1, productID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Product(
+                        rs.getInt(1),  
+                        rs.getInt(2),  
+                        rs.getInt(3),  
+                        rs.getString(4),  
+                        rs.getInt(5),  
+                        rs.getString(6), 
+                        rs.getDouble(7),  
+                        rs.getDouble(8), 
+                        rs.getDouble(9),  
+                        rs.getDouble(10), 
+                        rs.getDouble(11), 
+                        rs.getString(12), 
+                        rs.getString(13));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     public void insertProduct(Product p) {
