@@ -124,8 +124,13 @@
     <c:if test="${param.register == 'success'}">
         <p class="message success">Đăng ký thành công. Vui lòng đăng nhập.</p>
     </c:if>
+        <c:if test="${param.reset == 'success'}">
+    <p class="message success">Đặt lại mật khẩu thành công. Vui lòng đăng nhập.</p>
+</c:if>
 
     <!-- Nút chuyển đến trang đăng ký -->
+    <a href="forgot_password.jsp" class="register-btn">Quên mật khẩu?</a>
+
     <a href="register.jsp" class="register-btn">Chưa có tài khoản? Đăng ký</a>
 </div>
 </body>

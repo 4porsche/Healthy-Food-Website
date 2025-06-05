@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/controller/LogoutServlet.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/util/EmailUtil.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/web/reset_password.jsp</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/controller/ForgetPasswordServlet.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/web/home.jsp</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/web/login.jsp</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/repository/DBContext.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/controller/LoginServlet.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/controller/RegisterServlet.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/controller/ResetPasswordServlet.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/model/User.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/controller/SendOTPServlet.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/web/verify_otp.jsp</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/repository/UserDAO.java</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/web/register.jsp</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/web/forgot_password.jsp</file>
+            <file>file:/C:/Users/PC/Downloads/Healthy-Food-Website-master/Healthy-Food-Website-master/src/java/controller/VerifyOTPServlet.java</file>
+        </group>
+    </open-files>
+</project-private>

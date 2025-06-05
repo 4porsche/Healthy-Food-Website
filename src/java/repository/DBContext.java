@@ -19,6 +19,16 @@ public class DBContext {
             System.out.println(e);
         }
     }
+    public void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Đã đóng kết nối SQL Server");
+            } catch (SQLException e) {
+                System.out.println("Lỗi khi đóng kết nối: " + e.getMessage());
+            }
+        }
+    }
 }
 
 
