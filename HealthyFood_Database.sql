@@ -13,7 +13,7 @@ CREATE TABLE Roles (
 -- Users Table
 CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1,1),
-    Fullname VARCHAR(50),
+    Fullname NVARCHAR(50),
     Username VARCHAR(50) UNIQUE,
     Password VARCHAR(50),
     Email VARCHAR(50) UNIQUE,
@@ -25,12 +25,12 @@ CREATE TABLE Users (
 CREATE TABLE CustomerProfiles (
     CustomerID INT PRIMARY KEY,
     Phone VARCHAR(50) UNIQUE,
-    Gender VARCHAR(10),
+    Gender NVARCHAR(10),
     Height DECIMAL(5,2),
     Weight DECIMAL(5,2),
     BMI DECIMAL(5,2),
-    ActivityLevel VARCHAR(50),
-    Goal VARCHAR(50),
+    ActivityLevel NVARCHAR(50),
+    Goal NVARCHAR(50),
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
@@ -73,13 +73,13 @@ CREATE TABLE Cart (
 CREATE TABLE Orders (
     OrderID INT PRIMARY KEY IDENTITY(1,1),
     UserID INT NULL,
-    CustomerName VARCHAR(50) NOT NULL,
+    CustomerName NVARCHAR(50) NOT NULL,
     CustomerEmail VARCHAR(50) NOT NULL,
     CustomerPhone VARCHAR(50) NOT NULL,
-    DeliveryAddress VARCHAR(50) NOT NULL,
+    DeliveryAddress NVARCHAR(50) NOT NULL,
     OrderDate DATE,
     TotalPrice INT,
-    DeliveryStatus VARCHAR(20),
+    DeliveryStatus NVARCHAR(20),
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE SET NULL
 );
 
@@ -99,7 +99,7 @@ CREATE TABLE MealPlans (
     MealPlanID INT PRIMARY KEY IDENTITY(1,1),
     CustomerID INT,
     PlanDate DATE,
-    Status VARCHAR(50), -- Approved, Rejected
+    Status NVARCHAR(50), -- Approved, Rejected
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
@@ -118,7 +118,7 @@ CREATE TABLE Shipping (
     ShippingID INT PRIMARY KEY IDENTITY(1,1),
     OrderID INT,
     ShipperID INT,
-    Status VARCHAR(20), -- shipping, delivered
+    Status NVARCHAR(20), -- shipping, delivered
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID) ON DELETE CASCADE,
     FOREIGN KEY (ShipperID) REFERENCES Users(UserID)
 );
@@ -127,7 +127,7 @@ CREATE TABLE Shipping (
 CREATE TABLE Notifications (
     NotificationID INT PRIMARY KEY IDENTITY(1,1),
     UserID INT,
-    Message VARCHAR(255),
+    Message NVARCHAR(255),
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
@@ -151,50 +151,51 @@ INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Shipper
 
 -- Insert CustomerProfiles
 INSERT INTO CustomerProfiles (CustomerID, Phone, Gender, Height, Weight, BMI, ActivityLevel, Goal)
-VALUES (3, '0901234567', 'Male', 175.5, 70.0, 22.8, 'Moderate', 'Gain muscle');
+VALUES (3, '0901234567', N'Nam', 175.5, 70.0, 22.8, N'Trung bình', N'Tăng cơ');
+
 INSERT INTO CustomerProfiles (CustomerID, Phone, Gender, Height, Weight, BMI, ActivityLevel, Goal)
-VALUES (4, '0901234568', 'Female', 160.0, 55.0, 21.5, 'Low', 'Lose weight');
+VALUES (4, '0901234568', N'Nữ', 160.0, 55.0, 21.5, N'Thấp', N'Giảm cân');
+
 INSERT INTO CustomerProfiles (CustomerID, Phone, Gender, Height, Weight, BMI, ActivityLevel, Goal)
-VALUES (5, '0912345678', 'Male', 180.0, 80.0, 24.7, 'High', 'Maintain weight');
+VALUES (5, '0912345678', N'Nam', 180.0, 80.0, 24.7, N'Cao', N'Giữ vóc dáng');
+
 
 -- Insert Categories
-INSERT INTO Categories (CategoryName) VALUES (N'Healthy Rolls');
-INSERT INTO Categories (CategoryName) VALUES (N'Low-Carb Meals');
-INSERT INTO Categories (CategoryName) VALUES (N'Vegan Specials');
+INSERT INTO Categories (CategoryName) VALUES (N'Cuốn ăn lành mạnh');
+INSERT INTO Categories (CategoryName) VALUES (N'Bữa ăn ít tinh bột');
+INSERT INTO Categories (CategoryName) VALUES (N'Món thuần chay đặc biệt');
+
 
 -- Insert Products
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Fresh Spring Rolls', 7, 1, 50000, N'Rice paper rolls with shrimp and herbs', 150, 180, 12, 4, 25, N'light,shrimp');
+VALUES (N'Gỏi cuốn tôm tươi', 7, 1, 50000, N'Bánh tráng cuốn tôm và rau thơm', 150, 180, 12, 4, 25, N'nhẹ,tôm');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Chicken Salad Wrap', 7, 1, 60000, N'Grilled chicken in lettuce wrap', 200, 250, 20, 5, 15, N'low-carb,chicken');
+VALUES (N'Cuốn salad gà', 7, 1, 60000, N'Gà nướng cuốn rau xà lách', 200, 250, 20, 5, 15, N'ít tinh bột,gà');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Tofu Noodle Bowl', 7, 2, 55000, N'Vegan bowl with tofu and noodles', 250, 270, 14, 6, 30, N'vegan,tofu');
+VALUES (N'Tô bún đậu hũ', 7, 2, 55000, N'Tô thuần chay với đậu hũ và bún', 250, 270, 14, 6, 30, N'thuần chay,đậu hũ');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Grilled Beef Rolls', 7, 1, 70000, N'Rice paper rolls with grilled beef', 180, 290, 22, 7, 20, N'beef,protein');
+VALUES (N'Gỏi cuốn bò nướng', 7, 1, 70000, N'Bánh tráng cuốn bò nướng', 180, 290, 22, 7, 20, N'bò,đạm');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Avocado Salad', 7, 2, 50000, N'Salad with fresh avocado', 180, 210, 6, 10, 20, N'vegan,avocado');
+VALUES (N'Salad bơ tươi', 7, 2, 50000, N'Salad với bơ tươi', 180, 210, 6, 10, 20, N'thuần chay,bơ');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Mango Veggie Wrap', 7, 3, 52000, N'Wrap with mango and fresh vegetables', 160, 200, 5, 3, 28, N'vegan,fruit');
+VALUES (N'Cuốn xoài rau củ', 7, 3, 52000, N'Cuốn với xoài và rau tươi', 160, 200, 5, 3, 28, N'thuần chay,trái cây');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Egg Roll Bowl', 7, 1, 58000, N'Deconstructed egg rolls in a bowl', 200, 240, 18, 8, 18, N'egg,balanced');
+VALUES (N'Tô trứng cuộn', 7, 1, 58000, N'Trứng cuộn dạng tô', 200, 240, 18, 8, 18, N'trứng,cân bằng');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Spicy Shrimp Wrap', 7, 1, 62000, N'Spicy shrimp with greens in wrap', 190, 260, 19, 5, 22, N'shrimp,spicy');
+VALUES (N'Cuốn tôm cay', 7, 1, 62000, N'Tôm cay cuốn cùng rau xanh', 190, 260, 19, 5, 22, N'tôm,cay');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Tofu Spring Rolls', 7, 3, 53000, N'Vegan rolls with tofu and mint', 150, 220, 10, 4, 26, N'vegan,tofu');
+VALUES (N'Gỏi cuốn đậu hũ', 7, 3, 53000, N'Cuốn thuần chay với đậu hũ và bạc hà', 150, 220, 10, 4, 26, N'thuần chay,đậu hũ');
 
 INSERT INTO Products (ProductName, SellerID, CategoryID, Price, Description, Weight, Calories, Protein, Fat, Carbs, Tags)
-VALUES (N'Chicken Quinoa Bowl', 7, 2, 65000, N'Bowl with grilled chicken and quinoa', 250, 300, 25, 7, 20, N'chicken,healthy');
+VALUES (N'Tô quinoa gà nướng', 7, 2, 65000, N'Tô gà nướng và hạt quinoa', 250, 300, 25, 7, 20, N'gà,lành mạnh');
 
-ALTER TABLE Products
-ADD Image NVARCHAR(100);
 
-UPDATE Products
-SET Image = REPLACE(ProductName, ' ', '') + '.jpg';
+select * from CustomerProfiles a join Users b on a.CustomerID = b.UserID

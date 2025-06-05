@@ -71,7 +71,7 @@ public class EditProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         try {
             int userID;
              ProfileDao pd = new ProfileDao();
@@ -110,13 +110,6 @@ public class EditProfileController extends HttpServlet {
 
             String activity = request.getParameter("activitylevel");
             String goal = request.getParameter("goal");
-
-            if (activity == null || activity.trim().isEmpty() || goal == null || goal.trim().isEmpty()) {
-                request.setAttribute("error", "Mức độ hoạt động và mục tiêu không được để trống.");
-                 request.setAttribute("loadcustomer", cp);
-                request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
-                return;
-            }
 
            
 

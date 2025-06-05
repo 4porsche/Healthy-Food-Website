@@ -50,18 +50,54 @@
                                     <input value="${loadcustomer.BMI}" type="text" name="bmi" id="bmi" class="form-control" required>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="activitylevel">Mức độ hoạt động:</label>
-                                    <input value="${loadcustomer.activitylevel}" type="text" name="activitylevel" id="activitylevel" class="form-control" required>
+                                <div class="form-group mb-3">
+                                    <strong>Mức độ hoạt động:</strong><br>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="activitylevel" value="Thấp" 
+                                               ${loadcustomer.activitylevel == 'Thấp' ? 'checked' : ''}>
+                                        <label class="form-check-label">Thấp</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="activitylevel" value="Trung bình" 
+                                               ${loadcustomer.activitylevel == 'Trung bình' ? 'checked' : ''}>
+                                        <label class="form-check-label">Trung bình</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="activitylevel" value="Cao" 
+                                               ${loadcustomer.activitylevel == 'Cao' ? 'checked' : ''}>
+                                        <label class="form-check-label">Cao</label>
+                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="goal">Mục tiêu:</label>
-                                    <input value="${loadcustomer.goal}" type="text" name="goal" id="goal" class="form-control" required>
+                                <div class="form-group mb-3">
+                                    <strong>Mục tiêu:</strong><br>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="goal" value="Giảm cân" 
+                                               ${loadcustomer.goal == 'Giảm cân' ? 'checked' : ''}>
+                                        <label class="form-check-label">Giảm cân</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="goal" value="Tăng cơ" 
+                                               ${loadcustomer.goal == 'Tăng cơ' ? 'checked' : ''}>
+                                        <label class="form-check-label">Tăng cơ</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="goal" value="Giữ vóc dáng" 
+                                               ${loadcustomer.goal == 'Giữ vóc dáng' ? 'checked' : ''}>
+                                        <label class="form-check-label">Giữ vóc dáng</label>
+                                    </div>
                                 </div>
+
+
 
                                 <div class="form-group text-center">
-                                    <input type="submit" name="submit" value="Thay đổi" class="btn btn-primary">
+                                    <input type="submit" name="submit" value="Gửi" class="btn btn-primary">
                                 </div>
                             </form>
                         </div>

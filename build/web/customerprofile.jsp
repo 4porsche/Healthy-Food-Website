@@ -103,7 +103,7 @@
                                 <strong>Mục tiêu:</strong>
                                 <p>${customer.goal}</p>
                             </div>
-                              <a class="btn btn-primary btn-sm" href="load?userid=${customer.userid}">Sửa</a>
+                              <a class="btn btn-primary btn-sm" href="load?userid=${customer.userid}">Gửi yêu cầu tư vấn</a>
                         </div>
                     </div>
                 </div>
