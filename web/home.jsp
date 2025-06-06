@@ -104,7 +104,7 @@
             <div class="main-slider">
                 <div class="main-slider-item"><img src="img/slider1.png" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
                 <div class="main-slider-item"><img src="img/slider2.png" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
-                <div class="main-slider-item"><img src="img/slider3.png" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
+                <div class="main-slider-item"><img src="img/slider3.jpg" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
             </div>
         </div>
         <!-- Main Slider End -->
@@ -168,7 +168,7 @@
                             </a>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4">
                         <div class="category-img">
                             <img src="img/low-carbs.png" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover;" />
@@ -177,7 +177,7 @@
                             </a>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4">
                         <div class="category-img">
                             <img src="img/vegan-special.png" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover;" />
@@ -186,7 +186,7 @@
                             </a>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -210,190 +210,190 @@
 </tr>
 </c:forEach>
 
-        <!-- Featured Product Start -->
-        <div class="featured-product">
-            <div class="container">
-                <div class="section-header">
-                    <h3>Sản phẩm nổi bật</h3>
+<!-- Featured Product Start -->
+<div class="featured-product">
+    <div class="container">
+        <div class="section-header">
+            <h3>Sản phẩm nổi bật</h3>
+            <p>
+                Những sản phẩm được chọn lọc kỹ càng, nổi bật với hàm lượng protein cao, chất béo thấp – phù hợp cho chế độ ăn uống lành mạnh và cân đối.
+            </p>
+        </div>
+
+        <div class="row align-items-center product-slider product-slider-4">
+            <c:forEach var="p" items="${featureList}">
+                <div class="col-lg-3">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <a href="product-detail.html">
+                                <img src="img/product1.png" alt="Product Image">
+                            </a>
+                            <div class="product-action">
+                                <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                <a href="#"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="title"><a href="#">${p.getProductName()}</a></div>
+                            <div class="price">${p.getPrice()}đ</div>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach> 
+        </div>
+    </div>
+</div>
+<!-- Featured Product End -->
+
+
+<!-- Recent Product Start -->
+<div class="recent-product">
+    <div class="container">
+        <div class="section-header">
+            <h3>Sản phẩm mới nhất</h3>
+            <p>
+                Khám phá những món ăn vừa được cập nhật – tươi ngon, dinh dưỡng và hợp xu hướng ăn uống lành mạnh.
+            </p>
+        </div>
+        <div class="row align-items-center product-slider product-slider-4">
+            <c:forEach var="p" items="${recentList}">
+                <div class="col-lg-3">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <a href="product-detail.html">
+                                <img src="img/product1.png" alt="Product Image">
+                            </a>
+                            <div class="product-action">
+                                <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                <a href="#"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="title"><a href="#">${p.getProductName()}</a></div>
+                            <div class="price">${p.getPrice()}đ</div>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach> 
+        </div>
+    </div>
+</div>
+<!-- Recent Product End -->
+
+
+<!-- Footer Start -->
+<div class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <h1>Healthy Food Shop</h1>
                     <p>
-                        Những sản phẩm được chọn lọc kỹ càng, nổi bật với hàm lượng protein cao, chất béo thấp – phù hợp cho chế độ ăn uống lành mạnh và cân đối.
+                        Chúng tôi luôn cố gắng mang đến cho bạn những bữa ăn tươi ngon, ít béo, giàu protein và không dùng chất bảo quản. Nguyên liệu sạch, rõ nguồn gốc được chọn lựa kỹ lưỡng mỗi ngày – để bạn vừa ăn ngon, vừa an tâm sống khỏe.
                     </p>
                 </div>
-                
-                <div class="row align-items-center product-slider product-slider-4">
-                    <c:forEach var="p" items="${featureList}">
-                        <div class="col-lg-3">
-                            <div class="product-item">
-                                <div class="product-image">
-                                    <a href="product-detail.html">
-                                        <img src="img/product1.png" alt="Product Image">
-                                    </a>
-                                    <div class="product-action">
-                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="#"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                                <div class="product-content">
-                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                    <div class="price">${p.getPrice()}đ</div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach> 
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <h3 class="title">Useful Pages</h3>
+                    <ul>
+                        <li><a href="product.html">Product</a></li>
+                        <li><a href="product-detail.html">Product Detail</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="checkout.html">Checkout</a></li>
+                        <li><a href="login.html">Login & Register</a></li>
+                        <li><a href="my-account.html">My Account</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <!-- Featured Product End -->
 
-        
-        <!-- Recent Product Start -->
-        <div class="recent-product">
-            <div class="container">
-                <div class="section-header">
-                    <h3>Sản phẩm mới nhất</h3>
-                    <p>
-                        Khám phá những món ăn vừa được cập nhật – tươi ngon, dinh dưỡng và hợp xu hướng ăn uống lành mạnh.
-                    </p>
-                </div>
-                <div class="row align-items-center product-slider product-slider-4">
-                    <c:forEach var="p" items="${recentList}">
-                        <div class="col-lg-3">
-                            <div class="product-item">
-                                <div class="product-image">
-                                    <a href="product-detail.html">
-                                        <img src="img/product1.png" alt="Product Image">
-                                    </a>
-                                    <div class="product-action">
-                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="#"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                                <div class="product-content">
-                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                    <div class="price">${p.getPrice()}đ</div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach> 
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <h3 class="title">Quick Links</h3>
+                    <ul>
+                        <li><a href="product.html">Product</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="checkout.html">Checkout</a></li>
+                        <li><a href="login.html">Login & Register</a></li>
+                        <li><a href="my-account.html">My Account</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <!-- Recent Product End -->
 
-
-        <!-- Footer Start -->
-        <div class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h1>Healthy Food Shop</h1>
-                            <p>
-                                Chúng tôi cố gắng mang đến những món ăn tươi ngon, ít béo, giàu protein và không chất bảo quản. Cam kết sử dụng nguyên liệu sạch, rõ nguồn gốc, giúp bạn ăn ngon mỗi ngày và sống khỏe lâu dài.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h3 class="title">Useful Pages</h3>
-                            <ul>
-                                <li><a href="product.html">Product</a></li>
-                                <li><a href="product-detail.html">Product Detail</a></li>
-                                <li><a href="cart.html">Cart</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="login.html">Login & Register</a></li>
-                                <li><a href="my-account.html">My Account</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h3 class="title">Quick Links</h3>
-                            <ul>
-                                <li><a href="product.html">Product</a></li>
-                                <li><a href="cart.html">Cart</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="login.html">Login & Register</a></li>
-                                <li><a href="my-account.html">My Account</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h3 class="title">Get in Touch</h3>
-                            <div class="contact-info">
-                                <p><i class="fa fa-map-marker"></i>123 E Shop, Los Angeles, CA, USA</p>
-                                <p><i class="fa fa-envelope"></i>email@example.com</p>
-                                <p><i class="fa fa-phone"></i>+123-456-7890</p>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                    <a href=""><i class="fa fa-instagram"></i></a>
-                                    <a href=""><i class="fa fa-youtube"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row payment">
-                    <div class="col-md-6">
-                        <div class="payment-method">
-                            <p>We Accept:</p>
-                            <img src="img/vnpay-logo1.png" alt="Payment Method" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="payment-security">
-                            <p>Secured By:</p>
-                            <img src="img/vegan-logo.png" alt="Vegan Certification" />
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <h3 class="title">Get in Touch</h3>
+                    <div class="contact-info">
+                        <p><i class="fa fa-map-marker"></i>123 E Shop, Los Angeles, CA, USA</p>
+                        <p><i class="fa fa-envelope"></i>email@example.com</p>
+                        <p><i class="fa fa-phone"></i>+123-456-7890</p>
+                        <div class="social">
+                            <a href=""><i class="fa fa-twitter"></i></a>
+                            <a href=""><i class="fa fa-facebook"></i></a>
+                            <a href=""><i class="fa fa-linkedin"></i></a>
+                            <a href=""><i class="fa fa-instagram"></i></a>
+                            <a href=""><i class="fa fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Footer End -->
+
+        <div class="row payment">
+            <div class="col-md-6">
+                <div class="payment-method">
+                    <p>We Accept:</p>
+                    <img src="img/vnpay-logo1.png" alt="Payment Method" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="payment-security">
+                    <p>Secured By:</p>
+                    <img src="img/vegan-logo.png" alt="Vegan Certification" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
 
 
-        <!-- Footer Bottom Start -->
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 copyright">
-                        <p>Copyright &copy; <a href="https://htmlcodex.com">2025 Healthy Food</a>. All Rights Reserved</p>
-                    </div>
+<!-- Footer Bottom Start -->
+<div class="footer-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 copyright">
+                <p>Copyright &copy; <a href="https://htmlcodex.com">2025 Healthy Food</a>. All Rights Reserved</p>
+            </div>
 
-                    <div class="col-md-6 template-by">
-                        <a href="#" class="policy-link">Chính sách bảo mật</a>
+            <div class="col-md-6 template-by">
+                <a href="#" class="policy-link">Chính sách bảo mật</a>
                 <span class="separator">•</span>
                 <a href="#" class="policy-link">Chính sách hoàn tiền</a>
-                    </div>
-                    
-                    
-                </div>
             </div>
+
+
         </div>
-        <!-- Footer Bottom End -->
+    </div>
+</div>
+<!-- Footer Bottom End -->
 
 
-        <!-- Back to Top -->
-        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+<!-- Back to Top -->
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
 
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/slick/slick.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/slick/slick.min.js"></script>
 
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-    </body>
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
 
 </html>
