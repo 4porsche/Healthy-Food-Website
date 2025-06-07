@@ -2,11 +2,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
-        <meta charset="utf-8">
-        <title>Healthy Food</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>My Products</title>
 
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
@@ -22,7 +21,6 @@
 
         <link href="css/style.css" rel="stylesheet">
     </head>
-
     <body>
         <!-- Top Header Start -->
         <div class="top-header">
@@ -61,6 +59,7 @@
         </div>
         <!-- Top Header End -->
 
+
         <!-- Header Start -->
         <div class="header">
             <div class="container">
@@ -95,168 +94,124 @@
         <!-- Header End -->
 
 
-        <!-- Main Slider Start -->
-        <div class="home-slider">
-            <div class="main-slider">
-                <div class="main-slider-item"><img src="img/slider1.png" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
-                <div class="main-slider-item"><img src="img/slider2.png" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
-                <div class="main-slider-item"><img src="img/slider3.jpg" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
-            </div>
-        </div>
-        <!-- Main Slider End -->
-
-
-        <!-- Feature Start-->
-        <div class="feature">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 feature-col">
-                        <div class="feature-content">
-                            <i class="fa fa-shield"></i>
-                            <h2>Mua Sắm An Tâm</h2>
-                            <p>
-                                Cam kết cung cấp sản phẩm sạch, an toàn và rõ nguồn gốc.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 feature-col">
-                        <div class="feature-content">
-                            <i class="fa fa-shopping-bag"></i>
-                            <h2>Sản Phẩm Chất Lượng</h2>
-                            <p>
-                                Thực phẩm ít béo, giàu dinh dưỡng, không chất bảo quản.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 feature-col">
-                        <div class="feature-content">
-                            <i class="fa fa-truck"></i>
-                            <h2>Giao Hàng Nhanh Chóng</h2>
-                            <p>
-                                Đảm bảo giao hàng tiện lợi, nhanh chóng tới tay người dùng.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 feature-col">
-                        <div class="feature-content">
-                            <i class="fa fa-phone"></i>
-                            <h2>Hỗ Trợ Khách Hàng</h2>
-                            <p>
-                                Luôn sẵn sàng giải đáp và hỗ trợ tận tâm 24/7.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Feature End-->
-
-
-        <!-- Category Start-->
-        <div class="category">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="category-img">
-                            <img src="img/healthy-roll.png" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover;" />
-                            <a class="category-name" href="">
-                                <h2>Healthy Rolls</h2>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="category-img">
-                            <img src="img/low-carbs.png" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover;" />
-                            <a class="category-name" href="">
-                                <h2>Low-Carb Meals</h2>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="category-img">
-                            <img src="img/vegan-special.png" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover;" />
-                            <a class="category-name" href="">
-                                <h2>Vegan Special</h2>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!-- Category End-->
-
-        <!-- Featured Product Start -->
-        <div class="featured-product">
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
             <div class="container">
-                <div class="section-header">
-                    <h3>Sản phẩm nổi bật</h3>
-                    <p>
-                        Những sản phẩm được chọn lọc kỹ càng, nổi bật với hàm lượng protein cao, chất béo thấp – phù hợp cho chế độ ăn uống lành mạnh và cân đối.
-                    </p>
-                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">My Products</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
 
-                <div class="row align-items-center product-slider product-slider-4">
-                    <c:forEach var="p" items="${featureList}">
-                        <div class="col-lg-3">
-                            <div class="product-item">
-                                <div class="product-image">
-                                    <a href="product-detail.html">
-                                        <img src="img/product1.png" alt="Product Image">
-                                    </a>
-                                    <div class="product-action">
-                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="#"><i class="fa fa-search"></i></a>
+
+        <!-- Product List Start -->
+        <div class="product-view">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="row">
+
+                            <!-- Search + Sort Product Start -->
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="product-search">
+                                            <input type="email" value="Search">
+                                            <button><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="product-short">
+                                            <div class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product short by</a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item">Newest</a>
+                                                    <a href="#" class="dropdown-item">Popular</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="product-content">
-                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                    <div class="price">${p.getPrice()}đ</div>
-                                </div>
                             </div>
-                        </div>
-                    </c:forEach> 
-                </div>
-            </div>
-        </div>
-        <!-- Featured Product End -->
+                            <!-- Search + Sort Product End -->
 
-
-        <!-- Recent Product Start -->
-        <div class="recent-product">
-            <div class="container">
-                <div class="section-header">
-                    <h3>Sản phẩm mới nhất</h3>
-                    <p>
-                        Khám phá những món ăn vừa được cập nhật – tươi ngon, dinh dưỡng và hợp xu hướng ăn uống lành mạnh.
-                    </p>
-                </div>
-                <div class="row align-items-center product-slider product-slider-4">
-                    <c:forEach var="p" items="${recentList}">
-                        <div class="col-lg-3">
-                            <div class="product-item">
-                                <div class="product-image">
-                                    <a href="product-detail.html">
-                                        <img src="img/product1.png" alt="Product Image">
-                                    </a>
-                                    <div class="product-action">
-                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="#"><i class="fa fa-search"></i></a>
+                            <!-- My Product List Start -->
+                            <c:forEach var="p" items="${myProductList}">
+                                <div class="col-lg-4">
+                                    <div class="product-item">
+                                        <div class="product-image">
+                                            <a href="product-detail.html">
+                                                <img src="img/product1.png" alt="Product Image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                                <a href="#"><i class="fa fa-search"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <div class="title"><a href="#">${p.getProductName()}</a></div>
+                                            <div class="price">${p.getPrice()}đ</div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="product-content">
-                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                    <div class="price">${p.getPrice()}đ</div>
-                                </div>
-                            </div>
+                            </c:forEach>
+                            <!-- My Product List End -->
+                            
                         </div>
-                    </c:forEach> 
+
+                        <div class="col-lg-12">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="sidebar-widget category">
+                            <h2 class="title">Category</h2>
+                            <ul>
+                                <c:forEach var="i" items="${categoriesList}">
+                                    <li>
+                                        <a href="#">${i.key}</a>
+                                        <span>${i.value}</span>
+                                    </li>
+                                </c:forEach> 
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-widget tag">
+                            <h2 class="title">Tags Cloud</h2>
+                            <a href="#">Lorem ipsum</a>
+                            <a href="#">Vivamus</a>
+                            <a href="#">Phasellus</a>
+                            <a href="#">pulvinar</a>
+                            <a href="#">Curabitur</a>
+                            <a href="#">Fusce</a>
+                            <a href="#">Sem quis</a>
+                            <a href="#">Mollis metus</a>
+                            <a href="#">Sit amet</a>
+                            <a href="#">Vel posuere</a>
+                            <a href="#">orci luctus</a>
+                            <a href="#">Nam lorem</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- Recent Product End -->
+        <!-- Product List End -->
 
 
         <!-- Footer Start -->
@@ -373,5 +328,4 @@
         <!-- Javascript -->
         <script src="js/main.js"></script>
     </body>
-
 </html>
