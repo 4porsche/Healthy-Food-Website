@@ -5,10 +5,8 @@
 
     <head>
         <meta charset="utf-8">
-        <title>E Shop - Bootstrap Ecommerce Template</title>
+        <title>Healthy Food</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="Bootstrap Ecommerce Template" name="keywords">
-        <meta content="Bootstrap Ecommerce Template Free Download" name="description">
 
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
