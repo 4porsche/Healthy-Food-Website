@@ -300,4 +300,75 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
+
+    public Product getProductById(int id) {
+        String sql = "SELECT * FROM Products WHERE ProductID = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Product(rs.getInt("ProductID"),
+                        rs.getInt("SellerID"),
+                        rs.getInt("CategoryID"),
+                        rs.getString("ProductName"),
+                        rs.getInt("Price"),
+                        rs.getString("Description"),
+                        rs.getDouble("Weight"),
+                        rs.getDouble("Calories"),
+                        rs.getDouble("Protein"),
+                        rs.getDouble("Fat"),
+                        rs.getDouble("Carbs"),
+                        rs.getString("Tags"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public List<Product> getSimilarProducts(int categoryId, int excludeProductId) {
+        String sql = "SELECT TOP 5 \n"
+                + "    P.*,\n"
+                + "    ISNULL(SUM(OD.Quantity), 0) AS TotalSold\n"
+                + "FROM \n"
+                + "    Products P\n"
+                + "LEFT JOIN \n"
+                + "    OrderDetails OD ON P.ProductID = OD.ProductID\n"
+                + "WHERE \n"
+                + "    P.CategoryID = ? AND P.ProductID <> ?\n"
+                + "GROUP BY \n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price,\n"
+                + "    P.Description, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags\n"
+                + "ORDER BY \n"
+                + "    TotalSold DESC;";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, categoryId);
+            ps.setInt(2, excludeProductId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int sellerId = rs.getInt("SellerID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, weight, calories, protein, fat, carbs, tags);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("🔴 SQL Error: " + e.getMessage());
+        }
+        return list;
+    }
 }

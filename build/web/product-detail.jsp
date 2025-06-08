@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                         <div class="logo">
                             <a href="">
-                                <img src="img/logo.png" alt="Logo">
+                                <img src="img/logo.jpg" alt="Logo">
                             </a>
                         </div>
                     </div>
@@ -59,8 +59,8 @@
             </div>
         </div>
         <!-- Top Header End -->
-        
-        
+
+
         <!-- Header Start -->
         <div class="header">
             <div class="container">
@@ -93,8 +93,8 @@
             </div>
         </div>
         <!-- Header End -->
-        
-        
+
+
         <!-- Breadcrumb Start -->
         <div class="breadcrumb-wrap">
             <div class="container">
@@ -106,8 +106,8 @@
             </div>
         </div>
         <!-- Breadcrumb End -->
-        
-        
+
+
         <!-- Product Detail Start -->
         <div class="product-detail">
             <div class="container">
@@ -123,23 +123,16 @@
                             </div>
                             <div class="col-md-7">
                                 <div class="product-content">
-                                    <div class="title"><h2>Phasellus Gravida</h2></div>
-                                    <div class="ratting">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="price">$22 <span>$25</span></div>
+                                    <div class="title"><h2>${detail.productName}</h2></div>
+                                    <div class="price">${detail.price}đ</div>
                                     <div class="details">
                                         <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante suscipit non.
+                                            ${detail.description}
                                         </p>
                                     </div>
 
                                     <div class="quantity">
-                                        <h4>Quantity:</h4>
+                                        <h4>Số lượng:</h4>
                                         <div class="qty">
                                             <button class="btn-minus"><i class="fa fa-minus"></i></button>
                                             <input type="text" value="1">
@@ -148,36 +141,26 @@
                                     </div>
                                     <div class="action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="#"><i class="fa fa-heart"></i></a>
                                         <a href="#"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row product-detail-bottom">
                             <div class="col-lg-12">
                                 <ul class="nav nav-pills nav-justified">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
+                                        <a class="nav-link active" data-toggle="pill" href="#description">Mô tả sản phẩm</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#reviews">Reviews (1)</a>
+                                        <a class="nav-link" data-toggle="pill" href="#reviews">Đánh giá (1)</a>
                                     </li>
                                 </ul>
 
                                 <div class="tab-content">
                                     <div id="description" class="container tab-pane active"><br>
-                                        <h4>Product description</h4>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante suscipit non. Praesent in faucibus tellus, sed gravida lacus. Vivamus eu diam eros. Aliquam et sapien eget arcu rhoncus scelerisque. Suspendisse sit amet neque neque. Praesent suscipit et magna eu iaculis. Donec arcu libero, commodo ac est a, malesuada finibus dolor. Aenean in ex eu velit semper fermentum. In leo dui, aliquet sit amet eleifend sit amet, varius in turpis. Maecenas fermentum ut ligula at consectetur. Nullam et tortor leo. 
-                                        </p>
-                                    </div>
-                                    <div id="specification" class="container tab-pane fade"><br>
-                                        <h4>Product specification</h4>
+                                        <h4>Chỉ số dinh dưỡng</h4>
                                         <ul>
                                             <li>Lorem ipsum dolor sit amet</li>
                                             <li>Lorem ipsum dolor sit amet</li>
@@ -228,177 +211,50 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="container">
                             <div class="section-header">
-                                <h3>Related Products</h3>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra at massa sit amet ultricies. Nullam consequat, mauris non interdum cursus
-                                </p>
+                                <h3>Sản phẩm liên quan</h3>
                             </div>
                         </div>
-                        
+
                         <div class="row align-items-center product-slider product-slider-3">
-                            <div class="col-lg-3">
-                                <div class="product-item">
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="img/product-1.png" alt="Product Image">
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
+                            <c:forEach var="p" items="${similarProducts}">
+                                <div class="col-lg-3">
+                                    <div class="product-item">
+                                        <div class="product-image">
+                                            <a href="product-detail?pid=${p.getProductId()}">
+                                                <img src="img/product-1.png" alt="Product Image">
+                                            </a>
+                                            <div class="product-action">
+                                                <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                                <a href="#"><i class="fa fa-search"></i></a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="title"><a href="#">Phasellus Gravida</a></div>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                        <div class="product-content">
+                                            <div class="title"><a href="#">${p.productName}</a></div>
+                                            <div class="price">${p.price}đ</div>
                                         </div>
-                                        <div class="price">$22 <span>$25</span></div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="product-item">
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="img/product-2.png" alt="Product Image">
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="title"><a href="#">Phasellus Gravida</a></div>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="price">$22 <span>$25</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="product-item">
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="img/product-3.png" alt="Product Image">
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="title"><a href="#">Phasellus Gravida</a></div>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="price">$22 <span>$25</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="product-item">
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="img/product-4.png" alt="Product Image">
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="title"><a href="#">Phasellus Gravida</a></div>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="price">$22 <span>$25</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="product-item">
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="img/product-5.png" alt="Product Image">
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="title"><a href="#">Phasellus Gravida</a></div>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="price">$22 <span>$25</span></div>
-                                    </div>
-                                </div>
-                            </div>
+                            </c:forEach>
+
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-3">
                         <div class="sidebar-widget category">
                             <h2 class="title">Category</h2>
                             <ul>
-                                <li><a href="#">Lorem Ipsum</a><span>(83)</span></li>
-                                <li><a href="#">Cras sagittis</a><span>(198)</span></li>
-                                <li><a href="#">Vivamus</a><span>(95)</span></li>
-                                <li><a href="#">Fusce vitae</a><span>(48)</span></li>
-                                <li><a href="#">Vestibulum</a><span>(210)</span></li>
-                                <li><a href="#">Proin phar</a><span>(78)</span></li>
+                                <c:forEach var="i" items="${categoriesList}">
+                                    <li>
+                                        <a href="#">${i.key}</a>
+                                        <span>${i.value}</span>
+                                    </li>
+                                </c:forEach> 
                             </ul>
                         </div>
-                        
-                        <div class="sidebar-widget image">
-                            <h2 class="title">Featured Product</h2>
-                            <a href="#">
-                                <img src="img/category-1.jpg" alt="Image">
-                            </a>
-                        </div>
-                        
-                        <div class="sidebar-widget brands">
-                            <h2 class="title">Our Brands</h2>
-                            <ul>
-                                <li><a href="#">Nulla </a><span>(45)</span></li>
-                                <li><a href="#">Curabitur </a><span>(34)</span></li>
-                                <li><a href="#">Nunc </a><span>(67)</span></li>
-                                <li><a href="#">Ullamcorper</a><span>(74)</span></li>
-                                <li><a href="#">Fusce </a><span>(89)</span></li>
-                                <li><a href="#">Sagittis</a><span>(28)</span></li>
-                            </ul>
-                        </div>
-                        
+
                         <div class="sidebar-widget tag">
                             <h2 class="title">Tags Cloud</h2>
                             <a href="#">Lorem ipsum</a>
@@ -419,17 +275,17 @@
             </div>
         </div>
         <!-- Product Detail End -->
-        
-        
+
+
         <!-- Footer Start -->
         <div class="footer">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-widget">
-                            <h1>E Shop</h1>
+                            <h1>Healthy Food Shop</h1>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sollicitudin rutrum massa. Suspendisse sollicitudin rutrum massa. Vestibulum porttitor, metus sed pretium elementum, nisi nibh sodales quam, non lobortis neque felis id mauris.
+                                Chúng tôi luôn cố gắng mang đến cho bạn những bữa ăn tươi ngon, ít béo, giàu protein và không dùng chất bảo quản. Nguyên liệu sạch, rõ nguồn gốc được chọn lựa kỹ lưỡng mỗi ngày – để bạn vừa ăn ngon, vừa an tâm sống khỏe.
                             </p>
                         </div>
                     </div>
@@ -480,20 +336,18 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row payment">
                     <div class="col-md-6">
                         <div class="payment-method">
                             <p>We Accept:</p>
-                            <img src="img/payment-method.png" alt="Payment Method" />
+                            <img src="img/vnpay-logo1.png" alt="Payment Method" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="payment-security">
                             <p>Secured By:</p>
-                            <img src="img/godaddy.svg" alt="Payment Security" />
-                            <img src="img/norton.svg" alt="Payment Security" />
-                            <img src="img/ssl.svg" alt="Payment Security" />
+                            <img src="img/vegan-logo.png" alt="Vegan Certification" />
                         </div>
                     </div>
                 </div>
@@ -501,35 +355,39 @@
         </div>
         <!-- Footer End -->
 
-        
+
         <!-- Footer Bottom Start -->
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 copyright">
-                        <p>Copyright &copy; <a href="https://htmlcodex.com">HTML Codex</a>. All Rights Reserved</p>
+                        <p>Copyright &copy; <a href="https://htmlcodex.com">2025 Healthy Food</a>. All Rights Reserved</p>
                     </div>
 
                     <div class="col-md-6 template-by">
-                        <p>Template By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                        <a href="#" class="policy-link">Chính sách bảo mật</a>
+                        <span class="separator">•</span>
+                        <a href="#" class="policy-link">Chính sách hoàn tiền</a>
                     </div>
+
+
                 </div>
             </div>
         </div>
         <!-- Footer Bottom End -->
-        
+
         
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-        
+
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
         <script src="lib/slick/slick.min.js"></script>
 
-        
+
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
     </body>

@@ -217,7 +217,7 @@
                                         <div class="col-lg-4">
                                             <div class="product-item">
                                                 <div class="product-image">
-                                                    <a href="product-detail.html">
+                                                    <a href="product-detail?pid=${p.getProductId()}">
                                                         <img src="img/product1.png" alt="Product Image">
                                                     </a>
                                                     <div class="product-action">
