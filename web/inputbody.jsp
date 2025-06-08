@@ -27,7 +27,7 @@
                     <div class="col-md-6">
                         <div class="form-container">
                             <form class="form" action="edit" method="post">
-                                <h3 class="text-center text-primary mb-4">Sửa Profile</h3>
+                                <h3 class="text-center text-primary mb-4">Nhập chỉ số cơ thể</h3>
                                 <c:if test="${not empty error}">
                                     <div class="alert alert-danger text-center" role="alert">
                                         ${error}

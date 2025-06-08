@@ -17,7 +17,7 @@ import model.CustomerProfile;
  *
  * @author Admin
  */
-public class ProfileController extends HttpServlet {
+public class LoadInputController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,22 +31,47 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-                 ProfileDao dao = new ProfileDao();
-//        int userID = Integer.parseInt(request.getParameter("userid"));
+        try {
+            String userIdRaw = request.getParameter("userid");
 
-//          if (request.getParameter("userid") == null || request.getParameter("userid").isEmpty()) {
-//                request.setAttribute("error", "Chưa có ID người dùng.");
-//                request.getRequestDispatcher("profile").forward(request, response);
-//                return;
-//            }
-        CustomerProfile cp = dao.getCustomer(3);
+            // Kiểm tra null hoặc rỗng
+            if (userIdRaw == null || userIdRaw.isEmpty()) {
+                request.setAttribute("error", "Chưa có ID người dùng.");
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
+                return;
+            }
 
-        if (cp != null) {
-            request.setAttribute("customer", cp);
-            request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
-        } else {
-            response.getWriter().println("Customer not found.");
+            // Kiểm tra có phải số hay không
+            int userID;
+            try {
+                userID = Integer.parseInt(userIdRaw);
+            } catch (NumberFormatException e) {
+                request.setAttribute("error", "ID người dùng không hợp lệ.");
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
+                return;
+            }
+
+            // Lấy thông tin người dùng
+            ProfileDao dao = new ProfileDao();
+            CustomerProfile cp = dao.getCustomer(userID);
+
+            // Kiểm tra người dùng có tồn tại không
+            if (cp == null) {
+                request.setAttribute("error", "Không tìm thấy thông tin người dùng.");
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
+                return;
+            }
+
+            // Gửi thông tin đến form update
+            request.setAttribute("loadcustomer", cp);
+            request.getRequestDispatcher("inputbody.jsp").forward(request, response);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            request.setAttribute("error", "Lỗi hệ thống.");
+            request.getRequestDispatcher("inputbody.jsp").forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -62,19 +87,6 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-//        String fullname = request.getParameter("fullname");
-//        String email = request.getParameter("email");
-//        String phone = request.getParameter("phone");
-//        String gender = request.getParameter("gender");
-//        int height = Integer.parseInt(request.getParameter("height"));
-//        int weight = Integer.parseInt(request.getParameter("weight"));
-//        double BMI = Integer.parseInt(request.getParameter("BMI"));
-//        String activity = request.getParameter("activitylevel");
-//        String goal = request.getParameter("goal");
-
-      
-
-
     }
 
     /**

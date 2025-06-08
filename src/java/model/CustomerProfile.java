@@ -11,6 +11,7 @@ package model;
 public class CustomerProfile {
     private int userid;
     private String fullname;
+    private String password;
     private String email;
     private String phone;
     private String gender;
@@ -23,9 +24,10 @@ public class CustomerProfile {
     public CustomerProfile() {
     }
 
-    public CustomerProfile(int userid, String fullname, String email, String phone, String gender, double height, double weight, double BMI, String activitylevel, String goal) {
+    public CustomerProfile(int userid, String fullname, String password, String email, String phone, String gender, double height, double weight, double BMI, String activitylevel, String goal) {
         this.userid = userid;
         this.fullname = fullname;
+        this.password = password;
         this.email = email;
         this.phone = phone;
         this.gender = gender;
@@ -53,6 +55,15 @@ public class CustomerProfile {
         this.fullname = fullname;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    
     public String getEmail() {
         return email;
     }
@@ -119,8 +130,10 @@ public class CustomerProfile {
 
     @Override
     public String toString() {
-        return "CustomerProfile{" + "userid=" + userid + ", fullname=" + fullname + ", email=" + email + ", phone=" + phone + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", BMI=" + BMI + ", activitylevel=" + activitylevel + ", goal=" + goal + '}';
+        return "CustomerProfile{" + "userid=" + userid + ", fullname=" + fullname + ", password=" + password + ", email=" + email + ", phone=" + phone + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", BMI=" + BMI + ", activitylevel=" + activitylevel + ", goal=" + goal + '}';
     }
+
+   
 
     
     

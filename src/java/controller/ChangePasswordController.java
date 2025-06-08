@@ -11,13 +11,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.CustomerProfile;
 
 /**
  *
  * @author Admin
  */
-public class ProfileController extends HttpServlet {
+public class ChangePasswordController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,21 +30,17 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-                 ProfileDao dao = new ProfileDao();
-//        int userID = Integer.parseInt(request.getParameter("userid"));
-
-//          if (request.getParameter("userid") == null || request.getParameter("userid").isEmpty()) {
-//                request.setAttribute("error", "Chưa có ID người dùng.");
-//                request.getRequestDispatcher("profile").forward(request, response);
-//                return;
-//            }
-        CustomerProfile cp = dao.getCustomer(3);
-
-        if (cp != null) {
-            request.setAttribute("customer", cp);
-            request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
-        } else {
-            response.getWriter().println("Customer not found.");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ChangePasswordController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ChangePasswordController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -62,19 +57,6 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-//        String fullname = request.getParameter("fullname");
-//        String email = request.getParameter("email");
-//        String phone = request.getParameter("phone");
-//        String gender = request.getParameter("gender");
-//        int height = Integer.parseInt(request.getParameter("height"));
-//        int weight = Integer.parseInt(request.getParameter("weight"));
-//        double BMI = Integer.parseInt(request.getParameter("BMI"));
-//        String activity = request.getParameter("activitylevel");
-//        String goal = request.getParameter("goal");
-
-      
-
-
     }
 
     /**
@@ -88,7 +70,28 @@ public class ProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        String currentpassword = request.getParameter("currentPassword");
+        String newpassword = request.getParameter("newPassword");
+        String confirmpassword = request.getParameter("confirmPassword");
+        
+        ProfileDao pd = new ProfileDao();
+        if(!currentpassword.equals(pd.getCustomer(3).getPassword()))
+        {
+            request.setAttribute("error", "Sai mật khẩu hiện tại");
+            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+            return;
+        }
+        
+        if (!confirmpassword.equals(newpassword)) {
+            request.setAttribute("error", "Mật khẩu mới và mật khẩu xác nhận khác nhau!");
+            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+            return;
+        }
+
+        pd.changePass(newpassword, 3);
+        request.setAttribute("success", "Đổi mật khẩu thành công!");
+        request.getRequestDispatcher("changepassword.jsp").forward(request, response);
     }
 
     /**

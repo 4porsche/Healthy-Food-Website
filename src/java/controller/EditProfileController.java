@@ -84,7 +84,7 @@ public class EditProfileController extends HttpServlet {
             } catch (NumberFormatException e) {
                 
                 request.setAttribute("error", "User ID không hợp lệ.");
-                request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
             
@@ -97,14 +97,14 @@ public class EditProfileController extends HttpServlet {
             } catch (NumberFormatException e) {
                 request.setAttribute("error", "Chiều cao, cân nặng, và BMI phải là số.");
                 request.setAttribute("loadcustomer", cp);
-                request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
 
             if (height <= 0 || height > 300 || weight <= 0 || weight > 300 || BMI <= 0 || BMI > 100) {
                 request.setAttribute("error", "Chiều cao, cân nặng, hoặc BMI không hợp lệ (quá lớn hoặc nhỏ).");
                  request.setAttribute("loadcustomer", cp);
-                request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
 
@@ -114,7 +114,7 @@ public class EditProfileController extends HttpServlet {
             if (activity == null || activity.trim().isEmpty() || goal == null || goal.trim().isEmpty()) {
                 request.setAttribute("error", "Mức độ hoạt động và mục tiêu không được để trống.");
                  request.setAttribute("loadcustomer", cp);
-                request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
 
@@ -126,7 +126,7 @@ public class EditProfileController extends HttpServlet {
         } catch (Exception ex) {
             ex.printStackTrace();
             request.setAttribute("error", "Có lỗi xảy ra trong quá trình cập nhật.");
-            request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+            request.getRequestDispatcher("inputbody.jsp").forward(request, response);
         }
     }
 

@@ -103,13 +103,22 @@
                                 <strong>Mục tiêu:</strong>
                                 <p>${customer.goal}</p>
                             </div>
-                              <a class="btn btn-primary btn-sm" href="load?userid=${customer.userid}">Sửa</a>
+
+                            <a class="btn btn-success btn-sm me-2" href="load?userid=${customer.userid}">
+                                <i class="fas fa-notes-medical"></i> Nhập chỉ số cơ thể
+                            </a>
+
+                            <a class="btn btn-primary btn-sm " href="loadpassword?userid=${customer.userid}">
+                                <i class="fas fa-user-edit"></i> Đổi mật khẩu
+                            </a>
+
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-                              
+
         <!-- Footer Start -->
         <div class="footer">
             <div class="container-fluid">
@@ -169,7 +178,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row payment">
                     <div class="col-md-6">
                         <div class="payment-method">
@@ -190,7 +199,7 @@
         </div>
         <!-- Footer End -->
 
-        
+
         <!-- Footer Bottom Start -->
         <div class="footer-bottom">
             <div class="container">
