@@ -196,4 +196,108 @@ public class ProductDAO extends DBContext {
         }
         return result;
     }
+
+    public List<Product> getSearchedList(String txt) {
+        String sql = "SELECT * FROM Products WHERE [ProductName] LIKE ? OR [Description] LIKE ? OR [Tags] LIKE ?";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + txt + "%");
+            ps.setString(2, "%" + txt + "%");
+            ps.setString(3, "%" + txt + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int sellerId = rs.getInt("SellerID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, weight, calories, protein, fat, carbs, tags);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("🔴 SQL Error: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public List<Product> sortNewestList() {
+        String sql = "SELECT * FROM Products ORDER BY ProductID DESC";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int sellerId = rs.getInt("SellerID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, weight, calories, protein, fat, carbs, tags);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<Product> sortPopularList() {
+        String sql = "SELECT \n"
+                + "    P.*,\n"
+                + "    ISNULL(SUM(OD.Quantity), 0) AS TotalSold\n"
+                + "FROM \n"
+                + "    Products P\n"
+                + "LEFT JOIN \n"
+                + "    OrderDetails OD ON P.ProductID = OD.ProductID\n"
+                + "GROUP BY \n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price,\n"
+                + "    P.Description, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags\n"
+                + "ORDER BY \n"
+                + "    TotalSold DESC";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int sellerId = rs.getInt("SellerID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, weight, calories, protein, fat, carbs, tags);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 }

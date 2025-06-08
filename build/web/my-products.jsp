@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <title>My Products</title>
+        <title>Sản phẩm của tôi</title>
 
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
@@ -126,7 +126,7 @@
                                     <div class="col-md-4">
                                         <div class="product-short">
                                             <div class="dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product short by</a>
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product sort by</a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a href="#" class="dropdown-item">Newest</a>
                                                     <a href="#" class="dropdown-item">Popular</a>
