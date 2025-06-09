@@ -104,15 +104,14 @@
                                 <p>${customer.goal}</p>
                             </div>
 
-                            <a class="btn btn-success btn-sm me-2" href="load?userid=${customer.userid}">
-                                <i class="fas fa-notes-medical"></i> Nhập chỉ số cơ thể
-                            </a>
-
-                            <a class="btn btn-primary btn-sm " href="loadpassword?userid=${customer.userid}">
-                                <i class="fas fa-user-edit"></i> Đổi mật khẩu
-                            </a>
-
-
+                            <div class="d-flex flex-column gap-2">
+                                <a class="btn btn-success btn-sm" href="load?userid=${customer.userid}">
+                                    <i class="fas fa-notes-medical"></i> Nhập chỉ số cơ thể
+                                </a>
+                                <a class="btn btn-success btn-sm" href="loadpassword?userid=${customer.userid}">
+                                    <i class="fas fa-user-edit"></i> Đổi mật khẩu
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
