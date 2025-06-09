@@ -540,7 +540,7 @@
                     <div class="footer-widget">
                         <h3 class="title">Useful Pages</h3>
                         <ul>
-                            <li><a href="product.html">Product</a></li>
+                            <li><a href="product-list.jsp">Product</a></li>
                             <li><a href="product-detail.html">Product Detail</a></li>
                             <li><a href="cart.html">Cart</a></li>
                             <li><a href="checkout.html">Checkout</a></li>
