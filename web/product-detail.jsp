@@ -162,11 +162,13 @@
                                     <div id="description" class="container tab-pane active"><br>
                                         <h4>Chỉ số dinh dưỡng</h4>
                                         <ul>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                            <li>Lorem ipsum dolor sit amet</li>
+                                            <!-- guest chỉ xem được weight + tags-->
+                                            <li>Khối lượng: ${detail.weight} gam</li>
+                                            <li>Lượng calo: ${detail.calories} kcal</li>
+                                            <li>Hàm lượng đạm: ${detail.protein} gam</li>
+                                            <li>Hàm lượng chất béo: ${detail.fat} gam</li>
+                                            <li>Hàm lượng tinh bột: ${detail.carbs} gam</li>
+                                            <li>Tag: ${detail.tags}</li>
                                         </ul>
                                     </div>
                                     <div id="reviews" class="container tab-pane fade"><br>
@@ -376,7 +378,7 @@
         </div>
         <!-- Footer Bottom End -->
 
-        
+
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
