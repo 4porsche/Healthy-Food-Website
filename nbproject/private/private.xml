@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/Healthy-Food-Website/src/java/controller/HomeServlet.java</file>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/Healthy-Food-Website/src/java/util/EmailUtil.java</file>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/Healthy-Food-Website/src/java/dal/ProfileDao.java</file>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/Healthy-Food-Website/src/java/model/CustomerProfile.java</file>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/Healthy-Food-Website/src/java/controller/ProfileController.java</file>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/Healthy-Food-Website/src/java/controller/EditProfileController.java</file>
         </group>
     </open-files>
 </project-private>
