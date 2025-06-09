@@ -11,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.CustomerProfile;
 
 /**
  *
@@ -71,25 +73,34 @@ public class ChangePasswordController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
+
+        HttpSession session = request.getSession();
+        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
+        
+        if(cp == null)
+        {
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        }
+        
         String currentpassword = request.getParameter("currentPassword");
         String newpassword = request.getParameter("newPassword");
         String confirmpassword = request.getParameter("confirmPassword");
-        
+
         ProfileDao pd = new ProfileDao();
-        if(!currentpassword.equals(pd.getCustomer(3).getPassword()))
-        {
+        if (!currentpassword.equals(pd.getCustomer(cp.getUserid()).getPassword())) {
             request.setAttribute("error", "Sai mật khẩu hiện tại");
             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
             return;
         }
-        
+
         if (!confirmpassword.equals(newpassword)) {
             request.setAttribute("error", "Mật khẩu mới và mật khẩu xác nhận khác nhau!");
             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
             return;
         }
 
-        pd.changePass(newpassword, 3);
+        pd.changePass(newpassword, cp.getUserid());
         request.setAttribute("success", "Đổi mật khẩu thành công!");
         request.getRequestDispatcher("changepassword.jsp").forward(request, response);
     }

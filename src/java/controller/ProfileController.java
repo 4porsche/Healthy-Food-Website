@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.CustomerProfile;
 
 /**
@@ -31,7 +32,7 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-                 ProfileDao dao = new ProfileDao();
+        ProfileDao dao = new ProfileDao();
 //        int userID = Integer.parseInt(request.getParameter("userid"));
 
 //          if (request.getParameter("userid") == null || request.getParameter("userid").isEmpty()) {
@@ -39,14 +40,15 @@ public class ProfileController extends HttpServlet {
 //                request.getRequestDispatcher("profile").forward(request, response);
 //                return;
 //            }
-        CustomerProfile cp = dao.getCustomer(3);
+        HttpSession session = request.getSession();
+        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
 
-        if (cp != null) {
-            request.setAttribute("customer", cp);
-            request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
-        } else {
-            response.getWriter().println("Customer not found.");
+        if (cp == null) {
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
         }
+        request.setAttribute("customer", cp);
+        request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -71,9 +73,6 @@ public class ProfileController extends HttpServlet {
 //        double BMI = Integer.parseInt(request.getParameter("BMI"));
 //        String activity = request.getParameter("activitylevel");
 //        String goal = request.getParameter("goal");
-
-      
-
 
     }
 

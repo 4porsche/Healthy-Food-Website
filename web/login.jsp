@@ -60,8 +60,8 @@
             </div>
         </div>
         <!-- Top Header End -->
-        
-        
+
+
         <!-- Header Start -->
         <div class="header">
             <div class="container">
@@ -94,8 +94,8 @@
             </div>
         </div>
         <!-- Header End -->
-        
-        
+
+
         <!-- Breadcrumb Start -->
         <div class="breadcrumb-wrap">
             <div class="container">
@@ -107,73 +107,88 @@
             </div>
         </div>
         <!-- Breadcrumb End -->
-        
-        
+
+
+        <!-- Login Start -->
         <!-- Login Start -->
         <div class="login">
             <div class="container">
                 <div class="section-header">
-                    <h3>User Registration & Login</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra at massa sit amet ultricies. Nullam consequat, mauris non interdum cursus
-                    </p>
+                    <!-- <h3>User Registration & Login</h3>-->
+                    <h3>User Login</h3>
+             
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <!-- Login Form -->
+                    <div class="col-md-12">
                         <div class="login-form">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>E-mail / Username</label>
-                                    <input class="form-control" type="text" placeholder="First Name">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Password</label>
-                                    <input class="form-control" type="text" placeholder="Last Name">
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="newaccount">
-                                        <label class="custom-control-label" for="newaccount">Keep me signed in</label>
+                            <form action="login" method="post">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Username or Email</label>
+                                        <input class="form-control" type="text" name="username" placeholder="Enter username or email" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>Password</label>
+                                        <input class="form-control" type="password" name="password" placeholder="Enter password" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="keepSignedIn" name="rememberMe">
+                                            <label class="custom-control-label" for="keepSignedIn">Keep me signed in</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn btn-primary btn-block">Login</button>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <button class="btn">Submit</button>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
-                    
-                    <div class="col-md-6">    
-                        <div class="register-form">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>First Name</label>
-                                    <input class="form-control" type="text" placeholder="First Name">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Last Name"</label>
-                                    <input class="form-control" type="text" placeholder="Last Name">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>E-mail</label>
-                                    <input class="form-control" type="text" placeholder="E-mail">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Mobile No</label>
-                                    <input class="form-control" type="text" placeholder="Mobile No">
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <!--                     Register Form 
+                                        <div class="col-md-6">
+                                            <div class="register-form">
+                                                <form action="register" method="post">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label>First Name</label>
+                                                            <input class="form-control" type="text" name="firstName" placeholder="First Name" required>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Last Name</label>
+                                                            <input class="form-control" type="text" name="lastName" placeholder="Last Name" required>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Email</label>
+                                                            <input class="form-control" type="email" name="email" placeholder="Email" required>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Mobile No</label>
+                                                            <input class="form-control" type="text" name="mobile" placeholder="Mobile No" required>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Password</label>
+                                                            <input class="form-control" type="password" name="password" placeholder="Password" required>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Confirm Password</label>
+                                                            <input class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button class="btn btn-success btn-block">Register</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>-->
                 </div>
             </div>
         </div>
+
         <!-- Login End -->
-        
-        
+
+
         <!-- Footer Start -->
         <div class="footer">
             <div class="container-fluid">
@@ -233,7 +248,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row payment">
                     <div class="col-md-6">
                         <div class="payment-method">
@@ -254,7 +269,7 @@
         </div>
         <!-- Footer End -->
 
-        
+
         <!-- Footer Bottom Start -->
         <div class="footer-bottom">
             <div class="container">
@@ -270,19 +285,19 @@
             </div>
         </div>
         <!-- Footer Bottom End -->
-        
-        
+
+
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-        
+
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
         <script src="lib/slick/slick.min.js"></script>
 
-        
+
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
     </body>
