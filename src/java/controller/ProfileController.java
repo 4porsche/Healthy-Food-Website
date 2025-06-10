@@ -40,11 +40,11 @@ public class ProfileController extends HttpServlet {
 //                request.getRequestDispatcher("profile").forward(request, response);
 //                return;
 //            }
-        HttpSession session = request.getSession();
-        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
-
+//        HttpSession session = request.getSession();
+//        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
+            CustomerProfile cp = dao.getCustomer(3);
         if (cp == null) {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
             return;
         }
         request.setAttribute("customer", cp);

@@ -74,12 +74,14 @@ public class ChangePasswordController extends HttpServlet {
             throws ServletException, IOException {
 //        processRequest(request, response);
 
-        HttpSession session = request.getSession();
-        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
-        
+//        HttpSession session = request.getSession();
+//        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
+//        
+        ProfileDao pd = new ProfileDao();
+        CustomerProfile cp = pd.getCustomer(3);
         if(cp == null)
         {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
             return;
         }
         
@@ -87,7 +89,7 @@ public class ChangePasswordController extends HttpServlet {
         String newpassword = request.getParameter("newPassword");
         String confirmpassword = request.getParameter("confirmPassword");
 
-        ProfileDao pd = new ProfileDao();
+        
         if (!currentpassword.equals(pd.getCustomer(cp.getUserid()).getPassword())) {
             request.setAttribute("error", "Sai mật khẩu hiện tại");
             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
