@@ -180,7 +180,7 @@ VALUES
 (N'Cuốn tôm cay', 7, 1, 62000, N'Tôm cay cuốn cùng rau xanh', N'tôm xào cay, xà lách, bún tươi, rau thơm, vỏ bánh tortilla', 190, 260, 19, 5, 22, N'hải sản, bún, vỏ tortilla', 'img/SpicyShrimpWrap.jpg'),
 (N'Gỏi cuốn đậu hũ', 7, 3, 53000, N'Cuốn thuần chay với đậu hũ và bạc hà', N'đậu hũ chiên, bún, bạc hà, rau sống, bánh tráng', 150, 220, 10, 4, 26, N'đậu hũ, bún, bánh tráng', 'img/TofuSpringRolls.jpg'),
 (N'Tô quinoa gà nướng', 7, 2, 65000, N'Tô gà nướng và hạt quinoa', N'hạt quinoa, ức gà nướng, rau cải mầm, sốt mè rang, ngô', 250, 300, 25, 7, 20, N'gà, hạt', 'img/ChickenQuinoaBowl.jpg'),
-(N'Cuốn gà ngũ sắc', 8, 1, 68000, N'Ức gà hấp cuộn ớt chuông, cà rốt, dưa leo', N'gà hấp, ớt chuông, cà rốt, dưa leo, rau mùi, vỏ bánh tortilla', 170, 260, 23, 6, 18, N'gà, vỏ tortilla', 'img/RainbowVeggieChickenWrap.jpeg'),
+(N'Cuốn gà ngũ sắc', 8, 1, 68000, N'Ức gà hấp cuộn ớt chuông, cà rốt, dưa leo', N'gà hấp, ớt chuông, cà rốt, dưa leo, rau mùi, vỏ bánh tortilla', 170, 260, 23, 6, 18, N'gà, vỏ tortilla', 'img/RainbowVeggieChickenWrap.jpg'),
 (N'Tô đậu que xào nấm', 8, 2, 54000, N'Đậu que non xào nấm rơm và mè rang', N'đậu que non, nấm rơm, mè rang, dầu gạo, hành boa rô', 200, 210, 9, 7, 12, N'nấm, đậu que', 'img/GreenBeansMushroom.jpg'),
 (N'Salad trứng luộc cải xoăn', 8, 2, 56000, N'Trứng gà ta, cải xoăn và hạt óc chó', N'trứng gà ta, cải xoăn, hạt óc chó, cà chua bi, nước sốt chua ngọt', 190, 250, 13, 10, 9, N'trứng, hạt', 'img/EggKaleSalad.jpg'),
 (N'Món cuộn thanh cua bơ xanh', 8, 1, 72000, N'Xà lách xoăn cuộn thanh cua, bơ sáp', N'thanh cua, bơ, rau xà lách, rau mầm, bánh tráng', 180, 240, 17, 8, 16, N'hải sản, bánh tráng', 'img/CrabStickAvocadoRolls.jpg'),
