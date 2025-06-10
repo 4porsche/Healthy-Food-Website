@@ -33,10 +33,10 @@ public class MyProductController extends HttpServlet {
 //        }
 
         ProductDAO dao = new ProductDAO();
-        Map<String, Integer> categoriesList = dao.getProductCountByCategoryBySeller(7);
+        Map<String, Integer> categoriesList = dao.getMyProductCountByCategory(8);
 //        Map<String, Integer> categoriesList = dao.getProductCountByCategoryBySeller(sellerId);
 
-        List<Product> myProductList = dao.getMyProduct(7);
+        List<Product> myProductList = dao.getMyProduct(8);
 //        List<Product> myProductList = dao.getMyProduct(sellerId);
 
         request.setAttribute("categoriesList", categoriesList);
@@ -47,7 +47,32 @@ public class MyProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String searchTxt = request.getParameter("txt");
+        String sortType = request.getParameter("sort");
 
+        ProductDAO dao = new ProductDAO();
+
+        List<Product> productList = null;
+        List<Product> searchedList = dao.getSearchedList(searchTxt);
+        List<Product> sortedList = null;
+
+        if (sortType == null || sortType.isEmpty()) {
+            productList = dao.getMyProduct(8);
+        } else if ("newest".equals(sortType)) {
+            sortedList = dao.sortMyProductNewestList(8);
+        } else if ("popular".equals(sortType)) {
+            sortedList = dao.sortMyProductPopularList(8);
+        }
+
+        Map<String, Integer> categoriesList = dao.getMyProductCountByCategory(8);
+
+        request.setAttribute("productList", productList);
+        request.setAttribute("categoriesList", categoriesList);
+        request.setAttribute("searchedList", searchedList);
+        request.setAttribute("sortedList", sortedList);
+        request.setAttribute("txtS", searchTxt);
+        request.setAttribute("sortT", sortType);
+        request.getRequestDispatcher("my-products.jsp").forward(request, response);
     }
 
 }

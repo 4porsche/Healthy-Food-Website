@@ -21,6 +21,13 @@
 
         <link href="css/style.css" rel="stylesheet">
 
+        <style>
+            .product-img {
+                height: 350px;
+                object-fit: cover;
+                object-position: center;
+            }
+        </style>
     </head>
     <body>
         <!-- Top Header Start -->
@@ -116,9 +123,7 @@
                         <div class="row align-items-center product-detail-top">
                             <div class="col-md-5">
                                 <div class="product-slider-single">
-                                    <img src="img/product-1.png" alt="Product Image">
-                                    <img src="img/product-2.png" alt="Product Image">
-                                    <img src="img/product-3.png" alt="Product Image">
+                                    <img src="${detail.imageUrl}" alt="${detail.productName}" class="product-img">
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -160,6 +165,9 @@
 
                                 <div class="tab-content">
                                     <div id="description" class="container tab-pane active"><br>
+                                        <h4>Thành phần</h4>
+                                        <p>${detail.ingredient}</p>
+                                        
                                         <h4>Chỉ số dinh dưỡng</h4>
                                         <ul>
                                             <!-- guest chỉ xem được weight + tags-->

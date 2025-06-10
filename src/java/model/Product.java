@@ -8,29 +8,33 @@ public class Product {
     private String productName;
     private int price;
     private String description;
+    private String ingredient;
     private double weight;
     private double calories;
     private double protein;
     private double fat;
     private double carbs;
     private String tags;
+    private String imageUrl;
 
     public Product() {
     }
 
-    public Product(int productId, int sellerId, int categoryId, String productName, int price, String description, double weight, double calories, double protein, double fat, double carbs, String tags) {
+    public Product(int productId, int sellerId, int categoryId, String productName, int price, String description, String ingredient, double weight, double calories, double protein, double fat, double carbs, String tags, String imageUrl) {
         this.productId = productId;
         this.sellerId = sellerId;
         this.categoryId = categoryId;
         this.productName = productName;
         this.price = price;
         this.description = description;
+        this.ingredient = ingredient;
         this.weight = weight;
         this.calories = calories;
         this.protein = protein;
         this.fat = fat;
         this.carbs = carbs;
         this.tags = tags;
+        this.imageUrl = imageUrl;
     }
 
     public int getProductId() {
@@ -81,6 +85,14 @@ public class Product {
         this.description = description;
     }
 
+    public String getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
+
     public double getWeight() {
         return weight;
     }
@@ -129,4 +141,13 @@ public class Product {
         this.tags = tags;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    
 }
