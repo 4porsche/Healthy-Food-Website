@@ -4,9 +4,12 @@
  */
 package repository;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.User;
 
 /**
@@ -14,6 +17,7 @@ import model.User;
  * @author PC
  */
 public class UserDAO extends DBContext{
+    private DBContext dbContext = new DBContext();
     public User login(String username, String password) {
         String sql = "SELECT * FROM Users WHERE Username=? AND Password=?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -78,7 +82,8 @@ public class UserDAO extends DBContext{
                     rs.getString("Username"),
                     rs.getString("Password"),
                     rs.getString("Email"),
-                    rs.getInt("RoleID")
+                    rs.getInt("RoleID"),
+                        rs.getBoolean("IsActive")
                 );
             }
         } catch (SQLException e) {
@@ -98,4 +103,4 @@ public class UserDAO extends DBContext{
         }
     
     }
-}
+  }
