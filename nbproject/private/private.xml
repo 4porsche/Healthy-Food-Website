@@ -3,15 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/clone/src/java/controller/ProductDetailController.java</file>
             <file>file:/D:/clone/src/java/repository/ProductDAO.java</file>
-            <file>file:/D:/clone/src/java/model/Product.java</file>
             <file>file:/D:/clone/web/products.jsp</file>
             <file>file:/D:/clone/src/java/controller/ProductController.java</file>
+            <file>file:/D:/clone/src/java/controller/ProductDetailController.java</file>
             <file>file:/D:/clone/web/product-detail.jsp</file>
             <file>file:/D:/clone/web/home.jsp</file>
+            <file>file:/D:/clone/src/java/controller/MyProductController.java</file>
             <file>file:/D:/clone/web/my-products.jsp</file>
-            <file>file:/D:/clone/src/java/repository/DBContext.java</file>
         </group>
     </open-files>
 </project-private>

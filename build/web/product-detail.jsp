@@ -27,6 +27,13 @@
                 object-fit: cover;
                 object-position: center;
             }
+            
+            .product-img-mini {
+                width: 255px;
+                height: 280px;
+                object-fit: cover;
+                object-position: center;
+            }
         </style>
     </head>
     <body>
@@ -234,7 +241,7 @@
                                     <div class="product-item">
                                         <div class="product-image">
                                             <a href="product-detail?pid=${p.getProductId()}">
-                                                <img src="img/product-1.png" alt="Product Image">
+                                                <img src="${p.imageUrl}" alt="${p.productName}" class="product-img-mini">
                                             </a>
                                             <div class="product-action">
                                                 <a href="#"><i class="fa fa-cart-plus"></i></a>

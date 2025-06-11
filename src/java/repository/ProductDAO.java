@@ -430,8 +430,8 @@ public class ProductDAO extends DBContext {
                 + "WHERE \n"
                 + "    P.CategoryID = ? AND P.ProductID <> ?\n"
                 + "GROUP BY \n"
-                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price,\n"
-                + "    P.Description, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags\n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price, P.Description,\n"
+                + "    P.Ingredient, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags, P.ImageUrl\n"
                 + "ORDER BY \n"
                 + "    TotalSold DESC;";
         List<Product> list = new ArrayList<>();
