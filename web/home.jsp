@@ -48,6 +48,7 @@
                                 <div class="dropdown-menu">
                                     <a href="#" class="dropdown-item">Login</a>
                                     <a href="#" class="dropdown-item">Register</a>
+                                    <a href="profile" class="dropdown-item">My Account</a>
                                 </div>
                             </div>
                             <div class="cart">
