@@ -21,6 +21,38 @@
         <link href="lib/slick/slick-theme.css" rel="stylesheet">
 
         <link href="css/style.css" rel="stylesheet">
+
+        <style>
+            .product-img {
+                width: 255px;
+                height: 280px;
+                object-fit: cover;
+                object-position: center;
+            }
+
+            .product-content .title {
+                height: 48px;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                text-overflow: ellipsis;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .product-content .title a {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 18px;
+                line-height: 1.4;
+            }
+        </style>
     </head>
 
     <body>
@@ -203,8 +235,8 @@
                         <div class="col-lg-3">
                             <div class="product-item">
                                 <div class="product-image">
-                                    <a href="product-detail.html">
-                                        <img src="img/product1.png" alt="Product Image">
+                                    <a href="product-detail?pid=${p.productId}">
+                                        <img src="${p.imageUrl}" alt="${p.productName}" class="product-img">
                                     </a>
                                     <div class="product-action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -238,8 +270,8 @@
                         <div class="col-lg-3">
                             <div class="product-item">
                                 <div class="product-image">
-                                    <a href="product-detail.html">
-                                        <img src="img/product1.png" alt="Product Image">
+                                    <a href="product-detail?pid=${p.productId}">
+                                        <img src="${p.imageUrl}" alt="${p.productName}" class="product-img">
                                     </a>
                                     <div class="product-action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>

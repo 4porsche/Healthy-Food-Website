@@ -28,6 +28,29 @@
                 object-position: center;
             }
             
+            .product-content-mini .title {
+                height: 48px;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                text-overflow: ellipsis;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .product-content-mini .title a {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 18px;
+                line-height: 1.4;
+            }
+            
             .product-img-mini {
                 width: 255px;
                 height: 280px;
@@ -248,7 +271,7 @@
                                                 <a href="#"><i class="fa fa-search"></i></a>
                                             </div>
                                         </div>
-                                        <div class="product-content">
+                                        <div class="product-content product-content-mini">
                                             <div class="title"><a href="#">${p.productName}</a></div>
                                             <div class="price">${p.price}đ</div>
                                         </div>
