@@ -9,6 +9,10 @@ import model.CustomerProfile;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import model.Requests;
 
 /**
  *
@@ -60,6 +64,45 @@ public class ProfileDao extends DBContext {
         }
     }
 
+    public List<Requests> getAllRequestsForNutritionist() {
+        List<Requests> list = new ArrayList<>();
+        String sql = "select a.RequestID, a.CustomerID, b.Fullname, a.RequestDate, a.PreferredDate, a.Status, a.ResponseNote from ConsulationRequests a join Users b ON a.CustomerID = b.UserID";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int requestID = rs.getInt("RequestID");
+                int customerID = rs.getInt("CustomerID");
+                String customerName = rs.getString("Fullname");
+
+                Date requestDate = rs.getDate("RequestDate");
+                Date preferredDate = rs.getDate("PreferredDate");
+                String status = rs.getString("Status");
+                String note = rs.getString("ResponseNote");
+                Requests c = new Requests(requestID, customerID, customerName, requestDate, preferredDate, status, note);
+                list.add(c);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public void updateResponse(int requestID, String status, String note) {
+        String sql = "update ConsulationRequests set Status = ?, ResponseNote = ? where RequestID = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setString(2, note);
+            ps.setInt(3, requestID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     public void changePass(String pass, int id) {
         String sql = "update Users set Password = ? where UserID = ?";
         try {
@@ -75,7 +118,9 @@ public class ProfileDao extends DBContext {
     public static void main(String[] args) {
         ProfileDao dao = new ProfileDao();
         CustomerProfile cp = dao.getCustomer(3);
+        List<Requests> r = dao.getAllRequestsForNutritionist();
 //        dao.update(1, 1, 0, "Low", "lose weight", 3);
         System.out.println(cp.toString());
+        System.out.println(r.toString());
     }
 }
