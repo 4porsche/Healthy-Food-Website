@@ -19,23 +19,31 @@
         <link href="lib/slick/slick.css" rel="stylesheet">
         <link href="lib/slick/slick-theme.css" rel="stylesheet">
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
         <link href="css/style.css" rel="stylesheet">
 
         <style>
-            body {
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-            }
-
-            .container {
-                width: 80%;
-                margin: 20px auto;
-                background: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
+            /*            body {
+                            background-color: #f4f4f4;
+                            margin: 0;
+                            padding: 0;
+                        }
+            
+                        .container {
+                            width: 80%;
+                            margin: 20px auto;
+                            background: #fff;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        }*/
 
             h2 {
                 margin-top: 30px;
@@ -46,9 +54,9 @@
 
             .header {
                 width: 100%;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
+                /*                display: flex;*/
+                /*                justify-content: flex-end;
+                                align-items: center;*/
                 margin-top: 20px;
                 margin-bottom: 15px;
             }
@@ -205,7 +213,8 @@
                 text-decoration: none;
                 font-size: 16px;
                 width: auto;
-                margin-left: 150px;
+                margin-top: 30px;
+                margin-left: 110px;
                 margin-bottom: 30px;
             }
 
@@ -245,6 +254,43 @@
             .pagination a:last-child {
                 font-weight: 600;
             }
+
+            .search-box {
+                display: flex;
+                align-items: center;
+                gap: 5px; /* tạo khoảng giữa input và icon */
+            }
+
+            .search-box input {
+                flex: 1;
+            }
+
+            .add-btn {
+                margin-left: 311px;
+                width: 160px;
+                height: 50px;
+            }
+
+            .search-box {
+                width: 450px;
+            }
+
+            .pname {
+                text-align: left;
+            }
+
+            .pimg {
+                width: 180px;
+                height: 180px;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+            a {
+                text-decoration: none !important;
+            }
+
+
         </style>
 
     </head>
@@ -254,129 +300,36 @@
             <div class="header-manange">
                 <div class="row">
                     <div class="col-md-9">
-                        <div class="row">
-
-                            <%-- Search + Sort Product Start --%>
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="product-search">
-                                            <form action="products" method="POST" onsubmit="return validateSearchInput()">
-                                                <div class="search-box">
-                                                    <input value="${txtS}" type="text" id="searchInput" name="txt" placeholder="Tìm kiếm...">
-                                                    <button type="submit" class="search-icon">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-
+                        <div class="row align-items-center">
+                            <!-- Tìm kiếm: 6 cột -->
+                            <div class="col-md-6">
+                                <form action="" method="POST" onsubmit="return validateSearchInput()">
+                                    <div class="search-box d-flex">
+                                        <input type="text" id="searchInput" name="txt" placeholder="Tìm kiếm..." class="form-control">
+                                        <button type="submit" class="search-icon btn btn-light">
+                                            <i class="fa fa-search"></i>
+                                        </button>
                                     </div>
-
-                                    <div class="col-md-4">
-                                        <div class="product-short">
-                                            <form action="products" method="POST">
-                                                <select name="sort" class="form-control" onchange="this.form.submit()">
-                                                    <option value="">-- Lọc theo --</option>
-                                                    <option value="newest" ${param.sort == 'newest' ? 'selected' : ''}>Mới nhất</option>
-                                                    <option value="popular" ${param.sort == 'popular' ? 'selected' : ''}>Phổ biến</option>
-                                                </select>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
-                            <%-- Search + Sort Product End --%>
 
-                            <c:choose>
-                                <%-- Nếu có từ khóa search --%>
-                                <c:when test="${not empty txtS}">
+                            <!-- Lọc: 4 cột -->
+                            <div class="col-md-4">
+                                <form action="my-products" method="POST">
+                                    <select name="sort" class="form-control" onchange="this.form.submit()">
+                                        <option value="">-- Lọc theo --</option>
+                                        <option value="newest">Mới nhất</option>
+                                        <option value="popular">Phổ biến</option>
+                                    </select>
+                                </form>
+                            </div>
 
-                                    <c:choose>
-                                        <%-- Nếu có kết quả search --%>
-                                        <c:when test="${not empty searchedList}">
-                                            <c:forEach var="p" items="${searchedList}">
-                                                <div class="col-lg-4">
-                                                    <div class="product-item">
-                                                        <div class="product-image">
-                                                            <a href="product-detail.html">
-                                                                <img src="img/product1.png" alt="Product Image">
-                                                            </a>
-                                                            <div class="product-action">
-                                                                <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                                                <a href="#"><i class="fa fa-search"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-content">
-                                                            <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                                            <div class="price">${p.getPrice()}đ</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </c:forEach>
-                                        </c:when>
-
-                                        <%-- Nếu không tìm thấy kết quả --%>
-                                        <c:otherwise>
-                                            <div class="col-lg-12">
-                                                <p>Không tìm thấy kết quả phù hợp.</p>
-                                            </div>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:when>
-
-                                <c:when test="${not empty sortT}">
-                                    <c:forEach var="p" items="${sortedList}">
-                                        <div class="col-lg-4">
-                                            <div class="product-item">
-                                                <div class="product-image">
-                                                    <a href="product-detail.html">
-                                                        <img src="img/product1.png" alt="Product Image">
-                                                    </a>
-                                                    <div class="product-action">
-                                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="#"><i class="fa fa-search"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                                    <div class="price">${p.getPrice()}đ</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                </c:when>
-
-                                <%-- Nếu chưa nhập search text --%>    
-                                <c:otherwise>
-                                    <%-- All Product List Start --%>
-                                    <c:forEach var="p" items="${productList}">
-                                        <div class="col-lg-4">
-                                            <div class="product-item">
-                                                <div class="product-image">
-                                                    <a href="product-detail?pid=${p.getProductId()}">
-                                                        <img src="img/product1.png" alt="Product Image">
-                                                    </a>
-                                                    <div class="product-action">
-                                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                                        <a href="#"><i class="fa fa-search"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                                    <div class="price">${p.getPrice()}đ</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                    <%-- All Product List End --%>
-
-                                </c:otherwise>
-                            </c:choose>
-
-
-                            <button class="add-btn" onclick="openPopup()">Thêm sản phẩm</button>
+                            <!-- Thêm sản phẩm: 2 cột -->
+                            <div class="col-md-2 text-end">
+                                <button class="add-btn" onclick="openPopup()">Thêm sản phẩm</button>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -397,19 +350,19 @@
                         <tr>
                             <td>${status.index + 1}</td>
                             <td class="pname">${p.productName}</td>
-                            <td><img src="${p.imageUrl}" alt="Product Image" width="100"></td>
+                            <td><img src="${p.imageUrl}" alt="Product Image" width="100" class="pimg"></td>
                             <td>${p.price}đ</td>
-                    <td>
-                        <a href="load?pid=${p.productId}">
-                            <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                        </a>
+                            <td>
+                                <a href="load?pid=${p.productId}">
+                                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                                </a>
 
-                        <a href="delete?pid=${p.productId}" onclick="return confirmDelete(event, '${p.productName}')">
-                            <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                        </a>
-                    </td>
-                    </tr>
-                </c:forEach>
+                                <a href="delete?pid=${p.productId}" onclick="return confirmDelete(event, '${p.productName}')">
+                                    <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -512,6 +465,14 @@
                     document.getElementById("popupForm").style.display = "flex";
                 }
             };
+
+            function validateSearchInput() {
+                var input = document.getElementById('searchInput').value.trim();
+                if (input === "") {
+                    return false; // Ngăn biểu mẫu được gửi đi
+                }
+                return true; // Cho phép gửi biểu mẫu
+            }
         </script>
     </body>
 </html>
