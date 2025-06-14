@@ -71,9 +71,10 @@
 
             .add-btn {
                 background-color: #3C603C;
-                margin-left: 0; /* Đảm bảo không bị lệch */
+                margin-left: 316px;
+                width: 155px;
+                height: 52px;
             }
-
 
             .delete-btn {
                 background-color: #dc3545;
@@ -255,39 +256,75 @@
                 font-weight: 600;
             }
 
-            .search-box {
-                display: flex;
-                align-items: center;
-                gap: 5px; /* tạo khoảng giữa input và icon */
-            }
-
-            .search-box input {
-                flex: 1;
-            }
-
-            .add-btn {
-                margin-left: 311px;
-                width: 160px;
-                height: 50px;
-            }
-
-            .search-box {
-                width: 450px;
-            }
-
-            .pname {
-                text-align: left;
-            }
-
             .pimg {
-                width: 180px;
-                height: 180px;
+                width: 160px;
+                height: 160px;
                 object-fit: cover;
                 border-radius: 5px;
             }
 
             a {
                 text-decoration: none !important;
+            }
+
+
+            .search-box {
+                position: relative;
+                width: 450px;
+            }
+
+            .search-box input {
+                width: 100%;
+                padding-right: 40px;
+                height: 36px;
+                border: 1px solid #3C603C;
+                border-radius: 3px;
+            }
+
+            .search-box .search-icon {
+                position: absolute;
+                top: 1px;
+                right: 1px;
+                width: 35px;
+                height: 34px;
+                /*                background: #3C603C;*/
+                border: none;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 0 3px 3px 0;
+                cursor: pointer;
+            }
+
+            .search-box button {
+                position: absolute;
+                width: 35px;
+                height: 33px;
+                top: 1px;
+                right: 1px;
+                text-align: center;
+                background: #ffffff;
+                color: #3C603C;
+                border: none;
+                margin-top: 5px;
+            }
+
+            .search-box button:hover {
+                background: #3C603C;
+                color: #ffffff;
+            }
+
+            .search-box button i {
+                color: #3C603C;
+            }
+
+            .search-box button:hover i {
+                color: #ffffff;
+            }
+
+            .search-box .search-icon i {
+                font-size: 16px;
             }
 
 
