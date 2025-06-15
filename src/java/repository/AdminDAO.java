@@ -9,20 +9,21 @@ import java.util.List;
 import model.User;
 
 public class AdminDAO extends DBContext {
+
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM Users";
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 User user = new User(
-                    rs.getInt("UserID"),
-                    rs.getString("Fullname"),
-                    rs.getString("Username"),
-                    rs.getString("Password"),
-                    rs.getString("Email"),
-                    rs.getInt("RoleID"),
-                    rs.getBoolean("IsActive")
+                        rs.getInt("UserID"),
+                        rs.getString("Fullname"),
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("Email"),
+                        rs.getInt("RoleID"),
+                        rs.getBoolean("IsActive"),
+                        rs.getString("google_id")
                 );
                 users.add(user);
                 System.out.println("Retrieved user: " + user.getUsername()); // Debug output
@@ -36,7 +37,7 @@ public class AdminDAO extends DBContext {
     }
 
     public boolean toggleActive(String email) {
-        String sql = "UPDATE Users SET IsActive = NOT IsActive WHERE Email = ?";
+        String sql = "UPDATE Users SET IsActive = CASE WHEN IsActive = 1 THEN 0 ELSE 1 END WHERE Email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, email);
             int rows = ps.executeUpdate();
@@ -122,13 +123,14 @@ public class AdminDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 users.add(new User(
-                    rs.getInt("UserID"),
-                    rs.getString("Fullname"),
-                    rs.getString("Username"),
-                    rs.getString("Password"),
-                    rs.getString("Email"),
-                    rs.getInt("RoleID"),
-                    rs.getBoolean("IsActive")
+                        rs.getInt("UserID"),
+                        rs.getString("Fullname"),
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("Email"),
+                        rs.getInt("RoleID"),
+                        rs.getBoolean("IsActive"),
+                        rs.getString("google_id")
                 ));
             }
         } catch (SQLException e) {
@@ -146,13 +148,14 @@ public class AdminDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 users.add(new User(
-                    rs.getInt("UserID"),
-                    rs.getString("Fullname"),
-                    rs.getString("Username"),
-                    rs.getString("Password"),
-                    rs.getString("Email"),
-                    rs.getInt("RoleID"),
-                    rs.getBoolean("IsActive")
+                        rs.getInt("UserID"),
+                        rs.getString("Fullname"),
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("Email"),
+                        rs.getInt("RoleID"),
+                        rs.getBoolean("IsActive"),
+                        rs.getString("google_id")
                 ));
             }
         } catch (SQLException e) {

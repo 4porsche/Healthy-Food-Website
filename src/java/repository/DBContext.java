@@ -9,15 +9,18 @@ public class DBContext {
     protected Connection connection;
 
     public DBContext() {
-        try {
+       try {
             String url = "jdbc:sqlserver://localhost:1433;databaseName=HealthyFoodDB";
             String username = "sa";
             String password = "123";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, username, password);
+            System.out.println("Database connection established");
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e);
+            System.err.println("DBContext initialization error:");
+            e.printStackTrace();
         }
+    
     }
     public void closeConnection() {
         if (connection != null) {

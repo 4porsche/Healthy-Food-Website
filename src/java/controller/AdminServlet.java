@@ -107,8 +107,8 @@ private AdminDAO adminDAO = new AdminDAO();
             String email = request.getParameter("email");
             int roleId = request.getParameter("roleId") != null ? Integer.parseInt(request.getParameter("roleId")) : 0;
             boolean isActive = request.getParameter("isActive") != null;
-
-            User user = new User(userId, fullname, username, "", email, roleId, isActive);
+            String googleId = request.getParameter("googleId");
+            User user = new User(userId, fullname, username, "", email, roleId, isActive,googleId);
             if ("create".equals(crudAction)) {
                 adminDAO.createUser(user);
             } else if ("update".equals(crudAction)) {

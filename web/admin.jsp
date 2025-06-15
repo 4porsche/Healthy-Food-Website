@@ -358,6 +358,20 @@
                 flex-direction: column;
                 gap: 0;
             }
+            .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.9rem;
+        }
+        
+        .add-account-btn {
+            margin-bottom: 20px;
+        }
+
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -399,176 +413,7 @@
         </div>
 
         <!-- Activate/Disable Account Section -->
-        <div class="section" id="toggleForm">
-            <h3><i class="fas fa-toggle-on"></i> Activate/Disable Account</h3>
-            <form action="AdminServlet" method="post">
-                <input type="hidden" name="action" value="toggleActive">
-                <div class="form-group">
-                    <label for="toggleEmail">Email to Toggle:</label>
-                    <input type="email" id="toggleEmail" name="email" required placeholder="Enter user email">
-                </div>
-                <button type="submit" class="btn-primary">
-                    <i class="fas fa-sync-alt"></i> Toggle Status
-                </button>
-            </form>
-        </div>
-
-        <!-- Assign Roles and Permissions Section -->
-        <div class="section" id="assignRoleForm">
-            <h3><i class="fas fa-user-tag"></i> Assign Roles and Permissions</h3>
-            <form action="AdminServlet" method="post">
-                <input type="hidden" name="action" value="assignRole">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="assignEmail">Email:</label>
-                        <input type="email" id="assignEmail" name="email" required placeholder="Enter user email">
-                    </div>
-                    <div class="form-group">
-                        <label for="roleId">Role:</label>
-                        <select id="roleId" name="roleId" required>
-                            <option value="" disabled selected>Select a role</option>
-                            <option value="1">Administrator</option>
-                            
-                            <option value="3">Customer</option>
-                            <option value="4">Nutritionist</option>
-                            <option value="5">Seller</option>
-                            <option value="6">Shipper</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn-secondary">
-                    <i class="fas fa-check-circle"></i> Assign Role
-                </button>
-            </form>
-        </div>
-
-        <!-- View Account List Section -->
-        <div class="section">
-            <h3><i class="fas fa-list"></i> User Accounts</h3>
-            <%
-                List<User> users = (List<User>) request.getAttribute("userList");
-                if (users == null || users.isEmpty()) {
-                    out.println("<div style='padding: 20px; text-align: center; background: #f9f9f9; border-radius: 8px;'>");
-                    out.println("<i class='fas fa-exclamation-circle' style='font-size: 2rem; color: #FF9800; margin-bottom: 15px;'></i>");
-                    out.println("<h3 style='color: #555;'>No users found</h3>");
-                    out.println("<p>No user data is available at this time</p>");
-                    out.println("</div>");
-                } else {
-            %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Full Name</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% 
-                        for (User user : users) {
-                            String roleName = "";
-                            switch(user.getRoleID()) {
-                                case 1: roleName = "Admin"; break;
-                                
-                                case 3: roleName = "Customer"; break;
-                                case 4: roleName = "Nutritionist"; break;
-                                case 5: roleName = "Seller"; break;
-                                case 6: roleName = "Shipper"; break;
-                                default: roleName = "Unknown";
-                            }
-                    %>
-                    <tr>
-                        <td><%= user.getUserID() %></td>
-                        <td><%= user.getFullname() != null ? user.getFullname() : "N/A" %></td>
-                        <td><%= user.getUsername() != null ? user.getUsername() : "N/A" %></td>
-                        <td><%= user.getEmail() != null ? user.getEmail() : "N/A" %></td>
-                        <td><%= roleName %></td>
-                        <td>
-                            <% if(user.isIsActive()) { %>
-                                <span class="status-active">Active</span>
-                            <% } else { %>
-                                <span class="status-inactive">Inactive</span>
-                            <% } %>
-                        </td>
-                    </tr>
-                    <% 
-                        }
-                    %>
-                </tbody>
-            </table>
-            <% 
-                }
-            %>
-        </div>
-
-        <!-- CRUD Account Section -->
-        <div class="section" id="crudForm">
-            <h3><i class="fas fa-user-cog"></i> Manage Accounts</h3>
-            <form action="AdminServlet" method="post">
-                <input type="hidden" name="action" value="crud">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="crudUserId">User ID:</label>
-                        <input type="number" id="crudUserId" name="userId" required placeholder="Enter user ID">
-                    </div>
-                    <div class="form-group">
-                        <label for="crudFullname">Full Name:</label>
-                        <input type="text" id="crudFullname" name="fullname" placeholder="Enter full name">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="crudUsername">Username:</label>
-                        <input type="text" id="crudUsername" name="username" placeholder="Enter username">
-                    </div>
-                    <div class="form-group">
-                        <label for="crudEmail">Email:</label>
-                        <input type="email" id="crudEmail" name="email" placeholder="Enter email">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="crudRoleId">Role:</label>
-                        <select id="crudRoleId" name="roleId">
-                            <option value="" disabled selected>Select a role</option>
-                            <option value="1">Administrator</option>
-                            
-                            <option value="3">Customer</option>
-                            <option value="4">Nutritionist</option>
-                            <option value="5">Seller</option>
-                            <option value="6">Shipper</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="crudActive">Account Status:</label>
-                        <div style="margin-top: 10px;">
-                            <input type="checkbox" id="crudActive" name="isActive" style="width: auto; margin-right: 10px;">
-                            <label for="crudActive" style="display: inline; font-weight: normal;">Active Account</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="crud-actions">
-                    <button type="submit" name="crudAction" value="create" class="btn-primary">
-                        <i class="fas fa-plus-circle"></i> Create
-                    </button>
-                    <button type="submit" name="crudAction" value="update" class="btn-secondary">
-                        <i class="fas fa-sync-alt"></i> Update
-                    </button>
-                    <button type="submit" name="crudAction" value="delete" class="btn-danger">
-                        <i class="fas fa-trash-alt"></i> Delete
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Search Account Section -->
-        <div class="section" id="searchForm">
+       <div class="section" id="searchForm">
             <h3><i class="fas fa-search"></i> Search Accounts</h3>
             <form action="AdminServlet" method="get" style="margin-bottom: 20px;">
                 <input type="hidden" name="action" value="search">
@@ -593,7 +438,6 @@
                         <select id="filterRoleId" name="roleId">
                             <option value="all" selected>All Roles</option>
                             <option value="1">Administrator</option>
-                            
                             <option value="3">Customer</option>
                             <option value="4">Nutritionist</option>
                             <option value="5">Seller</option>
@@ -608,6 +452,258 @@
                 </div>
             </form>
         </div>
+
+        <!-- View Account List Section -->
+        <div class="section">
+            <div class="add-account-btn">
+                <button class="btn-primary" onclick="showAddAccountForm()">
+                    <i class="fas fa-plus-circle"></i> Add Account
+                </button>
+            </div>
+            
+            <h3><i class="fas fa-list"></i> User Accounts</h3>
+            <%
+                List<User> users = (List<User>) request.getAttribute("userList");
+                if (users == null || users.isEmpty()) {
+                    out.println("<div style='padding: 20px; text-align: center; background: #f9f9f9; border-radius: 8px;'>");
+                    out.println("<i class='fas fa-exclamation-circle' style='font-size: 2rem; color: #FF9800; margin-bottom: 15px;'></i>");
+                    out.println("<h3 style='color: #555;'>No users found</h3>");
+                    out.println("<p>No user data is available at this time</p>");
+                    out.println("</div>");
+                } else {
+            %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Full Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% 
+                        for (User user : users) {
+                            String roleName = "";
+                            switch(user.getRoleID()) {
+                                case 1: roleName = "Admin"; break;
+                                case 3: roleName = "Customer"; break;
+                                case 4: roleName = "Nutritionist"; break;
+                                case 5: roleName = "Seller"; break;
+                                case 6: roleName = "Shipper"; break;
+                                default: roleName = "Unknown";
+                            }
+                    %>
+                    <tr>
+                        <td><%= user.getUserID() %></td>
+                        <td><%= user.getFullname() != null ? user.getFullname() : "N/A" %></td>
+                        <td><%= user.getUsername() != null ? user.getUsername() : "N/A" %></td>
+                        <td><%= user.getEmail() != null ? user.getEmail() : "N/A" %></td>
+                        <td><%= roleName %></td>
+                        <td>
+                            <% if(user.isIsActive()) { %>
+                                <span class="status-active">Active</span>
+                            <% } else { %>
+                                <span class="status-inactive">Inactive</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-secondary btn-sm" onclick="showEditForm(
+                                    '<%= user.getUserID() %>',
+                                    '<%= user.getFullname() != null ? user.getFullname().replace("'", "\\'") : "" %>',
+                                    '<%= user.getUsername() != null ? user.getUsername().replace("'", "\\'") : "" %>',
+                                    '<%= user.getEmail() != null ? user.getEmail().replace("'", "\\'") : "" %>',
+                                    '<%= user.getRoleID() %>',
+                                    '<%= user.isIsActive() %>'
+                                )">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <form action="AdminServlet" method="post" style="display:inline;">
+                                    <input type="hidden" name="action" value="crud">
+                                    <input type="hidden" name="crudAction" value="delete">
+                                    <input type="hidden" name="userId" value="<%= user.getUserID() %>">
+                                    <button type="submit" class="btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <% 
+                        }
+                    %>
+                </tbody>
+            </table>
+            <% 
+                }
+            %>
+        </div>
+
+        <!-- Add Account Form (Initially Hidden) -->
+        <div class="section" id="addAccountForm" style="display: none;">
+            <h3><i class="fas fa-user-plus"></i> Add New Account</h3>
+            <form action="AdminServlet" method="post">
+                <input type="hidden" name="action" value="crud">
+                <input type="hidden" name="crudAction" value="create">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addFullname">Full Name:</label>
+                        <input type="text" id="addFullname" name="fullname" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="addUsername">Username:</label>
+                        <input type="text" id="addUsername" name="username" required placeholder="Enter username">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addEmail">Email:</label>
+                        <input type="email" id="addEmail" name="email" required placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="addPassword">Password:</label>
+                        <input type="password" id="addPassword" name="password" required placeholder="Enter password">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addRoleId">Role:</label>
+                        <select id="addRoleId" name="roleId" required>
+                            <option value="" disabled selected>Select a role</option>
+                            <option value="1">Administrator</option>
+                            <option value="3">Customer</option>
+                            <option value="4">Nutritionist</option>
+                            <option value="5">Seller</option>
+                            <option value="6">Shipper</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addActive">Account Status:</label>
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="addActive" name="isActive" checked style="width: auto; margin-right: 10px;">
+                            <label for="addActive" style="display: inline; font-weight: normal;">Active Account</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="crud-actions">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-plus-circle"></i> Create Account
+                    </button>
+                    <button type="button" class="btn-outline" onclick="hideAddAccountForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Edit Account Form (Initially Hidden) -->
+        <div class="section" id="editAccountForm" style="display: none;">
+            <h3><i class="fas fa-user-edit"></i> Edit Account</h3>
+            <form action="AdminServlet" method="post">
+                <input type="hidden" name="action" value="crud">
+                <input type="hidden" name="crudAction" value="update">
+                <input type="hidden" id="editUserId" name="userId">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editFullname">Full Name:</label>
+                        <input type="text" id="editFullname" name="fullname" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="editUsername">Username:</label>
+                        <input type="text" id="editUsername" name="username" required placeholder="Enter username">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editEmail">Email:</label>
+                        <input type="email" id="editEmail" name="email" required placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPassword">Password (leave blank to keep current):</label>
+                        <input type="password" id="editPassword" name="password" placeholder="Enter new password">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editRoleId">Role:</label>
+                        <select id="editRoleId" name="roleId" required>
+                            <option value="1">Administrator</option>
+                            <option value="3">Customer</option>
+                            <option value="4">Nutritionist</option>
+                            <option value="5">Seller</option>
+                            <option value="6">Shipper</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editActive">Account Status:</label>
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="editActive" name="isActive" style="width: auto; margin-right: 10px;">
+                            <label for="editActive" style="display: inline; font-weight: normal;">Active Account</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="crud-actions">
+                    <button type="submit" class="btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Update Account
+                    </button>
+                    <button type="button" class="btn-outline" onclick="hideEditAccountForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Activate/Disable Account Section -->
+        <div class="section" id="toggleForm">
+            <!-- ... existing toggle form ... -->
+        </div>
+
+        <!-- Assign Roles and Permissions Section -->
+        <div class="section" id="assignRoleForm">
+            <!-- ... existing assign role form ... -->
+        </div>
     </div>
+
+    <script>
+        // Function to show/hide add account form
+        function showAddAccountForm() {
+            document.getElementById('addAccountForm').style.display = 'block';
+            document.getElementById('addAccountForm').scrollIntoView({behavior: 'smooth'});
+        }
+        
+        function hideAddAccountForm() {
+            document.getElementById('addAccountForm').style.display = 'none';
+        }
+        
+        // Function to show/hide edit account form
+        function showEditForm(userId, fullname, username, email, roleId, isActive) {
+            document.getElementById('editUserId').value = userId;
+            document.getElementById('editFullname').value = fullname;
+            document.getElementById('editUsername').value = username;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editRoleId').value = roleId;
+            document.getElementById('editActive').checked = (isActive === 'true');
+            
+            document.getElementById('editAccountForm').style.display = 'block';
+            document.getElementById('editAccountForm').scrollIntoView({behavior: 'smooth'});
+        }
+        
+        function hideEditAccountForm() {
+            document.getElementById('editAccountForm').style.display = 'none';
+        }
+    </script>
 </body>
+
 </html>

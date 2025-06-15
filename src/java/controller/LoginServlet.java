@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user); // Lưu cả đối tượng User
             session.setAttribute("username", user.getUsername()); // Hoặc user.getFullName() nếu có
-
+            session.setAttribute("fullname", user.getFullname());
             int roleID = user.getRoleID();
             switch (roleID) {
                 case 1:
