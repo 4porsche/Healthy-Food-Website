@@ -139,20 +139,56 @@
                 align-items: center;
             }
 
-            /* Nội dung form */
             .popup-content {
-                display: flex;
-                flex-direction: column; /* Ép các phần tử xếp dọc */
                 background: white;
-                padding: 60px;
                 border-radius: 8px;
                 width: 30%;
                 height: 80%;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
                 position: relative;
+                max-height: 90vh;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             }
+
+            .popup-body {
+                flex-grow: 1;
+                overflow-y: auto;
+                
+                overflow-y: auto;
+    max-height: 70vh; /* hoặc tính toán tùy nội dung */
+    padding-right: 12px; /* tránh scrollbar che nội dung */
+    box-sizing: border-box;
+            }
+
+            .popup-footer {
+                margin-top: 10px;
+                display: flex;
+                gap: 10px;
+                flex-direction: column;
+            }
+
+            .btn-submit,
+            .btn-cancel {
+                padding: 10px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+
+            .btn-submit {
+                background: #28a745;
+            }
+
+            .btn-cancel {
+                background: #dc3545;
+            }
+
+
             .popup-content h3 {
-                text-align: left !important;
+                text-align: center !important;
             }
 
             /* Nút đóng */
@@ -179,7 +215,7 @@
                 margin-top: 15px;
             }
 
-            .btn-submit {
+/*            .btn-submit {
                 background: #28a745;
                 color: white;
                 padding: 10px;
@@ -200,7 +236,7 @@
                 border-radius: 5px;
                 margin-top: 5px;
                 cursor: pointer;
-            }
+            }*/
 
             .btn-home {
                 display: inline-block;
@@ -257,8 +293,8 @@
             }
 
             .pimg {
-                width: 160px;
-                height: 160px;
+                width: 170px;
+                height: 170px;
                 object-fit: cover;
                 border-radius: 5px;
             }
@@ -327,6 +363,13 @@
                 font-size: 16px;
             }
 
+            .pname {
+                text-align: left;
+            }
+
+
+
+
 
         </style>
 
@@ -340,9 +383,9 @@
                         <div class="row align-items-center">
                             <!-- Tìm kiếm: 6 cột -->
                             <div class="col-md-6">
-                                <form action="" method="POST" onsubmit="return validateSearchInput()">
+                                <form action="manage-product" method="POST" onsubmit="return validateSearchInput()">
                                     <div class="search-box d-flex">
-                                        <input type="text" id="searchInput" name="txt" placeholder="Tìm kiếm..." class="form-control">
+                                        <input value="${txtS}" type="text" id="searchInput" name="txt" placeholder="Tìm kiếm..." class="form-control">
                                         <button type="submit" class="search-icon btn btn-light">
                                             <i class="fa fa-search"></i>
                                         </button>
@@ -352,11 +395,12 @@
 
                             <!-- Lọc: 4 cột -->
                             <div class="col-md-4">
-                                <form action="my-products" method="POST">
+                                <form action="manage-product" method="POST">
                                     <select name="sort" class="form-control" onchange="this.form.submit()">
-                                        <option value="">-- Lọc theo --</option>
-                                        <option value="newest">Mới nhất</option>
-                                        <option value="popular">Phổ biến</option>
+                                        <option value="">-- Lọc theo danh mục --</option>
+                                        <option value="1" ${param.sort == 1 ? 'selected' : ''}>Cuốn lành mạnh</option>
+                                        <option value="2" ${param.sort == 2 ? 'selected' : ''}>Ít tinh bột</option>
+                                        <option value="3" ${param.sort == 3 ? 'selected' : ''}>Thuần chay đặc biệt</option>
                                     </select>
                                 </form>
                             </div>
@@ -381,55 +425,81 @@
                         <th>Thao tác</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Dùng JSTL để hiển thị danh sách sản phẩm -->
-                    <c:forEach var="p" items="${productList}" varStatus="status">
-                        <tr>
-                            <td>${status.index + 1}</td>
-                            <td class="pname">${p.productName}</td>
-                            <td><img src="${p.imageUrl}" alt="Product Image" width="100" class="pimg"></td>
-                            <td>${p.price}đ</td>
-                            <td>
-                                <a href="load?pid=${p.productId}">
-                                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                                </a>
 
-                                <a href="delete?pid=${p.productId}" onclick="return confirmDelete(event, '${p.productName}')">
-                                    <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
+                <c:choose>
+                    <c:when test="${empty productList}">
+                        <tr><td colspan="5">Không tìm thấy kết quả phù hợp.</td></tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="p" items="${productList}" varStatus="status">
+                            <tr>
+                                <td>${status.index + 1}</td>
+                                <td class="pname">${p.productName}</td>
+                                <td><img src="${p.imageUrl}" alt="Product Image" class="pimg"></td>
+                                <td>${p.price}đ</td>
+                                <td>
+                                    <a href="load?pid=${p.productId}">
+                                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                                    </a>
+                                    <a href="delete?pid=${p.productId}" onclick="return confirmDelete(event, '${p.productName}')">
+                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+
             </table>
         </div>
-        <form action="add" method="POST">
+        <form action="add" method="POST" enctype="multipart/form-data">
             <div id="popupForm" class="popup">
                 <div class="popup-content">
                     <span class="close-btn" onclick="closePopup()">&times;</span>
-                    <h3>Thêm sản phẩm</h3>
-                    <label for="name">Tên</label>
-                    <input type="text" id="name" name="name" required>
 
-                    <label for="image">URL ảnh</label>
-                    <input type="text" id="image" name="image" required>
+                    <div class="popup-body">
+                        <h3>Thêm sản phẩm</h3>
+                        <label for="name">Tên</label>
+                        <input type="text" id="name" name="name" required>
 
-                    <label for="price">Giá</label>
-                    <input type="number" id="price" name="price" required>
+                        <label for="image">Ảnh</label>
+                        <input type="file" id="image" name="image" accept="image/*" required>
 
-                    <label for="title">Mô tả</label>
-                    <input type="text" id="description" name="description" required>
+                        <label for="price">Giá</label>
+                        <input type="number" id="price" name="price" required>
 
-                    <label for="description">Thành phần</label>
-                    <input type="text" id="ingredient" name="ingredient" required>
+                        <label for="title">Mô tả</label>
+                        <input type="text" id="description" name="description" required>
 
-                    <label for="category">Danh mục</label>
-                    <select id="category" name="category">
-                        <option value="Miso">Nước dùng Miso</option>
-                        <option value="Tonkotsu">Nước dùng Tonkotsu</option>
-                        <option value="Shoyu">Nước dùng Shoyu</option>
-                        <option value="Special">Đặc biệt</option>
-                    </select>
+                        <label for="description">Thành phần</label>
+                        <input type="text" id="ingredient" name="ingredient" required>
+                        
+                        <label for="weight">Khối lượng (gam)</label>
+                        <input type="number" id="weight" name="weight" required>
+                        
+                        <label for="calories">Lượng calo (kcal)</label>
+                        <input type="number" id="calories" name="calories" required>
+                        
+                        <label for="protein">Hàm lượng đạm (gam)</label>
+                        <input type="number" id="protein" name="protein" required>
+                        
+                        <label for="fat">Hàm lượng chất béo (gam)</label>
+                        <input type="number" id="fat" name="fat" required>
+                        
+                        <label for="carbs">Hàm lượng tinh bột</label>
+                        <input type="number" id="carbs" name="carbs" required>
+                        
+                        <label for="tags">Tag</label>
+                        <input type="number" id="tags" name="tags" required>
+
+                        <label for="category">Danh mục</label>
+                        <select id="category" name="category">
+                            <option value="1">Cuốn lành mạnh</option>
+                            <option value="2">Ít tinh bột</option>
+                            <option value="3">Thuần chay đặc biệt</option>
+                        </select>
+                    </div>
+
                     <div class="popup-button">
                         <button type="submit" class="btn-submit">Thêm</button>
                         <button type="button" class="btn-cancel" onclick="closePopup()">Hủy</button>

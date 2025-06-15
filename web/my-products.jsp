@@ -169,7 +169,7 @@
                                         <div class="product-short">
                                             <form action="my-products" method="POST">
                                                 <select name="sort" class="form-control" onchange="this.form.submit()">
-                                                    <option value="">-- Lọc theo --</option>
+                                                    <option value="">-- Sắp xếp theo --</option>
                                                     <option value="newest" ${param.sort == 'newest' ? 'selected' : ''}>Mới nhất</option>
                                                     <option value="popular" ${param.sort == 'popular' ? 'selected' : ''}>Phổ biến</option>
                                                 </select>
@@ -180,12 +180,13 @@
                             </div>
                             <%-- Search + Sort Product End --%>
 
+                            <%-- View Search + Sort Product Result Start --%>
                             <c:choose>
-                                <%-- Nếu có từ khóa search --%>
+                                <%-- 1: Nếu có từ khóa search --%>
                                 <c:when test="${not empty txtS}">
 
                                     <c:choose>
-                                        <%-- Nếu có kết quả search --%>
+                                        <%-- 1.1: Nếu có kết quả search --%>
                                         <c:when test="${not empty searchedList}">
                                             <c:forEach var="p" items="${searchedList}">
                                                 <div class="col-lg-4">
@@ -207,8 +208,7 @@
                                                 </div>
                                             </c:forEach>
                                         </c:when>
-
-                                        <%-- Nếu không tìm thấy kết quả --%>
+                                        <%-- 1.2: Nếu không tìm thấy kết quả --%>
                                         <c:otherwise>
                                             <div class="col-lg-12">
                                                 <p>Không tìm thấy kết quả phù hợp.</p>
@@ -217,6 +217,7 @@
                                     </c:choose>
                                 </c:when>
 
+                                <%-- 2: Nếu có option sort --%>
                                 <c:when test="${not empty sortT}">
                                     <c:forEach var="p" items="${sortedList}">
                                         <div class="col-lg-4">
@@ -239,7 +240,7 @@
                                     </c:forEach>
                                 </c:when>
 
-                                <%-- Nếu chưa nhập search text --%>    
+                                <%-- 3: no search, no sort --%>    
                                 <c:otherwise>
                                     <%-- My Product List Start --%>
                                     <c:forEach var="p" items="${myProductList}">
@@ -265,7 +266,7 @@
 
                                 </c:otherwise>
                             </c:choose>
-
+                            <%-- View Search + Sort Product Result End --%>
 
                         </div>
 

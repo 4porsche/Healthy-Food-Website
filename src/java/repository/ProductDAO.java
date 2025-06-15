@@ -238,6 +238,41 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<Product> getMySearchedList(String txt, int sellerId) {
+        String sql = "SELECT * FROM Products WHERE SellerID = ? AND ([ProductName] LIKE ? OR [Ingredient] LIKE ? OR [Tags] LIKE ?)";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, sellerId);
+            ps.setString(2, "%" + txt + "%");
+            ps.setString(3, "%" + txt + "%");
+            ps.setString(4, "%" + txt + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                String ingredient = rs.getString("Ingredient");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+                String imageUrl = rs.getString("ImageUrl");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("🔴 SQL Error: " + e.getMessage());
+        }
+        return list;
+    }
 
     public List<Product> sortNewestList() {
         String sql = "SELECT * FROM Products ORDER BY ProductID DESC";
@@ -528,4 +563,21 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<String> getCategoryNameList() {
+        String sql = "SELECT CategoryName FROM Categories";
+        List<String> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
 }
