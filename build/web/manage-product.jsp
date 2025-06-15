@@ -155,11 +155,11 @@
             .popup-body {
                 flex-grow: 1;
                 overflow-y: auto;
-                
+
                 overflow-y: auto;
-    max-height: 70vh; /* hoặc tính toán tùy nội dung */
-    padding-right: 12px; /* tránh scrollbar che nội dung */
-    box-sizing: border-box;
+                max-height: 70vh; /* hoặc tính toán tùy nội dung */
+                padding-right: 12px; /* tránh scrollbar che nội dung */
+                box-sizing: border-box;
             }
 
             .popup-footer {
@@ -213,30 +213,33 @@
 
             .popup-button {
                 margin-top: 15px;
+                display: flex;
+                justify-content: right;
+                gap: 8px;
             }
 
-/*            .btn-submit {
-                background: #28a745;
-                color: white;
-                padding: 10px;
-                border: none;
-                width: 100%;
-                border-radius: 5px;
-                cursor: pointer;
-                margin-bottom: 3px;
-            }
-
-            .btn-cancel {
-                margin-top: 15px;
-                background: #dc3545;
-                color: white;
-                padding: 10px;
-                border: none;
-                width: 100%;
-                border-radius: 5px;
-                margin-top: 5px;
-                cursor: pointer;
-            }*/
+            /*            .btn-submit {
+                            background: #28a745;
+                            color: white;
+                            padding: 10px;
+                            border: none;
+                            width: 100%;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            margin-bottom: 3px;
+                        }
+            
+                        .btn-cancel {
+                            margin-top: 15px;
+                            background: #dc3545;
+                            color: white;
+                            padding: 10px;
+                            border: none;
+                            width: 100%;
+                            border-radius: 5px;
+                            margin-top: 5px;
+                            cursor: pointer;
+                        }*/
 
             .btn-home {
                 display: inline-block;
@@ -366,10 +369,24 @@
             .pname {
                 text-align: left;
             }
+            .tag-group {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px 24px; /* khoảng cách giữa hàng và giữa 2 cột */
+            }
 
+            .tag-group label {
+                display: flex;
+                align-items: center;
+                font-size: 16px;
+                gap: 8px; /* khoảng cách giữa checkbox và text */
+                cursor: pointer;
+            }
 
-
-
+            .tag-group input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+            }
 
         </style>
 
@@ -452,10 +469,12 @@
 
             </table>
         </div>
-        <form action="add" method="POST" enctype="multipart/form-data">
+        <form action="manage-product" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="add" />
+
+            
             <div id="popupForm" class="popup">
                 <div class="popup-content">
-                    <span class="close-btn" onclick="closePopup()">&times;</span>
 
                     <div class="popup-body">
                         <h3>Thêm sản phẩm</h3>
@@ -473,24 +492,38 @@
 
                         <label for="description">Thành phần</label>
                         <input type="text" id="ingredient" name="ingredient" required>
-                        
+
                         <label for="weight">Khối lượng (gam)</label>
                         <input type="number" id="weight" name="weight" required>
-                        
+
                         <label for="calories">Lượng calo (kcal)</label>
                         <input type="number" id="calories" name="calories" required>
-                        
+
                         <label for="protein">Hàm lượng đạm (gam)</label>
                         <input type="number" id="protein" name="protein" required>
-                        
+
                         <label for="fat">Hàm lượng chất béo (gam)</label>
                         <input type="number" id="fat" name="fat" required>
-                        
+
                         <label for="carbs">Hàm lượng tinh bột</label>
                         <input type="number" id="carbs" name="carbs" required>
-                        
+
                         <label for="tags">Tag</label>
-                        <input type="number" id="tags" name="tags" required>
+                        <div class="tag-group">
+                            <label><input type="checkbox" name="tags" value="bún" /> <span>bún</span></label>
+                            <label><input type="checkbox" name="tags" value="bánh tráng" /> <span>bánh tráng</span></label>
+                            <label><input type="checkbox" name="tags" value="vỏ tortilla" /> <span>vỏ tortilla</span></label>
+                            <label><input type="checkbox" name="tags" value="yến mạch" /> <span>yến mạch</span></label>
+                            <label><input type="checkbox" name="tags" value="gà" /> <span>gà</span></label>
+                            <label><input type="checkbox" name="tags" value="hải sản" /> <span>hải sản</span></label>
+                            <label><input type="checkbox" name="tags" value="trứng" /> <span>trứng</span></label>
+                            <label><input type="checkbox" name="tags" value="hạt" /> <span>hạt</span></label>
+                            <label><input type="checkbox" name="tags" value="nấm" /> <span>nấm</span></label>
+                            <label><input type="checkbox" name="tags" value="đậu hũ" /> <span>đậu hũ</span></label>
+                            <label><input type="checkbox" name="tags" value="đậu que" /> <span>đậu que</span></label>
+                            <label><input type="checkbox" name="tags" value="rong biển" /> <span>rong biển</span></label>
+                            <label><input type="checkbox" name="tags" value="trái cây" /> <span>trái cây</span></label>
+                        </div>
 
                         <label for="category">Danh mục</label>
                         <select id="category" name="category">

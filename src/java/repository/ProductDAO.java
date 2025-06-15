@@ -580,4 +580,42 @@ public class ProductDAO extends DBContext {
         return list;
     }
     
+    public boolean checkProductNameExist(String name) {
+        String sql = "SELECT * FROM Products WHERE [ProductName] = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public void addProduct(int sellerId, int categoryId, String name, int price, String description, String ingredient, double weight, double calories, double protein, double fat, double carbs, String tags, String imageUrl) {
+        String sql = "INSERT INTO [Products] ([SellerID], [CategoryID], [ProductName], [Price], [Description], [Ingredient], [Weight], [Calories], [Protein], [Fat], [Carbs], [Tags], [ImageUrl])\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, sellerId);
+            ps.setInt(2, categoryId);
+            ps.setString(3, name);
+            ps.setInt(4, price);
+            ps.setString(5, description);
+            ps.setString(6, ingredient);
+            ps.setDouble(7, weight);
+            ps.setDouble(8, calories);
+            ps.setDouble(9, protein);
+            ps.setDouble(10, fat);
+            ps.setDouble(11, carbs);
+            ps.setString(12, tags);
+            ps.setString(13, imageUrl);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }
