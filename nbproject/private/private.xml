@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/HealthyFoodDemo/src/java/controller/EditProfileController.java</file>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/HealthyFoodDemo/src/java/model/Requests.java</file>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/HealthyFoodDemo/src/java/controller/RequestsController.java</file>
+            <file>file:/D:/baokhanh/study%202024/SUM2025/SWP391/HealthyFoodDemo/src/java/repository/ProfileDao.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -36,19 +36,19 @@
                                 <input type="hidden" name="userid" value="${loadcustomer.userid}" />
 
                                 <div class="form-group">
-                                    <label for="height">Chiều cao:</label>
+                                    <label for="height">Chiều cao (cm):</label>
                                     <input value="${loadcustomer.height}" type="text" name="height" id="height" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="weight">Cân nặng:</label>
+                                    <label for="weight">Cân nặng (kg):</label>
                                     <input value="${loadcustomer.weight}" type="text" name="weight" id="weight" class="form-control" required>
                                 </div>
 
-                                <div class="form-group">
+<!--                                <div class="form-group">
                                     <label for="bmi">BMI:</label>
                                     <input value="${loadcustomer.BMI}" type="text" name="bmi" id="bmi" class="form-control" required>
-                                </div>
+                                </div>-->
 
                                 <div class="form-group mb-3">
                                     <strong>Mức độ hoạt động:</strong><br>

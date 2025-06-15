@@ -157,6 +157,19 @@ VALUES (
 	- Xế: 1 quả táo + 10 hạt hạnh nhân
 	- Tối: Salad cá hồi + 1 củ khoai lang luộc'
 );
+INSERT INTO ConsulationRequests (
+    CustomerID, PreferredDate, ResponseNote
+)
+VALUES (
+    4, 
+    '2025-06-13 08:30:00', 
+    N' Thực đơn 1 ngày:
+	- Sáng: 1 bát cháo yến mạch + 1 quả trứng luộc + 1 ly sữa đậu nành
+	- Trưa: 100g ức gà + rau luộc + 1 chén cơm gạo lứt
+	- Xế: 1 quả táo + 10 hạt hạnh nhân
+	- Tối: Salad cá hồi + 1 củ khoai lang luộc'
+);
+
 
 select * from ConsulationRequests
 

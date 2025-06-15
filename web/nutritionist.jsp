@@ -24,6 +24,7 @@
                             <thead class="table-info">
                                 <tr>
                                     <th>Tên khách hàng</th>
+                                    <th>Thông tin khách hàng</th>
                                     <th>Ngày yêu cầu</th>
                                     <th>Trạng thái</th>
                                     <th style="width: 35%;">Ghi chú tư vấn</th>
@@ -34,6 +35,12 @@
                                 <c:forEach var="c" items="${requests}">
                                     <tr>
                                         <td>${c.customerName}</td>
+                                        <td class="text-center">
+                                            <a type="button" class="btn btn-primary btn-sm" href="profile">
+                                                Xem
+                                            </a>
+                                        </td>
+
                                         <td>${c.requestDate}</td>
                                         <td class="text-capitalize">
                                             <span class="badge
@@ -43,11 +50,49 @@
                                                       ${c.status}
                                                   </span>
                                             </td>
-                                            <td class="text-start">${c.responseNote}</td>
+                                            <td class="text-start text-center">
+
+                                                <!-- Nút Thay đổi -->
+                                                <button type="button" class="btn btn-warning btn-sm ms-1"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#editModal${c.requestID}">
+                                                    Thay đổi
+                                                </button>
+
+                                             
+
+                                                <!-- Modal Thay đổi -->
+                                                <div class="modal fade" id="editModal${c.requestID}" tabindex="-1" aria-labelledby="editModalLabel${c.requestID}" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <form action="updateresponse" method="post">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="editModalLabel${c.requestID}">Chỉnh sửa ghi chú</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="requestID" value="${c.requestID}" />
+                                                                    <div class="mb-3">
+                                                                        <label for="responseNote${c.requestID}" class="form-label">Ghi chú phản hồi</label>
+                                                                        <textarea class="form-control" name="responseNote" id="responseNote${c.requestID}" rows="4">${c.responseNote}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-success">Lưu</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+
+
                                             <td>
-                                                
-                                                <a class="btn btn-sm btn-success mb-1" href="updateConsultation?id=${c.requestID}">Chấp nhận</a>
-                                                <a class="btn btn-sm btn-danger" href="deleteConsultation?id=${c.requestID}" onclick="return confirmDelete()">Hủy</a>
+
+                                                <a class="btn btn-sm btn-success mb-1" href="updateconsultation?id=${c.requestID}">Chấp nhận</a>
+                                                <a class="btn btn-sm btn-danger" href="deleteconsultation?id=${c.requestID}" onclick="return confirmDelete()">Hủy</a>
                                             </td>
                                         </tr>
                                     </c:forEach>

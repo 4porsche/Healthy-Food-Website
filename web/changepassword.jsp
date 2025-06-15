@@ -26,7 +26,7 @@
                 <div class="col-md-6">
                     <div class="card shadow p-4">
                         <form action="changepassword" method="post">
-                            <h3 class="text-center text-primary mb-4">Đổi mật khẩu</h3>
+                            <h3 class="text-center text-success mb-4">Đổi mật khẩu</h3>
 
                             <c:if test="${not empty error}">
                                 <div class="alert alert-danger text-center" role="alert">
@@ -62,6 +62,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-key"></i> Đổi mật khẩu
                                 </button>
+                                <a href="profile" class="btn btn-secondary">
+                                    <i class="fa fa-arrow-left"></i> Quay về hồ sơ
+                                </a>
                             </div>
                         </form>
                     </div>

@@ -93,7 +93,8 @@ public class EditProfileController extends HttpServlet {
             try {
                 height = Double.parseDouble(request.getParameter("height"));
                 weight = Double.parseDouble(request.getParameter("weight"));
-                BMI = Double.parseDouble(request.getParameter("bmi"));
+                double heightInMeters = height / 100;
+                BMI = (weight) / (heightInMeters * heightInMeters);
             } catch (NumberFormatException e) {
                 request.setAttribute("error", "Chiều cao, cân nặng, và BMI phải là số.");
                 request.setAttribute("loadcustomer", cp);

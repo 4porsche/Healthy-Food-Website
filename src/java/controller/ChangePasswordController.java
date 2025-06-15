@@ -79,17 +79,27 @@ public class ChangePasswordController extends HttpServlet {
 //        
         ProfileDao pd = new ProfileDao();
         CustomerProfile cp = pd.getCustomer(3);
-        if(cp == null)
-        {
+        if (cp == null) {
             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
             return;
         }
-        
+
         String currentpassword = request.getParameter("currentPassword");
         String newpassword = request.getParameter("newPassword");
         String confirmpassword = request.getParameter("confirmPassword");
 
-        
+        if (newpassword.contains(" ") || confirmpassword.contains(" ")) {
+            request.setAttribute("error", "Mật khẩu không được chứa dấu cách!");
+             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+            return;
+        }
+
+        if (currentpassword.equals(newpassword)) {
+            request.setAttribute("error", "Mật khẩu mới và mật khẩu cu giong nhau!");
+            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+            return;
+        }
+
         if (!currentpassword.equals(pd.getCustomer(cp.getUserid()).getPassword())) {
             request.setAttribute("error", "Sai mật khẩu hiện tại");
             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
@@ -104,7 +114,7 @@ public class ChangePasswordController extends HttpServlet {
 
         pd.changePass(newpassword, cp.getUserid());
         request.setAttribute("success", "Đổi mật khẩu thành công!");
-        request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+        request.getRequestDispatcher("profile").forward(request, response);
     }
 
     /**
