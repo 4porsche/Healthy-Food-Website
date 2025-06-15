@@ -10,9 +10,9 @@ public class DBContext {
 
     public DBContext() {
         try {
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=HealthyFoodDB";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=HealthyFood_DB";
             String username = "sa";
-            String password = "123";
+            String password = "12345";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException e) {

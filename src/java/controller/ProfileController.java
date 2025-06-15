@@ -33,20 +33,21 @@ public class ProfileController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         ProfileDao dao = new ProfileDao();
-//        int userID = Integer.parseInt(request.getParameter("userid"));
-
-//          if (request.getParameter("userid") == null || request.getParameter("userid").isEmpty()) {
-//                request.setAttribute("error", "Chưa có ID người dùng.");
-//                request.getRequestDispatcher("profile").forward(request, response);
-//                return;
-//            }
-//        HttpSession session = request.getSession();
-//        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
-            CustomerProfile cp = dao.getCustomer(3);
+        if (request.getParameter("userid") == null || request.getParameter("userid").isEmpty()) {
+//            request.setAttribute("error", "Chưa có ID người dùng.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        }
+        int userID = Integer.parseInt(request.getParameter("userid"));
+        HttpSession session = request.getSession();
+        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
+        cp = dao.getCustomer(userID, 3);
+//            CustomerProfile cp = dao.getCustomer(3);
         if (cp == null) {
             request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
             return;
         }
+        request.setAttribute("userid", userID);
         request.setAttribute("customer", cp);
         request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
     }

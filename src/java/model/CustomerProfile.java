@@ -20,11 +20,12 @@ public class CustomerProfile {
     private double BMI;
     private String activitylevel;
     private String goal;
+    private int roleid;
 
     public CustomerProfile() {
     }
 
-    public CustomerProfile(int userid, String fullname, String password, String email, String phone, String gender, double height, double weight, double BMI, String activitylevel, String goal) {
+    public CustomerProfile(int userid, String fullname, String password, String email, String phone, String gender, double height, double weight, double BMI, String activitylevel, String goal, int roleid) {
         this.userid = userid;
         this.fullname = fullname;
         this.password = password;
@@ -36,6 +37,7 @@ public class CustomerProfile {
         this.BMI = BMI;
         this.activitylevel = activitylevel;
         this.goal = goal;
+        this.roleid = roleid;
     }
 
     public int getUserid() {
@@ -128,11 +130,21 @@ public class CustomerProfile {
         this.goal = goal;
     }
 
-    @Override
-    public String toString() {
-        return "CustomerProfile{" + "userid=" + userid + ", fullname=" + fullname + ", password=" + password + ", email=" + email + ", phone=" + phone + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", BMI=" + BMI + ", activitylevel=" + activitylevel + ", goal=" + goal + '}';
+    public int getRoleid() {
+        return roleid;
     }
 
+    public void setRoleid(int roleid) {
+        this.roleid = roleid;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerProfile{" + "userid=" + userid + ", fullname=" + fullname + ", password=" + password + ", email=" + email + ", phone=" + phone + ", gender=" + gender + ", height=" + height + ", weight=" + weight + ", BMI=" + BMI + ", activitylevel=" + activitylevel + ", goal=" + goal + ", roleid=" + roleid + '}';
+    }
+    
+    
+   
    
 
     

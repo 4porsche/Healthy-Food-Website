@@ -72,13 +72,19 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        ProfileDao dao = new ProfileDao();
 
-//        HttpSession session = request.getSession();
-//        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
-//        
+        if (request.getParameter("userid") == null || request.getParameter("userid").isEmpty()) {
+//            request.setAttribute("error", "Chưa có ID người dùng.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        }
+        int userID = Integer.parseInt(request.getParameter("userid"));
+        HttpSession session = request.getSession();
+        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
+        cp = dao.getCustomer(userID, 3);
         ProfileDao pd = new ProfileDao();
-        CustomerProfile cp = pd.getCustomer(3);
         if (cp == null) {
             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
             return;
@@ -90,7 +96,7 @@ public class ChangePasswordController extends HttpServlet {
 
         if (newpassword.contains(" ") || confirmpassword.contains(" ")) {
             request.setAttribute("error", "Mật khẩu không được chứa dấu cách!");
-             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
             return;
         }
 
@@ -100,7 +106,7 @@ public class ChangePasswordController extends HttpServlet {
             return;
         }
 
-        if (!currentpassword.equals(pd.getCustomer(cp.getUserid()).getPassword())) {
+        if (!currentpassword.equals(pd.getCustomer(cp.getUserid(), 3).getPassword())) {
             request.setAttribute("error", "Sai mật khẩu hiện tại");
             request.getRequestDispatcher("changepassword.jsp").forward(request, response);
             return;

@@ -89,7 +89,7 @@ public class EditProfileController extends HttpServlet {
             }
             
             double height, weight, BMI;
-                CustomerProfile cp = pd.getCustomer(userID);
+                CustomerProfile cp = pd.getCustomer(userID, 3);
             try {
                 height = Double.parseDouble(request.getParameter("height"));
                 weight = Double.parseDouble(request.getParameter("weight"));
@@ -121,7 +121,7 @@ public class EditProfileController extends HttpServlet {
 
            
 
-            pd.update(height, weight, BMI, activity, goal, userID);
+            pd.update(height, weight, BMI, activity, goal, userID, 3);
             request.getRequestDispatcher("profile").forward(request, response);
 
         } catch (Exception ex) {

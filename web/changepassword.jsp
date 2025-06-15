@@ -62,7 +62,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-key"></i> Đổi mật khẩu
                                 </button>
-                                <a href="profile" class="btn btn-secondary">
+                                <a href="profile?userid=${sessionScope.userid}" class="btn btn-secondary">
                                     <i class="fa fa-arrow-left"></i> Quay về hồ sơ
                                 </a>
                             </div>

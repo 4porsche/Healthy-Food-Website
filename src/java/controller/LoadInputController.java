@@ -53,7 +53,7 @@ public class LoadInputController extends HttpServlet {
 
             // Lấy thông tin người dùng
             ProfileDao dao = new ProfileDao();
-            CustomerProfile cp = dao.getCustomer(userID);
+            CustomerProfile cp = dao.getCustomer(userID, 3);
 
             // Kiểm tra người dùng có tồn tại không
             if (cp == null) {

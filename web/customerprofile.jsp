@@ -26,7 +26,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href="home">
+                            <a href="">
                                 <img src="img/logo.jpg" alt="Logo">
                             </a>
                         </div>
@@ -40,18 +40,34 @@
                     <div class="col-md-3">
                         <div class="user">
                             <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account</a>
-                                <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">Login</a>
-                                    <a href="#" class="dropdown-item">Register</a>
-                                    <a href="profile" class="dropdown-item">My Account</a>
-                                </div>
-                            </div>
-                            <div class="cart">
-                                <i class="fa fa-cart-plus"></i>
-                                <span>(0)</span>
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.user}">
+                                        <!-- Sử dụng họ tên nếu có, nếu không thì dùng tên tài khoản -->
+                                        <c:set var="displayName" value="${not empty sessionScope.fullname ? sessionScope.fullname : sessionScope.username}" />
+
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            Xin chào, ${displayName}
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a href="profile?userid=${sessionScope.userid}" class="dropdown-item">Xem hồ sơ</a>
+                                            <a href="LogoutServlet" class="dropdown-item">Đăng xuất</a>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tài khoản của tôi</a>
+                                        <div class="dropdown-menu">
+                                            <a href="login.jsp" class="dropdown-item">Đăng nhập</a>
+                                            <a href="register.jsp" class="dropdown-item">Đăng ký</a>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="cart">
+                        <i class="fa fa-cart-plus"></i>
+                        <span>(0)</span>
                     </div>
                 </div>
             </div>

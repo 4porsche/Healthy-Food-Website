@@ -23,6 +23,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user); // Lưu cả đối tượng User
+            session.setAttribute("userid", user.getUserID()); // Lưu userid vào session
             session.setAttribute("username", user.getUsername()); // Hoặc user.getFullName() nếu có
             session.setAttribute("fullname", user.getFullname());
             int roleID = user.getRoleID();
@@ -31,7 +32,7 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect("admin.jsp");
                     break;
                 case 3:
-                    response.sendRedirect("home.jsp");
+                    response.sendRedirect("home");
                     break;
                 case 5:
                     response.sendRedirect("seller.jsp");
