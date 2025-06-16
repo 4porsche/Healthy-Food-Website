@@ -52,6 +52,28 @@
                 font-size: 18px;
                 line-height: 1.4;
             }
+
+            .top-header {
+    padding: 20px 0;
+    height: auto;
+}
+.top-header {
+    height: auto !important;
+    padding: 20px 0;
+    overflow: hidden;
+}
+
+.logo img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container, .row {
+    height: auto !important;
+}
+
+
         </style>
     </head>
 
@@ -60,7 +82,7 @@
         <div class="top-header">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-lg-3">
                         <div class="logo">
                             <a href="">
                                 <img src="img/logo.jpg" alt="Logo">

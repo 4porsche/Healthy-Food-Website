@@ -165,18 +165,34 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    // category + đếm total product ở mỗi category
-    public Map<String, Integer> getProductCountByCategory() {
-        Map<String, Integer> result = new HashMap<>();
-        String sql = "SELECT c.CategoryName, COUNT(p.ProductID) AS totalProducts FROM Categories c LEFT JOIN Products p ON c.categoryId = p.categoryId GROUP BY c.categoryName";
+    public Map<Integer, String> getCategoryMap() {
+        Map<Integer, String> result = new HashMap<>();
+        String sql = "SELECT * FROM Categories";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String categoryName = rs.getString("CategoryName");
-                int count = rs.getInt("totalProducts");
-                result.put(categoryName, count);
+                result.put(rs.getInt("CategoryID"),
+                        rs.getString("CategoryName"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+
+    // category + đếm total product ở mỗi category
+    public Map<Integer, Integer> getProductCountByCategory() {
+        Map<Integer, Integer> result = new HashMap<>();
+        String sql = "SELECT CategoryID, COUNT(*) AS Total FROM Products GROUP BY CategoryID";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.put(rs.getInt("CategoryID"),
+                        rs.getInt("Total"));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -185,18 +201,17 @@ public class ProductDAO extends DBContext {
     }
 
     // category + đếm total product ở mỗi category của mỗi seller
-    public Map<String, Integer> getMyProductCountByCategory(int sellerId) {
-        Map<String, Integer> result = new HashMap<>();
-        String sql = "SELECT c.CategoryName, COUNT(p.ProductID) AS totalProducts FROM Categories c LEFT JOIN Products p ON c.categoryId = p.categoryId WHERE SellerId = ? GROUP BY c.categoryName";
+    public Map<Integer, Integer> getMyProductCountByCategory(int sellerId) {
+        Map<Integer, Integer> result = new HashMap<>();
+        String sql = "SELECT CategoryID, COUNT(*) AS Total FROM Products WHERE SellerID = ? GROUP BY CategoryID";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, sellerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String categoryName = rs.getString("CategoryName");
-                int count = rs.getInt("totalProducts");
-                result.put(categoryName, count);
+                result.put(rs.getInt("CategoryID"),
+                        rs.getInt("Total"));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -238,7 +253,7 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Product> getMySearchedList(String txt, int sellerId) {
         String sql = "SELECT * FROM Products WHERE SellerID = ? AND ([ProductName] LIKE ? OR [Ingredient] LIKE ? OR [Tags] LIKE ?)";
         List<Product> list = new ArrayList<>();
@@ -347,8 +362,8 @@ public class ProductDAO extends DBContext {
                 + "LEFT JOIN \n"
                 + "    OrderDetails OD ON P.ProductID = OD.ProductID\n"
                 + "GROUP BY \n"
-                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price,\n"
-                + "    P.Description, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags\n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price, P.Description,\n"
+                + "    P.Ingredient, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags, P.ImageUrl\n"
                 + "ORDER BY \n"
                 + "    TotalSold DESC";
         List<Product> list = new ArrayList<>();
@@ -389,10 +404,10 @@ public class ProductDAO extends DBContext {
                 + "    Products P\n"
                 + "LEFT JOIN \n"
                 + "    OrderDetails OD ON P.ProductID = OD.ProductID\n"
-                + "WHERE P.SellerID = ?"
+                + "WHERE P.SellerID = ? "
                 + "GROUP BY \n"
-                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price,\n"
-                + "    P.Description, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags\n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price, P.Description,\n"
+                + "    P.Ingredient, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags, P.ImageUrl\n"
                 + "ORDER BY \n"
                 + "    TotalSold DESC";
         List<Product> list = new ArrayList<>();
@@ -563,7 +578,7 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<String> getCategoryNameList() {
         String sql = "SELECT CategoryName FROM Categories";
         List<String> list = new ArrayList<>();
@@ -579,7 +594,7 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-    
+
     public boolean checkProductNameExist(String name) {
         String sql = "SELECT * FROM Products WHERE [ProductName] = ?";
         try {
@@ -594,7 +609,7 @@ public class ProductDAO extends DBContext {
         }
         return false;
     }
-    
+
     public void addProduct(int sellerId, int categoryId, String name, int price, String description, String ingredient, double weight, double calories, double protein, double fat, double carbs, String tags, String imageUrl) {
         String sql = "INSERT INTO [Products] ([SellerID], [CategoryID], [ProductName], [Price], [Description], [Ingredient], [Weight], [Calories], [Protein], [Fat], [Carbs], [Tags], [ImageUrl])\n"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

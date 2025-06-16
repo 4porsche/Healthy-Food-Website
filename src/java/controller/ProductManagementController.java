@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import repository.ProductDAO;
 import model.Product;
@@ -23,9 +26,11 @@ public class ProductManagementController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
+        HttpSession session = request.getSession();
+        int sellerId = 8;
 
         ProductDAO dao = new ProductDAO();
-        List<Product> productList = dao.getMyProduct(8);
+        List<Product> productList = dao.getMyProduct(sellerId);
 
         request.setAttribute("productList", productList);
 
@@ -36,35 +41,35 @@ public class ProductManagementController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-        
+        int sellerId = 8;
+
         String searchTxt = request.getParameter("txt");
         String sortType_raw = request.getParameter("sort");
         int sortType = 0;
-        
+
         String action = request.getParameter("action");
-        
 
         ProductDAO dao = new ProductDAO();
         List<Product> productList = null;
 
         if (searchTxt != null && !searchTxt.trim().isEmpty()) {
-            productList = dao.getMySearchedList(searchTxt.trim(), 8);
+            productList = dao.getMySearchedList(searchTxt.trim(), sellerId);
         } else if (sortType_raw != null && !sortType_raw.trim().isEmpty()) {
             sortType = Integer.parseInt(sortType_raw);
-            productList = dao.getMyProductByCategory(8, sortType);
+            productList = dao.getMyProductByCategory(sellerId, sortType);
         } else {
-            productList = dao.getMyProduct(8);
+            productList = dao.getMyProduct(sellerId);
         }
-        
+
         if ("add".equals(action)) {
             String name = request.getParameter("name");
-            
-            if (dao.checkProductNameExist(name)) {
+            String capitalizedName = capitalizeEachWord(name);
+
+            if (dao.checkProductNameExist(capitalizedName)) {
                 session.setAttribute("ms", "Tên sản phẩm đã tồn tại!");
             } else {
-                // test
-                int sellerId = 8;
                 int categoryId = Integer.parseInt(request.getParameter("category"));
                 int price = Integer.parseInt(request.getParameter("price"));
                 String description = request.getParameter("description");
@@ -74,10 +79,21 @@ public class ProductManagementController extends HttpServlet {
                 double protein = Double.parseDouble(request.getParameter("protein"));
                 double fat = Double.parseDouble(request.getParameter("fat"));
                 double carbs = Double.parseDouble(request.getParameter("carbs"));
-                String tags = request.getParameter("tags");
-                String imageUrl = request.getParameter("imageUrl");
-                
-                dao.addProduct(sellerId, categoryId, name, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                String[] tagsArray = request.getParameterValues("tags");
+                Part imagePart = request.getPart("image");
+                String imageFileName = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
+                String uploadPath = getServletContext().getRealPath("/img") + File.separator + imageFileName;
+                imagePart.write(uploadPath);
+
+                String tags = tagsArray != null ? String.join(", ", tagsArray) : "";
+                String imageUrl = "img/" + imageFileName;
+                try {
+                    dao.addProduct(sellerId, categoryId, capitalizedName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                    response.sendRedirect("manage-product");
+                    return;
+                } catch (Exception e) {
+                    request.getSession().setAttribute("ms", "Lỗi khi thêm sản phẩm");
+                }
             }
         }
         request.setAttribute("productList", productList);
@@ -85,6 +101,19 @@ public class ProductManagementController extends HttpServlet {
         request.setAttribute("sortT", sortType);
         request.getRequestDispatcher("manage-product.jsp").forward(request, response);
 
+    }
+
+    public String capitalizeEachWord(String input) {
+        String[] words = input.trim().toLowerCase().split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String word : words) {
+            if (word.length() > 0) {
+                sb.append(Character.toUpperCase(word.charAt(0)))
+                        .append(word.substring(1))
+                        .append(" ");
+            }
+        }
+        return sb.toString().trim();
     }
 
 //    public int mapCategorySlugToId(String slug) {

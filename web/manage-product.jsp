@@ -472,7 +472,6 @@
         <form action="manage-product" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="action" value="add" />
 
-            
             <div id="popupForm" class="popup">
                 <div class="popup-content">
 
@@ -487,10 +486,10 @@
                         <label for="price">Giá</label>
                         <input type="number" id="price" name="price" required>
 
-                        <label for="title">Mô tả</label>
+                        <label for="description">Mô tả</label>
                         <input type="text" id="description" name="description" required>
 
-                        <label for="description">Thành phần</label>
+                        <label for="ingredient">Thành phần</label>
                         <input type="text" id="ingredient" name="ingredient" required>
 
                         <label for="weight">Khối lượng (gam)</label>
