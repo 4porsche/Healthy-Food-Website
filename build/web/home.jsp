@@ -54,25 +54,64 @@
             }
 
             .top-header {
-    padding: 20px 0;
-    height: auto;
-}
-.top-header {
-    height: auto !important;
-    padding: 20px 0;
-    overflow: hidden;
-}
+                padding: 20px 0;
+                height: auto;
+            }
+            .top-header {
+                height: auto !important;
+                padding: 20px 0;
+                overflow: hidden;
+            }
 
-.logo img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
+            .logo img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
 
-.container, .row {
-    height: auto !important;
-}
+            .container, .row {
+                height: auto !important;
+            }
 
+            .top-header .logo a img {
+                max-height: 90px;
+                height: auto;
+                width: auto;
+            }
+
+            .header {
+                padding: 7px 0px;
+            }
+
+            .top-header {
+                position: relative;
+                z-index: 10; /* Giữ header nằm trên */
+            }
+
+            .dropdown-menu {
+                position: absolute;
+                z-index: 999; /* Đảm bảo dropdown nằm trên mọi thứ khác */
+            }
+            .top-header {
+                overflow: visible;
+            }
+
+            @media (min-width: 768px) {
+                .top-header {
+                    max-height: none;
+                }
+            }
+
+            .navbar-nav .nav-link,
+            .navbar-brand {
+                font-size: 18px !important;
+                font-weight: 510;
+            }
+            
+            .navbar-nav {
+                display: flex;
+                gap: 50px;
+            }
 
         </style>
     </head>
@@ -85,20 +124,20 @@
                     <div class="col-md-3 col-lg-3">
                         <div class="logo">
                             <a href="">
-                                <img src="img/logo.jpg" alt="Logo">
+                                <img src="img/logo.png" alt="Logo">
                             </a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="search">
-                            <input type="text" placeholder="Search">
+                            <input type="text" placeholder="Tìm kiếm sản phẩm...">
                             <button><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="user">
                             <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tài khoản của tôi</a>
                                 <div class="dropdown-menu">
                                     <a href="#" class="dropdown-item">Login</a>
                                     <a href="#" class="dropdown-item">Register</a>
@@ -126,8 +165,8 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav m-auto">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
-                            <a href="product-list.html" class="nav-item nav-link">Products</a>
+                            <a href="home" class="nav-item nav-link active">Trang chủ</a>
+                            <a href="product-list.html" class="nav-item nav-link">Sản phẩm</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu">
