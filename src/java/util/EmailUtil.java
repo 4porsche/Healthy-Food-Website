@@ -1,8 +1,8 @@
 package util;
 
 import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
 
 public class EmailUtil {
     private static final String SMTP_HOST = "smtp.gmail.com";
