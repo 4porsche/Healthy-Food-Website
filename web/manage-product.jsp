@@ -424,7 +424,7 @@
 
                             <!-- Thêm sản phẩm: 2 cột -->
                             <div class="col-md-2 text-end">
-                                <button class="add-btn" onclick="openPopup()">Thêm sản phẩm</button>
+                                <button class="add-btn" onclick="openPopup('popup-add')">Thêm sản phẩm</button>
                             </div>
                         </div>
 
@@ -469,10 +469,11 @@
 
             </table>
         </div>
+
         <form action="manage-product" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="action" value="add" />
 
-            <div id="popupForm" class="popup">
+            <div id="popup-add" class="popup">
                 <div class="popup-content">
 
                     <div class="popup-body">
@@ -546,6 +547,84 @@
             </div>
         </form>
 
+        <form action="manage-product" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="edit" />
+
+            <div id="popup-edit" class="popup">
+                <div class="popup-content">
+
+                    <div class="popup-body">
+                        <h3>Sửa thông tin sản phẩm</h3>
+                        <label for="name">Tên</label>
+                        <input type="text" id="name" name="name" required>
+
+                        <label for="image">Ảnh</label>
+                        <input type="file" id="image" name="image" accept="image/*" required>
+
+                        <label for="price">Giá</label>
+                        <input type="number" id="price" name="price" required>
+
+                        <label for="description">Mô tả</label>
+                        <input type="text" id="description" name="description" required>
+
+                        <label for="ingredient">Thành phần</label>
+                        <input type="text" id="ingredient" name="ingredient" required>
+
+                        <label for="weight">Khối lượng (gam)</label>
+                        <input type="number" id="weight" name="weight" required>
+
+                        <label for="calories">Lượng calo (kcal)</label>
+                        <input type="number" id="calories" name="calories" required>
+
+                        <label for="protein">Hàm lượng đạm (gam)</label>
+                        <input type="number" id="protein" name="protein" required>
+
+                        <label for="fat">Hàm lượng chất béo (gam)</label>
+                        <input type="number" id="fat" name="fat" required>
+
+                        <label for="carbs">Hàm lượng tinh bột</label>
+                        <input type="number" id="carbs" name="carbs" required>
+
+                        <label for="tags">Tag</label>
+                        <div class="tag-group">
+                            <label><input type="checkbox" name="tags" value="bún" /> <span>bún</span></label>
+                            <label><input type="checkbox" name="tags" value="bánh tráng" /> <span>bánh tráng</span></label>
+                            <label><input type="checkbox" name="tags" value="vỏ tortilla" /> <span>vỏ tortilla</span></label>
+                            <label><input type="checkbox" name="tags" value="yến mạch" /> <span>yến mạch</span></label>
+                            <label><input type="checkbox" name="tags" value="gà" /> <span>gà</span></label>
+                            <label><input type="checkbox" name="tags" value="hải sản" /> <span>hải sản</span></label>
+                            <label><input type="checkbox" name="tags" value="trứng" /> <span>trứng</span></label>
+                            <label><input type="checkbox" name="tags" value="hạt" /> <span>hạt</span></label>
+                            <label><input type="checkbox" name="tags" value="nấm" /> <span>nấm</span></label>
+                            <label><input type="checkbox" name="tags" value="đậu hũ" /> <span>đậu hũ</span></label>
+                            <label><input type="checkbox" name="tags" value="đậu que" /> <span>đậu que</span></label>
+                            <label><input type="checkbox" name="tags" value="rong biển" /> <span>rong biển</span></label>
+                            <label><input type="checkbox" name="tags" value="trái cây" /> <span>trái cây</span></label>
+                        </div>
+
+                        <label for="category">Danh mục</label>
+                        <select id="category" name="category">
+                            <option value="1">Cuốn lành mạnh</option>
+                            <option value="2">Ít tinh bột</option>
+                            <option value="3">Thuần chay đặc biệt</option>
+                        </select>
+                    </div>
+
+                    <div class="popup-button">
+                        <button type="submit" class="btn-submit">Thêm</button>
+                        <button type="button" class="btn-cancel" onclick="closePopup()">Hủy</button>
+                    </div>
+                    <c:if test="${not empty sessionScope.ms}">
+                        <p id="error-message">${sessionScope.ms}</p>
+                        <c:remove var="ms" scope="session"/>
+                    </c:if>
+
+
+                </div>
+            </div>
+        </form>
+
+
         <c:set var="totalPages" value="${totalPages}" />
         <c:set var="totalProducts" value="${totalProducts}" />
         <c:set var="currentPage" value="${currentPage}" />
@@ -577,14 +656,13 @@
 
 
         <script>
-            function openPopup() {
-                document.getElementById("popupForm").style.display = "flex";
+            function openPopup(popupId) {
+                document.getElementById(popupId).style.display = "flex";
             }
 
-            function closePopup() {
-                document.getElementById("popupForm").style.display = "none";
+            function closePopup(popupId) {
+                document.getElementById(popupId).style.display = "none";
             }
-
         </script>
 
         <script>
