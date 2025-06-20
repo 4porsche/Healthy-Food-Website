@@ -10,6 +10,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.CustomerProfile;
+import repository.ProfileDao;
 
 /**
  *
@@ -28,22 +30,46 @@ public class LoadPasswordController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-//        try (PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet LoadPasswordController</title>");  
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet LoadPasswordController at " + request.getContextPath () + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
+     response.setContentType("text/html;charset=UTF-8");
+        try {
+            String userIdRaw = request.getParameter("userid");
 
-        int userID = Integer.parseInt(request.getParameter("userid"));
-        request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+            // Kiểm tra null hoặc rỗng
+            if (userIdRaw == null || userIdRaw.isEmpty()) {
+                request.setAttribute("error", "Chưa có ID người dùng.");
+                 request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+                return;
+            }
+
+            // Kiểm tra có phải số hay không
+            int userID;
+            try {
+                userID = Integer.parseInt(userIdRaw);
+            } catch (NumberFormatException e) {
+                request.setAttribute("error", "ID người dùng không hợp lệ.");
+                 request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+                return;
+            }
+
+            // Lấy thông tin người dùng
+            ProfileDao dao = new ProfileDao();
+            CustomerProfile cp = dao.getCustomer(userID, 3);
+
+            // Kiểm tra người dùng có tồn tại không
+            if (cp == null) {
+                request.setAttribute("error", "Không tìm thấy thông tin người dùng.");
+                 request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+                return;
+            }
+
+            // Gửi thông tin đến form update
+            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            request.setAttribute("error", "Lỗi hệ thống.");
+            request.getRequestDispatcher("changepassword.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
