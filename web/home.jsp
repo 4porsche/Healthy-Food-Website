@@ -30,7 +30,7 @@
         <div class="top-header">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-lg-3">
                         <div class="logo">
                             <a href="">
                                 <img src="img/logo.jpg" alt="Logo">
