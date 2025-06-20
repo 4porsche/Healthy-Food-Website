@@ -630,7 +630,7 @@ public class ProductDAO extends DBContext {
             ps.setString(13, imageUrl);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }
