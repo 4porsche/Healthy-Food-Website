@@ -90,22 +90,13 @@ public class ProductManagementController extends HttpServlet {
                 String tags = tagsArray != null ? String.join(", ", tagsArray) : "";
                 String imageUrl = "img/" + imageFileName;
                 try {
-                    System.out.println("== DỮ LIỆU FORM ==");
-                    System.out.println("Tên SP: " + capitalizedName);
-                    System.out.println("Danh mục ID: " + categoryId);
-                    System.out.println("Giá: " + price);
-                    System.out.println("Tags: " + tags);
-                    System.out.println("Image path: " + uploadPath);
-
                     dao.addProduct(sellerId, categoryId, capitalizedName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
-                    System.out.println("✅ Thêm sản phẩm thành công: " + capitalizedName);
-
-                    
+                    session.setAttribute("ms", "Thêm sản phẩm thành công");
                     response.sendRedirect("manage-product");
                     return;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    request.getSession().setAttribute("ms", "Lỗi khi thêm sản phẩm");
+                    session.setAttribute("ms", "Lỗi khi thêm sản phẩm");
                 }
             }
         }

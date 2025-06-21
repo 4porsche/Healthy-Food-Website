@@ -633,4 +633,44 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
+
+    public void updateProduct(int productId, int sellerId, int categoryId, String name, int price, String description, String ingredient, double weight, double calories, double protein, double fat, double carbs, String tags, String imageUrl) {
+        String sql = "UPDATE [Products] SET "
+                + "[SellerID] = ?, "
+                + "[CategoryID] = ?, "
+                + "[ProductName] = ?, "
+                + "[Price] = ?, "
+                + "[Description] = ?, "
+                + "[Ingredient] = ?, "
+                + "[Weight] = ?, "
+                + "[Calories] = ?, "
+                + "[Protein] = ?, "
+                + "[Fat] = ?, "
+                + "[Carbs] = ?, "
+                + "[Tags] = ?, "
+                + "[ImageUrl] = ? "
+                + "WHERE [ProductID] = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, sellerId);
+            ps.setInt(2, categoryId);
+            ps.setString(3, name);
+            ps.setInt(4, price);
+            ps.setString(5, description);
+            ps.setString(6, ingredient);
+            ps.setDouble(7, weight);
+            ps.setDouble(8, calories);
+            ps.setDouble(9, protein);
+            ps.setDouble(10, fat);
+            ps.setDouble(11, carbs);
+            ps.setString(12, tags);
+            ps.setString(13, imageUrl);
+            ps.setInt(14, productId);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

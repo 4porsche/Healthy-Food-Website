@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -388,6 +389,60 @@
                 height: 16px;
             }
 
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: -400px; 
+                background-color: #4caf50;
+                color: white;
+                padding: 16px 24px 24px 16px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                width: 300px;
+                max-width: 90%;
+                z-index: 9999;
+                transition: right 0.5s ease-in-out;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .notification.show {
+                right: 20px;
+            }
+
+            .notification.hide {
+                right: -400px; 
+            }
+
+            .close-btn {
+                position: absolute;
+                top: 6px;
+                right: 10px;
+                font-size: 20px;
+                cursor: pointer;
+                color: #fff;
+            }
+
+            .timer-bar {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 4px;
+                background-color: rgba(255, 255, 255, 0.8);
+                width: 100%;
+                animation: countdown 5s linear forwards;
+            }
+
+            @keyframes countdown {
+                from {
+                    width: 100%;
+                }
+                to {
+                    width: 0%;
+                }
+            }
         </style>
 
     </head>
@@ -455,9 +510,10 @@
                                 <td><img src="${p.imageUrl}" alt="Product Image" class="pimg"></td>
                                 <td>${p.price}đ</td>
                                 <td>
-                                    <a href="load?pid=${p.productId}">
+                                    <a href="edit-product?pid=${p.productId}">
                                         <button class="edit-btn"><i class="fas fa-edit"></i></button>
                                     </a>
+
                                     <a href="delete?pid=${p.productId}" onclick="return confirmDelete(event, '${p.productName}')">
                                         <button class="delete-btn"><i class="fas fa-trash"></i></button>
                                     </a>
@@ -484,7 +540,7 @@
                         <label for="image">Ảnh</label>
                         <input type="file" id="image" name="image" accept="image/*" required>
 
-                        <label for="price">Giá</label>
+                        <label for="price">Giá (VND)</label>
                         <input type="number" id="price" name="price" required>
 
                         <label for="description">Mô tả</label>
@@ -505,7 +561,7 @@
                         <label for="fat">Hàm lượng chất béo (gam)</label>
                         <input type="number" id="fat" name="fat" required>
 
-                        <label for="carbs">Hàm lượng tinh bột</label>
+                        <label for="carbs">Hàm lượng tinh bột (gam)</label>
                         <input type="number" id="carbs" name="carbs" required>
 
                         <label for="tags">Tag</label>
@@ -534,96 +590,15 @@
                     </div>
 
                     <div class="popup-button">
+                        <button type="button" class="btn-cancel" onclick="closePopup('popup-add')">Hủy</button>
                         <button type="submit" class="btn-submit">Thêm</button>
-                        <button type="button" class="btn-cancel" onclick="closePopup()">Hủy</button>
                     </div>
-                    <c:if test="${not empty sessionScope.ms}">
-                        <p id="error-message">${sessionScope.ms}</p>
-                        <c:remove var="ms" scope="session"/>
-                    </c:if>
+
 
 
                 </div>
             </div>
         </form>
-
-        <form action="manage-product" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="action" value="edit" />
-
-            <div id="popup-edit" class="popup">
-                <div class="popup-content">
-
-                    <div class="popup-body">
-                        <h3>Sửa thông tin sản phẩm</h3>
-                        <label for="name">Tên</label>
-                        <input type="text" id="name" name="name" required>
-
-                        <label for="image">Ảnh</label>
-                        <input type="file" id="image" name="image" accept="image/*" required>
-
-                        <label for="price">Giá</label>
-                        <input type="number" id="price" name="price" required>
-
-                        <label for="description">Mô tả</label>
-                        <input type="text" id="description" name="description" required>
-
-                        <label for="ingredient">Thành phần</label>
-                        <input type="text" id="ingredient" name="ingredient" required>
-
-                        <label for="weight">Khối lượng (gam)</label>
-                        <input type="number" id="weight" name="weight" required>
-
-                        <label for="calories">Lượng calo (kcal)</label>
-                        <input type="number" id="calories" name="calories" required>
-
-                        <label for="protein">Hàm lượng đạm (gam)</label>
-                        <input type="number" id="protein" name="protein" required>
-
-                        <label for="fat">Hàm lượng chất béo (gam)</label>
-                        <input type="number" id="fat" name="fat" required>
-
-                        <label for="carbs">Hàm lượng tinh bột</label>
-                        <input type="number" id="carbs" name="carbs" required>
-
-                        <label for="tags">Tag</label>
-                        <div class="tag-group">
-                            <label><input type="checkbox" name="tags" value="bún" /> <span>bún</span></label>
-                            <label><input type="checkbox" name="tags" value="bánh tráng" /> <span>bánh tráng</span></label>
-                            <label><input type="checkbox" name="tags" value="vỏ tortilla" /> <span>vỏ tortilla</span></label>
-                            <label><input type="checkbox" name="tags" value="yến mạch" /> <span>yến mạch</span></label>
-                            <label><input type="checkbox" name="tags" value="gà" /> <span>gà</span></label>
-                            <label><input type="checkbox" name="tags" value="hải sản" /> <span>hải sản</span></label>
-                            <label><input type="checkbox" name="tags" value="trứng" /> <span>trứng</span></label>
-                            <label><input type="checkbox" name="tags" value="hạt" /> <span>hạt</span></label>
-                            <label><input type="checkbox" name="tags" value="nấm" /> <span>nấm</span></label>
-                            <label><input type="checkbox" name="tags" value="đậu hũ" /> <span>đậu hũ</span></label>
-                            <label><input type="checkbox" name="tags" value="đậu que" /> <span>đậu que</span></label>
-                            <label><input type="checkbox" name="tags" value="rong biển" /> <span>rong biển</span></label>
-                            <label><input type="checkbox" name="tags" value="trái cây" /> <span>trái cây</span></label>
-                        </div>
-
-                        <label for="category">Danh mục</label>
-                        <select id="category" name="category">
-                            <option value="1">Cuốn lành mạnh</option>
-                            <option value="2">Ít tinh bột</option>
-                            <option value="3">Thuần chay đặc biệt</option>
-                        </select>
-                    </div>
-
-                    <div class="popup-button">
-                        <button type="submit" class="btn-submit">Thêm</button>
-                        <button type="button" class="btn-cancel" onclick="closePopup()">Hủy</button>
-                    </div>
-                    <c:if test="${not empty sessionScope.ms}">
-                        <p id="error-message">${sessionScope.ms}</p>
-                        <c:remove var="ms" scope="session"/>
-                    </c:if>
-
-
-                </div>
-            </div>
-        </form>
-
 
         <c:set var="totalPages" value="${totalPages}" />
         <c:set var="totalProducts" value="${totalProducts}" />
@@ -647,15 +622,42 @@
             </div>
         </c:if>
 
-
-
         <a href="home">
             <button class="btn-home">Quay lại trang chủ</button>
         </a>
 
+        <!--        <div id="notification" class="notification"></div>-->
 
+        <div id="notification" class="notification">
+            <span class="close-btn" onclick="hideNotification()">&times;</span>
+            <span id="notification-message"></span>
+            <div id="notification-timer" class="timer-bar"></div>
+        </div>
+
+        <c:if test="${not empty sessionScope.ms}">
+            <script>
+                localStorage.setItem("flashMessage", "${fn:escapeXml(sessionScope.ms)}");
+            </script>
+            <c:remove var="ms" scope="session"/>
+        </c:if>
 
         <script>
+            
+            window.addEventListener("DOMContentLoaded", function () {
+                const message = localStorage.getItem("flashMessage");
+                const shown = localStorage.getItem("flashShown");
+
+                if (message && shown !== "true") {
+                    showNotification(message);
+                    localStorage.setItem("flashShown", "true");
+                    // Optionally xóa luôn nếu muốn
+                    setTimeout(() => {
+                        localStorage.removeItem("flashMessage");
+                        localStorage.removeItem("flashShown");
+                    }, 6000); // sau khi notification biến mất
+                }
+            });
+
             function openPopup(popupId) {
                 document.getElementById(popupId).style.display = "flex";
             }
@@ -663,9 +665,7 @@
             function closePopup(popupId) {
                 document.getElementById(popupId).style.display = "none";
             }
-        </script>
 
-        <script>
             function confirmDelete(event, productName) {
                 event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
                 let confirmation = confirm("Bạn có chắc chắn muốn xóa sản phẩm '" + productName + "' không?");
@@ -673,9 +673,7 @@
                     window.location.href = event.currentTarget.href; // Chuyển hướng nếu xác nhận
                 }
             }
-        </script>
 
-        <script>
             window.onload = function () {
                 var errorMessage = document.querySelector("#error-message")?.innerText;
                 if (errorMessage && errorMessage.trim() !== "") {
@@ -690,6 +688,47 @@
                 }
                 return true; // Cho phép gửi biểu mẫu
             }
+
+            let timeoutId = null;
+
+            function showNotification(message) {
+                const noti = document.getElementById("notification");
+                const messageEl = document.getElementById("notification-message");
+                const timerBar = document.getElementById("notification-timer");
+
+                messageEl.innerText = message;
+                noti.classList.add("show");
+                noti.classList.remove("hide");
+
+                // Reset animation bar
+                timerBar.style.animation = "none";
+                timerBar.offsetHeight; // trigger reflow
+                timerBar.style.animation = "countdown 5s linear forwards";
+
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    hideNotification();
+                }, 5000);
+            }
+
+            function hideNotification() {
+                const noti = document.getElementById("notification");
+                noti.classList.remove("show");
+                noti.classList.add("hide");
+            }
+
+            window.addEventListener("load", function () {
+                // Nếu server có truyền message xuống, thì show notification
+                if (typeof serverMessage !== "undefined" && serverMessage.trim() !== "") {
+                    showNotification(serverMessage);
+                }
+
+                const errorMessage = document.querySelector("#error-message")?.innerText;
+                if (errorMessage && errorMessage.trim() !== "") {
+                    document.getElementById("popupForm").style.display = "flex";
+                }
+            });
         </script>
+
     </body>
 </html>
