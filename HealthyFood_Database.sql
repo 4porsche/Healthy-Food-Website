@@ -1,3 +1,4 @@
+
 create database HealthyFood_DB;
 GO
 
@@ -133,6 +134,47 @@ CREATE TABLE Notifications (
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
+CREATE TABLE ConsulationRequests (
+    RequestID INT PRIMARY KEY IDENTITY(1,1),
+    CustomerID INT NOT NULL,
+    RequestDate DATETIME NOT NULL DEFAULT GETDATE(),
+    PreferredDate DATETIME NULL, -- Ngày và giờ mong muốn tư vấn (gộp lại)
+    Status NVARCHAR(50) DEFAULT 'Pending',
+    ResponseNote NVARCHAR(1000) NULL,
+    FOREIGN KEY (CustomerID) REFERENCES CustomerProfiles(CustomerID)
+);
+
+
+INSERT INTO ConsulationRequests (
+    CustomerID, PreferredDate, Status, ResponseNote
+)
+VALUES (
+    3, 
+    '2025-06-15 08:30:00', 
+    'Accepted', 
+    N' Thực đơn 1 ngày:
+	- Sáng: 1 bát cháo yến mạch + 1 quả trứng luộc + 1 ly sữa đậu nành
+	- Trưa: 100g ức gà + rau luộc + 1 chén cơm gạo lứt
+	- Xế: 1 quả táo + 10 hạt hạnh nhân
+	- Tối: Salad cá hồi + 1 củ khoai lang luộc'
+);
+INSERT INTO ConsulationRequests (
+    CustomerID, PreferredDate, ResponseNote
+)
+VALUES (
+    4, 
+    '2025-06-13 08:30:00', 
+    N' Thực đơn 1 ngày:
+	- Sáng: 1 bát cháo yến mạch + 1 quả trứng luộc + 1 ly sữa đậu nành
+	- Trưa: 100g ức gà + rau luộc + 1 chén cơm gạo lứt
+	- Xế: 1 quả táo + 10 hạt hạnh nhân
+	- Tối: Salad cá hồi + 1 củ khoai lang luộc'
+);
+
+
+select * from ConsulationRequests
+
+
 -- Insert Roles
 INSERT INTO Roles (RoleName) VALUES ('Admin');
 INSERT INTO Roles (RoleName) VALUES ('Guest');
@@ -190,3 +232,6 @@ VALUES
 (N'Salad cam hạt điều', 8, 3, 52000, N'Cam tươi trộn rau mầm, hạt điều rang', N'cam tươi, rau mầm, hạt điều rang, rau rocket, giấm táo', 180, 220, 7, 8, 22, N'trái cây, hạt', 'img/OrangeCashewSalad.png'),
 (N'Món cuộn nấm kim châm rong biển', 8, 3, 55000, N'Nấm kim châm hấp cuộn rong biển và đậu hũ non', N'nấm kim châm, rong biển, đậu hũ non, cà rốt, xà lách', 160, 200, 9, 3, 26, N'nấm, rong biển, đậu hũ', 'img/EnokiSeaweedRolls.jpg'),
 (N'Tô hạt sen và yến mạch', 8, 3, 56000, N'Hạt sen luộc, yến mạch ngâm và chuối tươi', N'hạt sen luộc, yến mạch ngâm, chuối chín, sữa hạnh nhân', 200, 240, 8, 5, 30, N'yến mạch', 'img/LotusOatmealBowl.png');
+
+select*from CustomerProfiles
+>>>>>>> mergecode

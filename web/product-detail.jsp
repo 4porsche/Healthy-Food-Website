@@ -27,36 +27,6 @@
                 object-fit: cover;
                 object-position: center;
             }
-            
-            .product-content-mini .title {
-                height: 48px;
-                overflow: hidden;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                text-overflow: ellipsis;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-            }
-
-            .product-content-mini .title a {
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-size: 18px;
-                line-height: 1.4;
-            }
-            
-            .product-img-mini {
-                width: 255px;
-                height: 280px;
-                object-fit: cover;
-                object-position: center;
-            }
         </style>
     </head>
     <body>
@@ -264,14 +234,14 @@
                                     <div class="product-item">
                                         <div class="product-image">
                                             <a href="product-detail?pid=${p.getProductId()}">
-                                                <img src="${p.imageUrl}" alt="${p.productName}" class="product-img-mini">
+                                                <img src="img/product-1.png" alt="Product Image">
                                             </a>
                                             <div class="product-action">
                                                 <a href="#"><i class="fa fa-cart-plus"></i></a>
                                                 <a href="#"><i class="fa fa-search"></i></a>
                                             </div>
                                         </div>
-                                        <div class="product-content product-content-mini">
+                                        <div class="product-content">
                                             <div class="title"><a href="#">${p.productName}</a></div>
                                             <div class="price">${p.price}đ</div>
                                         </div>

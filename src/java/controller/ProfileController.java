@@ -4,13 +4,14 @@
  */
 package controller;
 
-import dal.ProfileDao;
+import repository.ProfileDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.CustomerProfile;
 
 /**
@@ -31,15 +32,24 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         ProfileDao dao = new ProfileDao();
-        CustomerProfile cp = dao.getCustomer(3);
-
-        if (cp != null) {
-            request.setAttribute("customer", cp);
-            request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
-        } else {
-            response.getWriter().println("Customer not found.");
+        ProfileDao dao = new ProfileDao();
+        if (request.getParameter("userid") == null || request.getParameter("userid").isEmpty()) {
+//            request.setAttribute("error", "Chưa có ID người dùng.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
         }
+        int userID = Integer.parseInt(request.getParameter("userid"));
+        HttpSession session = request.getSession();
+        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
+        cp = dao.getCustomer(userID, 3);
+//            CustomerProfile cp = dao.getCustomer(3);
+        if (cp == null) {
+            request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
+            return;
+        }
+        request.setAttribute("userid", userID);
+        request.setAttribute("customer", cp);
+        request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,9 +74,6 @@ public class ProfileController extends HttpServlet {
 //        double BMI = Integer.parseInt(request.getParameter("BMI"));
 //        String activity = request.getParameter("activitylevel");
 //        String goal = request.getParameter("goal");
-
-      
-
 
     }
 

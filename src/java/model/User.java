@@ -1,33 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-/**
- *
- * @author PC
- */
 public class User {
+
     private int userID;
     private String fullname;
     private String username;
     private String password;
     private String email;
     private int roleID;
+    private boolean isActive;
+    private String googleId;
 
     public User() {
     }
 
-    public User(int userID, String fullname, String username, String password, String email, int roleID) {
+    public User(int userID, String fullname, String username, String password, String email, int roleID, boolean isActive, String googleId) {
         this.userID = userID;
-        this.fullname = fullname;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.roleID = roleID;
+    this.fullname = fullname != null ? fullname : "";
+    this.username = username != null ? username : "";
+    this.password = password != null ? password : "";
+    this.email = email != null ? email : "";
+    this.roleID = roleID;
+    this.isActive = isActive;
+    this.googleId = googleId != null ? googleId : "";
     }
 
+    // Getters and setters
     public int getUserID() {
         return userID;
     }
@@ -75,5 +73,45 @@ public class User {
     public void setRoleID(int roleID) {
         this.roleID = roleID;
     }
-    
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    // Helper method to get role name
+    public String getRoleName() {
+        switch (roleID) {
+            case 1:
+                return "Admin";
+            case 2:
+                return "Guest";
+            case 3:
+                return "Customer";
+            case 4:
+                return "Nutritionist";
+            case 5:
+                return "Seller";
+            case 6:
+                return "Shipper";
+            default:
+                return "Unknown";
+        }
+    }
+
+    // Helper method to get status text
+    public String getStatusText() {
+        return isActive ? "Active" : "Inactive";
+    }
 }
