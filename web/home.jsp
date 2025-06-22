@@ -112,6 +112,10 @@
                 display: flex;
                 gap: 50px;
             }
+            
+            .product-item .product-content .price {
+                text-align: center;
+            }
 
         </style>
     </head>

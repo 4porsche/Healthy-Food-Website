@@ -144,7 +144,13 @@
     <body>
 
         <div class="form-container">
-            <button class="btn-close-custom" onclick="window.history.back();">&times;</button>
+            <!--            <button class="btn-close-custom" onclick="window.history.back();">&times;</button>-->
+
+            <!--            <button class="btn-close-custom" onclick="handleBack();">&times;</button>-->
+
+            <button class="btn-close-custom" id="backBtn">&times;</button>
+
+
             <h2>Sửa sản phẩm</h2>
             <form action="edit-product" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="${detail.productId}" />
@@ -223,13 +229,6 @@
             <span id="notification-message"></span>
             <div id="notification-timer" class="timer-bar"></div>
         </div>
-
-        <c:if test="${not empty sessionScope.ms}">
-            <script>
-                localStorage.setItem("flashMessage", "${fn:escapeXml(sessionScope.ms)}");
-            </script>
-            <c:remove var="ms" scope="session"/>
-        </c:if>
 
         <script>
 
@@ -318,7 +317,39 @@
                     document.getElementById("popupForm").style.display = "flex";
                 }
             });
+
+            window.addEventListener("DOMContentLoaded", function () {
+                const isSubmitted = ${submitted != null ? 'true' : 'false'};
+                const backBtn = document.getElementById("backBtn");
+
+                if (backBtn) {
+                    if (isSubmitted) {
+                        // Nếu form vừa được submit thì không back, mà chuyển về manage-product
+                        backBtn.onclick = function () {
+                            window.location.href = "manage-product";
+                        };
+                    } else {
+                        // Nếu chỉ đang view, thì back như thường
+                        backBtn.onclick = function () {
+                            window.history.back();
+                        };
+                    }
+                }
+            });
+
+
+
+
+
         </script>
+
+        <c:if test="${not empty ms}">
+            <script>
+//                alert("Thông báo: ${fn:escapeXml(ms)}");
+                showNotification("${ms}");
+
+            </script>
+        </c:if>
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

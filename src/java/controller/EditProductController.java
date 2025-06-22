@@ -44,7 +44,7 @@ public class EditProductController extends HttpServlet {
         ProductDAO dao = new ProductDAO();
 
         String name = request.getParameter("name");
-        String capitalizedName = capitalizeEachWord(name);
+        String capitalizedName = capitalizeFirstLetter(name);
         int id = Integer.parseInt(request.getParameter("id"));
         int categoryId = Integer.parseInt(request.getParameter("category"));
         int price = Integer.parseInt(request.getParameter("price"));
@@ -65,8 +65,15 @@ public class EditProductController extends HttpServlet {
         String imageUrl = "img/" + imageFileName;
 
         if (dao.checkProductNameExist(capitalizedName)) {
-            session.setAttribute("ms", "Tên sản phẩm đã tồn tại!");
+            request.setAttribute("ms", "Tên sản phẩm đã tồn tại!");
+            request.setAttribute("submitted", true);
+
+            Product tempProduct = new Product(id, sellerId, categoryId, name, price, description, ingredient,
+                    weight, calories, protein, fat, carbs, tags, imageUrl);
+            request.setAttribute("detail", tempProduct);
+
             request.getRequestDispatcher("edit-product.jsp").forward(request, response);
+            return;
         } else {
             try {
                 dao.updateProduct(id, sellerId, categoryId, name, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
@@ -81,17 +88,9 @@ public class EditProductController extends HttpServlet {
         request.getRequestDispatcher("manage-product.jsp").forward(request, response);
     }
 
-    public String capitalizeEachWord(String input) {
-        String[] words = input.trim().toLowerCase().split("\\s+");
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            if (word.length() > 0) {
-                sb.append(Character.toUpperCase(word.charAt(0)))
-                        .append(word.substring(1))
-                        .append(" ");
-            }
-        }
-        return sb.toString().trim();
+    public String capitalizeFirstLetter(String input) {
+        input = input.trim().toLowerCase();
+        return Character.toUpperCase(input.charAt(0)) + input.substring(1);
     }
 
 }

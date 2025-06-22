@@ -392,7 +392,7 @@
             .notification {
                 position: fixed;
                 top: 20px;
-                right: -400px; 
+                right: -400px;
                 background-color: #4caf50;
                 color: white;
                 padding: 16px 24px 24px 16px;
@@ -413,7 +413,7 @@
             }
 
             .notification.hide {
-                right: -400px; 
+                right: -400px;
             }
 
             .close-btn {
@@ -443,6 +443,7 @@
                     width: 0%;
                 }
             }
+
         </style>
 
     </head>
@@ -513,10 +514,13 @@
                                     <a href="edit-product?pid=${p.productId}">
                                         <button class="edit-btn"><i class="fas fa-edit"></i></button>
                                     </a>
-
-                                    <a href="delete?pid=${p.productId}" onclick="return confirmDelete(event, '${p.productName}')">
-                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                                    </a>
+                                    <form action="manage-product" method="POST" onsubmit="return confirmDelete(event, '${p.productName}')">
+                                        <input type="hidden" name="action" value="delete" />
+                                        <input type="hidden" name="productId" value="${p.productId}" />
+                                        <button class="delete-btn">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -642,7 +646,7 @@
         </c:if>
 
         <script>
-            
+
             window.addEventListener("DOMContentLoaded", function () {
                 const message = localStorage.getItem("flashMessage");
                 const shown = localStorage.getItem("flashShown");
@@ -728,6 +732,16 @@
                     document.getElementById("popupForm").style.display = "flex";
                 }
             });
+
+            function confirmDelete(event, productName) {
+                let confirmation = confirm("Bạn có chắc chắn muốn xóa sản phẩm '" + productName + "' không?");
+                if (!confirmation) {
+                    event.preventDefault(); // Hủy gửi form nếu người dùng không xác nhận
+                    return false;
+                }
+                // Nếu xác nhận, cho phép form gửi đi
+                return true;
+            }
         </script>
 
     </body>

@@ -67,7 +67,7 @@ public class ProductManagementController extends HttpServlet {
 
         if ("add".equals(action)) {
             String name = request.getParameter("name");
-            String capitalizedName = capitalizeEachWord(name);
+            String capitalizedName = capitalizeFirstLetter(name);
 
             if (dao.checkProductNameExist(capitalizedName)) {
                 session.setAttribute("ms", "Tên sản phẩm đã tồn tại!");
@@ -99,6 +99,17 @@ public class ProductManagementController extends HttpServlet {
                     session.setAttribute("ms", "Lỗi khi thêm sản phẩm");
                 }
             }
+        } else if ("delete".equals(action)) {
+            try {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                dao.deleteProduct(productId);
+                session.setAttribute("ms", "Sản phẩm đã được xóa thành công");
+                response.sendRedirect("manage-product");
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                session.setAttribute("ms", "Lỗi khi xóa sản phẩm");
+            }
         }
         request.setAttribute("productList", productList);
         request.setAttribute("txtS", searchTxt);
@@ -107,33 +118,9 @@ public class ProductManagementController extends HttpServlet {
 
     }
 
-    public String capitalizeEachWord(String input) {
-        String[] words = input.trim().toLowerCase().split("\\s+");
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            if (word.length() > 0) {
-                sb.append(Character.toUpperCase(word.charAt(0)))
-                        .append(word.substring(1))
-                        .append(" ");
-            }
-        }
-        return sb.toString().trim();
+    public String capitalizeFirstLetter(String input) {
+        input = input.trim().toLowerCase();
+        return Character.toUpperCase(input.charAt(0)) + input.substring(1);
     }
 
-//    public int mapCategorySlugToId(String slug) {
-//        if (slug == null) {
-//            return -1;
-//        }
-//
-//        switch (slug) {
-//            case "healthy-rolls":
-//                return 1;
-//            case "low-carbs":
-//                return 2;
-//            case "vegan-special":
-//                return 3;
-//            default:
-//                return -1; // Hoặc 0/null nếu không hợp lệ
-//        }
-//    }
 }

@@ -28,6 +28,11 @@
                 object-position: center;
             }
 
+            .product-content-large .title {
+                justify-content: flex-start !important;
+                text-align: left !important;
+            }
+
             .product-content-mini .title {
                 height: 48px;
                 overflow: hidden;
@@ -63,6 +68,9 @@
                 text-align: left !important;
             }
 
+            .product-content-mini .price {
+                text-align: center;
+            }
 
         </style>
     </head>
@@ -95,7 +103,7 @@
                                 </div>
                             </div>
                             <div class="col-md-7">
-                                <div class="product-content">
+                                <div class="product-content product-content-large">
                                     <div class="title"><h2>${detail.productName}</h2></div>
                                     <div class="price">${detail.price}đ</div>
                                     <div class="details">

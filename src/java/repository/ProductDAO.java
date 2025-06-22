@@ -673,4 +673,15 @@ public class ProductDAO extends DBContext {
         }
     }
 
+    public void deleteProduct(int id) {
+        String sql = "DELETE FROM [Products] WHERE ProductID = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }
