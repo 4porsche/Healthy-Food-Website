@@ -117,6 +117,10 @@
                 text-align: center;
             }
 
+            .slick-track {
+                display: flex !important;
+                align-items: stretch !important;
+            }
         </style>
     </head>
 
@@ -128,9 +132,9 @@
         <!-- Main Slider Start -->
         <div class="home-slider">
             <div class="main-slider">
-                <div class="main-slider-item"><img src="img/slider1.png" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
-                <div class="main-slider-item"><img src="img/slider2.png" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
-                <div class="main-slider-item"><img src="img/slider3.jpg" alt="Slider Image" style="width: 100vw; height: 650px; object-fit: cover;"/></div>
+                <div class="main-slider-item"><img src="img/slider1.png" alt="Slider Image" style="width: 100vw; height: 75vh; object-fit: cover;"/></div>
+                <div class="main-slider-item"><img src="img/slider2.png" alt="Slider Image" style="width: 100vw; height: 75vh; object-fit: cover;"/></div>
+                <div class="main-slider-item"><img src="img/slider3.jpg" alt="Slider Image" style="width: 100vw; height: 75vh; object-fit: cover;"/></div>
             </div>
         </div>
         <!-- Main Slider End -->
@@ -242,8 +246,8 @@
                                     </div>
                                 </div>
                                 <div class="product-content">
-                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                    <div class="price">${p.getPrice()}đ</div>
+                                    <div class="title"><a href="#">${p.productName}</a></div>
+                                    <div class="price">${p.price}đ</div>
                                 </div>
                             </div>
                         </div>
@@ -277,8 +281,8 @@
                                     </div>
                                 </div>
                                 <div class="product-content">
-                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                    <div class="price">${p.getPrice()}đ</div>
+                                    <div class="title"><a href="#">${p.productName}</a></div>
+                                    <div class="price">${p.price}đ</div>
                                 </div>
                             </div>
                         </div>
