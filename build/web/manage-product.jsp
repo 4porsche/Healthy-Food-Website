@@ -470,7 +470,7 @@
                             <div class="col-md-4">
                                 <form action="manage-product" method="POST">
                                     <select name="sort" class="form-control" onchange="this.form.submit()">
-                                        <option value="">-- Lọc theo danh mục --</option>
+                                        <option value="">-- Tất cả danh mục --</option>
                                         <option value="1" ${param.sort == 1 ? 'selected' : ''}>Cuốn lành mạnh</option>
                                         <option value="2" ${param.sort == 2 ? 'selected' : ''}>Ít tinh bột</option>
                                         <option value="3" ${param.sort == 3 ? 'selected' : ''}>Thuần chay đặc biệt</option>
@@ -641,6 +641,7 @@
         <c:if test="${not empty sessionScope.ms}">
             <script>
                 localStorage.setItem("flashMessage", "${fn:escapeXml(sessionScope.ms)}");
+                localStorage.removeItem("flashShown");
             </script>
             <c:remove var="ms" scope="session"/>
         </c:if>
@@ -659,6 +660,8 @@
                         localStorage.removeItem("flashMessage");
                         localStorage.removeItem("flashShown");
                     }, 6000); // sau khi notification biến mất
+                } else {
+                    console.log("Không gọi showNotification");
                 }
             });
 
@@ -741,6 +744,11 @@
                 }
                 // Nếu xác nhận, cho phép form gửi đi
                 return true;
+            }
+
+            if (!localStorage.getItem("flashMessage")) {
+                localStorage.setItem("flashMessage", "${fn:escapeXml(sessionScope.ms)}");
+                localStorage.removeItem("flashShown");
             }
         </script>
 

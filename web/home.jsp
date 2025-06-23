@@ -112,22 +112,28 @@
                 display: flex;
                 gap: 50px;
             }
-            
+
             .product-item .product-content .price {
                 text-align: center;
             }
 
+<<<<<<< HEAD
             .slick-track {
                 display: flex !important;
                 align-items: stretch !important;
             }
+=======
+            .home-slider .slick-track {
+                display: flex !important;
+                align-items: stretch !important;
+            }
+
+>>>>>>> b72441f (edit)
         </style>
     </head>
 
     <body>
         <%@ include file="header.jsp" %>
-
-
 
         <!-- Main Slider Start -->
         <div class="home-slider">

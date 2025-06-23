@@ -323,17 +323,17 @@
                 const backBtn = document.getElementById("backBtn");
 
                 if (backBtn) {
-                    if (isSubmitted) {
-                        // Nếu form vừa được submit thì không back, mà chuyển về manage-product
-                        backBtn.onclick = function () {
+                    backBtn.onclick = function () {
+                        // 💥 Dọn flashMessage để khi quay lại không bị hiển thị message cũ
+                        localStorage.removeItem("flashMessage");
+                        localStorage.removeItem("flashShown");
+
+                        if (isSubmitted) {
                             window.location.href = "manage-product";
-                        };
-                    } else {
-                        // Nếu chỉ đang view, thì back như thường
-                        backBtn.onclick = function () {
+                        } else {
                             window.history.back();
-                        };
-                    }
+                        }
+                    };
                 }
             });
 
