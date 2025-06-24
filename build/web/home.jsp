@@ -306,7 +306,6 @@
                 </div>
                 <!-- Recent Product End -->
 
-                <%@ include file="footer.jsp" %>
                     <%@ include file="footer.jsp" %>
 
                         <!-- Back to Top -->
