@@ -28,34 +28,6 @@
                 object-fit: cover;
                 object-position: center;
             }
-
-            .product-content .title {
-                height: 48px;
-                overflow: hidden;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                text-overflow: ellipsis;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-            }
-
-            .product-content .title a {
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-size: 18px;
-                line-height: 1.4;
-            }
-
-            .sidebar-widget.category ul li {
-                margin-bottom: 10px;
-            }
-
         </style>
 
     </head>
@@ -173,7 +145,7 @@
                                         <div class="product-short">
                                             <form action="my-products" method="POST">
                                                 <select name="sort" class="form-control" onchange="this.form.submit()">
-                                                    <option value="">-- Sắp xếp theo --</option>
+                                                    <option value="">-- Lọc theo --</option>
                                                     <option value="newest" ${param.sort == 'newest' ? 'selected' : ''}>Mới nhất</option>
                                                     <option value="popular" ${param.sort == 'popular' ? 'selected' : ''}>Phổ biến</option>
                                                 </select>
@@ -184,13 +156,45 @@
                             </div>
                             <%-- Search + Sort Product End --%>
 
-                            <%-- View Search + Sort Product Result Start --%>
                             <c:choose>
-                                <c:when test="${empty productList}">
-                                    <tr><td colspan="5">Không tìm thấy kết quả phù hợp.</td></tr>
+                                <%-- Nếu có từ khóa search --%>
+                                <c:when test="${not empty txtS}">
+
+                                    <c:choose>
+                                        <%-- Nếu có kết quả search --%>
+                                        <c:when test="${not empty searchedList}">
+                                            <c:forEach var="p" items="${searchedList}">
+                                                <div class="col-lg-4">
+                                                    <div class="product-item">
+                                                        <div class="product-image">
+                                                            <a href="product-detail?pid=${p.productId}">
+                                                        <img src="${p.imageUrl}" alt="${p.productName}" class="product-img">
+                                                    </a>
+                                                            <div class="product-action">
+                                                                <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                                                <a href="#"><i class="fa fa-search"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-content">
+                                                            <div class="title"><a href="#">${p.getProductName()}</a></div>
+                                                            <div class="price">${p.getPrice()}đ</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </c:when>
+
+                                        <%-- Nếu không tìm thấy kết quả --%>
+                                        <c:otherwise>
+                                            <div class="col-lg-12">
+                                                <p>Không tìm thấy kết quả phù hợp.</p>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:when>
-                                <c:otherwise>
-                                    <c:forEach var="p" items="${productList}" varStatus="status">
+
+                                <c:when test="${not empty sortT}">
+                                    <c:forEach var="p" items="${sortedList}">
                                         <div class="col-lg-4">
                                             <div class="product-item">
                                                 <div class="product-image">
@@ -209,10 +213,34 @@
                                             </div>
                                         </div>
                                     </c:forEach>
+                                </c:when>
+
+                                <%-- Nếu chưa nhập search text --%>    
+                                <c:otherwise>
+                                    <%-- My Product List Start --%>
+                                    <c:forEach var="p" items="${myProductList}">
+                                        <div class="col-lg-4">
+                                            <div class="product-item">
+                                                <div class="product-image">
+                                                    <a href="product-detail?pid=${p.productId}">
+                                                        <img src="${p.imageUrl}" alt="${p.productName}" class="product-img">
+                                                    </a>
+                                                    <div class="product-action">
+                                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                                        <a href="#"><i class="fa fa-search"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <div class="title"><a href="#">${p.productName}</a></div>
+                                                    <div class="price">${p.price}đ</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                    <%-- My Product List End --%>
+
                                 </c:otherwise>
                             </c:choose>
-                            <%-- View Search + Sort Product Result End --%>
-
 
 
                         </div>
@@ -236,40 +264,31 @@
 
                     <div class="col-md-3">
                         <div class="sidebar-widget category">
-                            <h2 class="title">Danh mục</h2>
+                            <h2 class="title">Category</h2>
                             <ul>
-                                <c:forEach var="i" items="${categoryNameMap}">
-                                    <c:set var="categoryId" value="${i.key}" />
-                                    <c:set var="categoryName" value="${i.value}" />
-                                    <c:set var="count" value="${categoryCountMap[categoryId]}" />
+                                <c:forEach var="i" items="${categoriesList}">
                                     <li>
-                                        <form action="my-products" method="POST" id="form-${categoryId}">
-                                            <input type="hidden" name="categoryId" value="${categoryId}" />
-                                            <a href="#" onclick="document.getElementById('form-${categoryId}').submit(); return false;">
-                                                ${categoryName}
-                                            </a>
-                                            <span>${count}</span>
-                                        </form>
-                                    </li>         
-                                </c:forEach>
+                                        <a href="#">${i.key}</a>
+                                        <span>${i.value}</span>
+                                    </li>
+                                </c:forEach> 
                             </ul>
                         </div>
 
                         <div class="sidebar-widget tag">
-                            <h2 class="title">Tags</h2>
-                            <a href="#" value="bún">bún</a>
-                            <a href="#" value="bánh tráng">bánh tráng</a>
-                            <a href="#" value="vỏ tortilla">vỏ tortilla</a>
-                            <a href="#" value="yến mạch">yến mạch</a>
-                            <a href="#" value="gà">gà</a>
-                            <a href="#" value="hải sản">hải sản</a>
-                            <a href="#" value="trứng">trứng</a>
-                            <a href="#" value="hạt">hạt</a>
-                            <a href="#" value="nấm">nấm</a>
-                            <a href="#" value="đậu hũ">đậu hũ</a>
-                            <a href="#" value="đậu que">đậu que</a>
-                            <a href="#" value="rong biển">rong biển</a>
-                            <a href="#" value="trái cây">trái cây</a>
+                            <h2 class="title">Tags Cloud</h2>
+                            <a href="#">Lorem ipsum</a>
+                            <a href="#">Vivamus</a>
+                            <a href="#">Phasellus</a>
+                            <a href="#">pulvinar</a>
+                            <a href="#">Curabitur</a>
+                            <a href="#">Fusce</a>
+                            <a href="#">Sem quis</a>
+                            <a href="#">Mollis metus</a>
+                            <a href="#">Sit amet</a>
+                            <a href="#">Vel posuere</a>
+                            <a href="#">orci luctus</a>
+                            <a href="#">Nam lorem</a>
                         </div>
                     </div>
                 </div>
@@ -393,13 +412,13 @@
         <script src="js/main.js"></script>
 
         <script>
-                                                function validateSearchInput() {
-                                                    var input = document.getElementById('searchInput').value.trim();
-                                                    if (input === "") {
-                                                        return false; // Ngăn biểu mẫu được gửi đi
+                                                    function validateSearchInput() {
+                                                        var input = document.getElementById('searchInput').value.trim();
+                                                        if (input === "") {
+                                                            return false; // Ngăn biểu mẫu được gửi đi
+                                                        }
+                                                        return true; // Cho phép gửi biểu mẫu
                                                     }
-                                                    return true; // Cho phép gửi biểu mẫu
-                                                }
         </script>
 
     </body>

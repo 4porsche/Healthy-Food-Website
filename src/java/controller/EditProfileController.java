@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dal.ProfileDao;
+import repository.ProfileDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -71,7 +71,7 @@ public class EditProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+//        response.setContentType("text/html;charset=UTF-8");
         try {
             int userID;
              ProfileDao pd = new ProfileDao();
@@ -84,42 +84,50 @@ public class EditProfileController extends HttpServlet {
             } catch (NumberFormatException e) {
                 
                 request.setAttribute("error", "User ID không hợp lệ.");
-                request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
             
             double height, weight, BMI;
-                CustomerProfile cp = pd.getCustomer(userID);
+                CustomerProfile cp = pd.getCustomer(userID, 3);
             try {
                 height = Double.parseDouble(request.getParameter("height"));
                 weight = Double.parseDouble(request.getParameter("weight"));
-                BMI = Double.parseDouble(request.getParameter("bmi"));
+                double heightInMeters = height / 100;
+                BMI = (weight) / (heightInMeters * heightInMeters);
             } catch (NumberFormatException e) {
                 request.setAttribute("error", "Chiều cao, cân nặng, và BMI phải là số.");
                 request.setAttribute("loadcustomer", cp);
-                request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
 
             if (height <= 0 || height > 300 || weight <= 0 || weight > 300 || BMI <= 0 || BMI > 100) {
                 request.setAttribute("error", "Chiều cao, cân nặng, hoặc BMI không hợp lệ (quá lớn hoặc nhỏ).");
                  request.setAttribute("loadcustomer", cp);
-                request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
 
             String activity = request.getParameter("activitylevel");
             String goal = request.getParameter("goal");
 
+            if (activity == null || activity.trim().isEmpty() || goal == null || goal.trim().isEmpty()) {
+                request.setAttribute("error", "Mức độ hoạt động và mục tiêu không được để trống.");
+                 request.setAttribute("loadcustomer", cp);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
+                return;
+            }
+
            
 
-            pd.update(height, weight, BMI, activity, goal, userID);
+            pd.update(height, weight, BMI, activity, goal, userID, 3);
             request.getRequestDispatcher("profile").forward(request, response);
 
         } catch (Exception ex) {
             ex.printStackTrace();
             request.setAttribute("error", "Có lỗi xảy ra trong quá trình cập nhật.");
-            request.getRequestDispatcher("updateprofile.jsp").forward(request, response);
+            request.getRequestDispatcher("inputbody.jsp").forward(request, response);
         }
     }
 

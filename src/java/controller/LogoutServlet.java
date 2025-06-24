@@ -59,7 +59,7 @@ public class LogoutServlet extends HttpServlet {
             session.invalidate();
         }
         // Quay về home.jsp
-        response.sendRedirect("home.jsp");
+        response.sendRedirect("home");
     } 
 
     /** 
