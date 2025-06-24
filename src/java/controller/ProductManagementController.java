@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import repository.ProductDAO;
 import model.Product;
 
 @WebServlet(name = "ProductManagementController", urlPatterns = {"/manage-product"})
+@MultipartConfig
 @MultipartConfig
 public class ProductManagementController extends HttpServlet {
 
@@ -90,6 +92,13 @@ public class ProductManagementController extends HttpServlet {
                 String tags = tagsArray != null ? String.join(", ", tagsArray) : "";
                 String imageUrl = "img/" + imageFileName;
                 try {
+                    System.out.println("== DỮ LIỆU FORM ==");
+                    System.out.println("Tên SP: " + capitalizedName);
+                    System.out.println("Danh mục ID: " + categoryId);
+                    System.out.println("Giá: " + price);
+                    System.out.println("Tags: " + tags);
+                    System.out.println("Image path: " + uploadPath);
+
                     dao.addProduct(sellerId, categoryId, capitalizedName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
                     session.setAttribute("ms", "Thêm sản phẩm thành công");
                     response.sendRedirect("manage-product");
@@ -98,6 +107,17 @@ public class ProductManagementController extends HttpServlet {
                     e.printStackTrace();
                     session.setAttribute("ms", "Lỗi khi thêm sản phẩm");
                 }
+            }
+        } else if ("delete".equals(action)) {
+            try {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                dao.deleteProduct(productId);
+                session.setAttribute("ms", "Sản phẩm đã được xóa thành công");
+                response.sendRedirect("manage-product");
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                session.setAttribute("ms", "Lỗi khi xóa sản phẩm");
             }
         } else if ("delete".equals(action)) {
             try {
