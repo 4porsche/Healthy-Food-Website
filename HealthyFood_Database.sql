@@ -1,4 +1,3 @@
-
 create database HealthyFood_DB;
 GO
 
@@ -144,7 +143,6 @@ CREATE TABLE ConsulationRequests (
     FOREIGN KEY (CustomerID) REFERENCES CustomerProfiles(CustomerID)
 );
 
-
 INSERT INTO ConsulationRequests (
     CustomerID, PreferredDate, Status, ResponseNote
 )
@@ -173,7 +171,6 @@ VALUES (
 
 
 select * from ConsulationRequests
-
 
 -- Insert Roles
 INSERT INTO Roles (RoleName) VALUES ('Admin');
@@ -233,5 +230,3 @@ VALUES
 (N'Món cuộn nấm kim châm rong biển', 8, 3, 55000, N'Nấm kim châm hấp cuộn rong biển và đậu hũ non', N'nấm kim châm, rong biển, đậu hũ non, cà rốt, xà lách', 160, 200, 9, 3, 26, N'nấm, rong biển, đậu hũ', 'img/EnokiSeaweedRolls.jpg'),
 (N'Tô hạt sen và yến mạch', 8, 3, 56000, N'Hạt sen luộc, yến mạch ngâm và chuối tươi', N'hạt sen luộc, yến mạch ngâm, chuối chín, sữa hạnh nhân', 200, 240, 8, 5, 30, N'yến mạch', 'img/LotusOatmealBowl.png');
 
-select*from CustomerProfiles
->>>>>>> mergecode

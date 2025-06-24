@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import model.Categories;
 import model.Product;
 
@@ -528,4 +527,146 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
+
+    public List<String> getCategoryNameList() {
+        String sql = "SELECT CategoryName FROM Categories";
+        List<String> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public boolean checkProductNameExist(String name) {
+        String sql = "SELECT * FROM Products WHERE [ProductName] = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public void addProduct(int sellerId, int categoryId, String name, int price, String description, String ingredient, double weight, double calories, double protein, double fat, double carbs, String tags, String imageUrl) {
+        String sql = "INSERT INTO [Products] ([SellerID], [CategoryID], [ProductName], [Price], [Description], [Ingredient], [Weight], [Calories], [Protein], [Fat], [Carbs], [Tags], [ImageUrl])\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, sellerId);
+            ps.setInt(2, categoryId);
+            ps.setString(3, name);
+            ps.setInt(4, price);
+            ps.setString(5, description);
+            ps.setString(6, ingredient);
+            ps.setDouble(7, weight);
+            ps.setDouble(8, calories);
+            ps.setDouble(9, protein);
+            ps.setDouble(10, fat);
+            ps.setDouble(11, carbs);
+            ps.setString(12, tags);
+            ps.setString(13, imageUrl);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateProduct(int productId, int sellerId, int categoryId, String name, int price, String description, String ingredient, double weight, double calories, double protein, double fat, double carbs, String tags, String imageUrl) {
+        String sql = "UPDATE [Products] SET "
+                + "[SellerID] = ?, "
+                + "[CategoryID] = ?, "
+                + "[ProductName] = ?, "
+                + "[Price] = ?, "
+                + "[Description] = ?, "
+                + "[Ingredient] = ?, "
+                + "[Weight] = ?, "
+                + "[Calories] = ?, "
+                + "[Protein] = ?, "
+                + "[Fat] = ?, "
+                + "[Carbs] = ?, "
+                + "[Tags] = ?, "
+                + "[ImageUrl] = ? "
+                + "WHERE [ProductID] = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, sellerId);
+            ps.setInt(2, categoryId);
+            ps.setString(3, name);
+            ps.setInt(4, price);
+            ps.setString(5, description);
+            ps.setString(6, ingredient);
+            ps.setDouble(7, weight);
+            ps.setDouble(8, calories);
+            ps.setDouble(9, protein);
+            ps.setDouble(10, fat);
+            ps.setDouble(11, carbs);
+            ps.setString(12, tags);
+            ps.setString(13, imageUrl);
+            ps.setInt(14, productId);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public List<Product> getMySearchedList(String txt, int sellerId) {
+        String sql = "SELECT * FROM Products WHERE SellerID = ? AND ([ProductName] LIKE ? OR [Ingredient] LIKE ? OR [Tags] LIKE ?)";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, sellerId);
+            ps.setString(2, "%" + txt + "%");
+            ps.setString(3, "%" + txt + "%");
+            ps.setString(4, "%" + txt + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                String ingredient = rs.getString("Ingredient");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+                String imageUrl = rs.getString("ImageUrl");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("🔴 SQL Error: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public void deleteProduct(int id) {
+        String sql = "DELETE FROM [Products] WHERE ProductID = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
 }
