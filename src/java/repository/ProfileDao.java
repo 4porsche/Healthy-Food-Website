@@ -65,6 +65,40 @@ public class ProfileDao extends DBContext {
             System.out.println(e);
         }
     }
+    
+    public void updateprofilecustomer(String phone, String gender, int id, int roleid) {
+        String sql = "update a set Phone = ?, Gender = ? from CustomerProfiles a join Users b on a.customerID = b.UserID where customerID = ? and b.roleid = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, phone);
+            ps.setString(2, gender);
+            ps.setInt(3, id);
+            ps.setInt(4, roleid);
+ 
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+      public void updateprofileuser(String fullname, String email, int id, int roleid) {
+        String sql = "update Users set Fullname = ?, Email = ? where UserID = ? and roleid = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, fullname);
+            ps.setString(2, email);
+            ps.setInt(3, id);
+            ps.setInt(4, roleid);
+ 
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    
+    
+    
 
     public List<Requests> getAllRequestsForNutritionist() {
         List<Requests> list = new ArrayList<>();
@@ -119,10 +153,10 @@ public class ProfileDao extends DBContext {
 
     public static void main(String[] args) {
         ProfileDao dao = new ProfileDao();
-//        CustomerProfile cp = dao.getCustomer(3);
-        List<Requests> r = dao.getAllRequestsForNutritionist();
-//        dao.update(1, 1, 0, "Low", "lose weight", 3);
-//        System.out.println(cp.toString());
-        System.out.println(r.toString());
+        CustomerProfile cp = dao.getCustomer(3, 3);
+//        List<Requests> r = dao.getAllRequestsForNutritionist();
+        dao.updateprofilecustomer("0912837472", "Nam", 3, 3);
+        System.out.println(cp.toString());
+//        System.out.println(r.toString());
     }
 }

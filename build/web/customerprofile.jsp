@@ -25,154 +25,73 @@
         <!-- Customer Profile -->
         <div class="container my-5">
             <h2 class="text-center text-success mb-4">Hồ sơ khách hàng</h2>
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger text-center" role="alert">
+                    ${error}
+                </div>
+            </c:if>
             <div class="card shadow p-4">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <strong>Họ và tên:</strong>
-                        <p>${customer.fullname}</p>
+                <form action="updateprofile" method="post">
+                    <input type="hidden" name="userid" value="${customer.userid}">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong>Họ và tên:</strong>
+                            <input type="text" class="form-control" name="fullname" value="${customer.fullname}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Email:</strong>
+                            <input type="email" class="form-control" name="email" value="${customer.email}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Số điện thoại:</strong>
+                            <input type="text" class="form-control" name="phone" value="${customer.phone}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Giới tính:</strong>
+                            <select class="form-control" name="gender" required>
+                                <option value="Nam" ${customer.gender == 'Nam' ? 'selected' : ''}>Nam</option>
+                                <option value="Nữ" ${customer.gender == 'Nữ' ? 'selected' : ''}>Nữ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Chiều cao:</strong>
+                            <p>${customer.height} cm</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Cân nặng:</strong>
+                            <p>${customer.weight} kg</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>BMI:</strong>
+                            <p>${customer.BMI}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Mức độ hoạt động:</strong>
+                            <p>${customer.activitylevel}</p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <strong>Mục tiêu:</strong>
+                            <p>${customer.goal}</p>
+                        </div>
+                        <div class="col-12 d-flex gap-2 flex-wrap">
+                            <button type="submit" class="btn btn-success btn-sm" 
+                                    onclick="return confirm('Bạn có chắc muốn lưu thay đổi?')">
+                                <i class="fa fa-save"></i> Lưu thay đổi
+                            </button>
+
+                            <a class="btn btn-outline-success btn-sm mr-2" href="load?userid=${customer.userid}">
+                                <i class="fa fa-plus-square"></i> Nhập chỉ số cơ thể
+                            </a>
+                            <a class="btn btn-outline-info btn-sm" href="loadpassword?userid=${customer.userid}">
+                                <i class="fa fa-key"></i> Đổi mật khẩu
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Email:</strong>
-                        <p>${customer.email}</p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Số điện thoại:</strong>
-                        <p>${customer.phone}</p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Giới tính:</strong>
-                        <p>${customer.gender}</p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Chiều cao:</strong>
-                        <p>${customer.height} cm</p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Cân nặng:</strong>
-                        <p>${customer.weight} kg</p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>BMI:</strong>
-                        <p>${customer.BMI}</p>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <strong>Mức độ hoạt động:</strong>
-                        <p>${customer.activitylevel}</p>
-                    </div>
-                    <div class="col-12 mb-3">
-                        <strong>Mục tiêu:</strong>
-                        <p>${customer.goal}</p>
-                    </div>
-                    <div class="col-12 d-flex gap-2 flex-wrap">
-                        <a class="btn btn-outline-success btn-sm mr-2" href="load?userid=${customer.userid}">
-                            <i class="fa fa-plus-square"></i> Nhập chỉ số cơ thể
-                        </a>
-                        <a class="btn btn-outline-info btn-sm" href="loadpassword?userid=${customer.userid}">
-                            <i class="fa fa-key"></i> Đổi mật khẩu
-                        </a>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-        <!-- Footer Start -->
-        <div class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h1>Healthy Food Shop</h1>
-                            <p>
-                                Chúng tôi luôn cố gắng mang đến cho bạn những bữa ăn tươi ngon, ít béo, giàu protein và không dùng chất bảo quản. Nguyên liệu sạch, rõ nguồn gốc được chọn lựa kỹ lưỡng mỗi ngày – để bạn vừa ăn ngon, vừa an tâm sống khỏe.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h3 class="title">Useful Pages</h3>
-                            <ul>
-                                <li><a href="product.html">Product</a></li>
-                                <li><a href="product-detail.html">Product Detail</a></li>
-                                <li><a href="cart.html">Cart</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="login.html">Login & Register</a></li>
-                                <li><a href="my-account.html">My Account</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h3 class="title">Quick Links</h3>
-                            <ul>
-                                <li><a href="product.html">Product</a></li>
-                                <li><a href="cart.html">Cart</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="login.html">Login & Register</a></li>
-                                <li><a href="my-account.html">My Account</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <h3 class="title">Get in Touch</h3>
-                            <div class="contact-info">
-                                <p><i class="fa fa-map-marker"></i>123 E Shop, Los Angeles, CA, USA</p>
-                                <p><i class="fa fa-envelope"></i>email@example.com</p>
-                                <p><i class="fa fa-phone"></i>+123-456-7890</p>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                    <a href=""><i class="fa fa-instagram"></i></a>
-                                    <a href=""><i class="fa fa-youtube"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row payment">
-                    <div class="col-md-6">
-                        <div class="payment-method">
-                            <p>We Accept:</p>
-                            <img src="img/vnpay-logo1.png" alt="Payment Method" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="payment-security">
-                            <p>Secured By:</p>
-                            <img src="img/vegan-logo.png" alt="Vegan Certification" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Footer End -->
-
-
-        <!-- Footer Bottom Start -->
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 copyright">
-                        <p>Copyright &copy; <a href="https://htmlcodex.com">2025 Healthy Food</a>. All Rights Reserved</p>
-                    </div>
-
-                    <div class="col-md-6 template-by">
-                        <a href="#" class="policy-link">Chính sách bảo mật</a>
-                        <span class="separator">•</span>
-                        <a href="#" class="policy-link">Chính sách hoàn tiền</a>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
+        <%@ include file="footer.jsp" %>
         <!-- Footer Bottom End -->
-
 
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>

@@ -36,7 +36,7 @@
                                     <tr>
                                         <td>${c.customerName}</td>
                                         <td class="text-center">
-                                            <a type="button" class="btn btn-primary btn-sm" href="profile">
+                                            <a type="button" class="btn btn-primary btn-sm" href="profile?userid=${c.customerID}">
                                                 Xem
                                             </a>
                                         </td>

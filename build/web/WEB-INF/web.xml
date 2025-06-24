@@ -24,6 +24,10 @@
         <servlet-name>RequestsController</servlet-name>
         <servlet-class>controller.RequestsController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateProfileController</servlet-name>
+        <servlet-class>controller.UpdateProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
@@ -120,5 +124,9 @@
     <servlet-mapping>
         <servlet-name>GoogleLoginServlet</servlet-name>
         <url-pattern>/GoogleLoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProfileController</servlet-name>
+        <url-pattern>/updateprofile</url-pattern>
     </servlet-mapping>
 </web-app>
