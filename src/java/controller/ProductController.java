@@ -25,11 +25,11 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductDAO dao = new ProductDAO();
-        Map<String, Integer> categoriesList = dao.getProductCountByCategory();
-        List<Product> productList = dao.getAllProduct();
+//        Map<String, Integer> categoriesList = dao.getProductCountByCategory();
+//        List<Product> productList = dao.getAllProduct();
 
-        request.setAttribute("categoriesList", categoriesList);
-        request.setAttribute("productList", productList);
+//        request.setAttribute("categoriesList", categoriesList);
+//        request.setAttribute("productList", productList);
         request.getRequestDispatcher("products.jsp").forward(request, response);
     }
 
@@ -54,7 +54,7 @@ public class ProductController extends HttpServlet {
             sortedList = dao.sortPopularList();
         }
         
-        Map<String, Integer> categoriesList = dao.getProductCountByCategory();
+        Map<Integer, Integer> categoriesList = dao.getProductCountByCategory();
         
         request.setAttribute("productList", productList);
         request.setAttribute("categoriesList", categoriesList);

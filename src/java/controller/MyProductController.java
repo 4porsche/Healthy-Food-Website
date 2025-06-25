@@ -31,45 +31,59 @@ public class MyProductController extends HttpServlet {
 //        if (session != null) {
 //            sellerId = (int) session.getAttribute("userId");
 //        }
+        int sellerId = 8;
 
         ProductDAO dao = new ProductDAO();
-        Map<String, Integer> categoriesList = dao.getMyProductCountByCategory(8);
-//        Map<String, Integer> categoriesList = dao.getProductCountByCategoryBySeller(sellerId);
 
-        List<Product> myProductList = dao.getMyProduct(8);
-//        List<Product> myProductList = dao.getMyProduct(sellerId);
+        Map<Integer, String> categoryNameMap = dao.getCategoryMap();
+        Map<Integer, Integer> categoryCountMap = dao.getMyProductCountByCategory(sellerId);
 
-        request.setAttribute("categoriesList", categoriesList);
-        request.setAttribute("myProductList", myProductList);
+        List<Product> productList = dao.getMyProduct(sellerId);
+
+        request.setAttribute("productList", productList);
+        request.setAttribute("categoryNameMap", categoryNameMap);
+        request.setAttribute("categoryCountMap", categoryCountMap);
         request.getRequestDispatcher("my-products.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        int sellerId = 8;
+
         String searchTxt = request.getParameter("txt");
         String sortType = request.getParameter("sort");
+        String categoryId_raw = request.getParameter("categoryId");
+        int categoryId = -1;
+        if (categoryId_raw != null && !categoryId_raw.trim().isEmpty()) {
+            categoryId = Integer.parseInt(categoryId_raw);
+        }
 
         ProductDAO dao = new ProductDAO();
 
         List<Product> productList = null;
-        List<Product> searchedList = dao.getSearchedList(searchTxt);
-        List<Product> sortedList = null;
-
-        if (sortType == null || sortType.isEmpty()) {
-            productList = dao.getMyProduct(8);
-        } else if ("newest".equals(sortType)) {
-            sortedList = dao.sortMyProductNewestList(8);
-        } else if ("popular".equals(sortType)) {
-            sortedList = dao.sortMyProductPopularList(8);
+        if (categoryId != -1) {
+            productList = dao.getMyProductByCategory(8, categoryId);
+        } else if (searchTxt != null && !searchTxt.trim().isEmpty()) {
+            productList = dao.getMySearchedList(searchTxt, sellerId);
+        } else if (sortType != null && !sortType.trim().isEmpty()) {
+            if ("newest".equals(sortType)) {
+                productList = dao.sortMyProductNewestList(sellerId);
+            } else {
+                productList = dao.sortMyProductPopularList(sellerId);
+            }
+        } else {
+            productList = dao.getMyProduct(sellerId);
         }
 
-        Map<String, Integer> categoriesList = dao.getMyProductCountByCategory(8);
+        Map<Integer, String> categoryNameMap = dao.getCategoryMap();
+        Map<Integer, Integer> categoryCountMap = dao.getMyProductCountByCategory(sellerId);
 
         request.setAttribute("productList", productList);
-        request.setAttribute("categoriesList", categoriesList);
-        request.setAttribute("searchedList", searchedList);
-        request.setAttribute("sortedList", sortedList);
+        request.setAttribute("categoryNameMap", categoryNameMap);
+        request.setAttribute("categoryCountMap", categoryCountMap);
+        request.setAttribute("selectedCategoryId", categoryId);
         request.setAttribute("txtS", searchTxt);
         request.setAttribute("sortT", sortType);
         request.getRequestDispatcher("my-products.jsp").forward(request, response);

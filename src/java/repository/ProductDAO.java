@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import model.Categories;
 import model.Product;
 
@@ -45,9 +46,10 @@ public class ProductDAO extends DBContext {
     }
 
     public List<Product> getFeatureProduct() {
-        String sql = "SELECT TOP 5 *\n"
-                + "FROM Products\n"
-                + "ORDER BY Protein DESC, Fat ASC;";
+        String sql = """
+                     SELECT TOP 5 *
+                     FROM Products
+                     ORDER BY Protein DESC, Fat ASC;""";
         List<Product> list = new ArrayList<>();
 
         try {
@@ -164,18 +166,34 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    // category + đếm total product ở mỗi category
-    public Map<String, Integer> getProductCountByCategory() {
-        Map<String, Integer> result = new HashMap<>();
-        String sql = "SELECT c.CategoryName, COUNT(p.ProductID) AS totalProducts FROM Categories c LEFT JOIN Products p ON c.categoryId = p.categoryId GROUP BY c.categoryName";
+    public Map<Integer, String> getCategoryMap() {
+        Map<Integer, String> result = new HashMap<>();
+        String sql = "SELECT * FROM Categories";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String categoryName = rs.getString("CategoryName");
-                int count = rs.getInt("totalProducts");
-                result.put(categoryName, count);
+                result.put(rs.getInt("CategoryID"),
+                        rs.getString("CategoryName"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+
+    // category + đếm total product ở mỗi category
+    public Map<Integer, Integer> getProductCountByCategory() {
+        Map<Integer, Integer> result = new HashMap<>();
+        String sql = "SELECT CategoryID, COUNT(*) AS Total FROM Products GROUP BY CategoryID";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.put(rs.getInt("CategoryID"),
+                        rs.getInt("Total"));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -184,18 +202,17 @@ public class ProductDAO extends DBContext {
     }
 
     // category + đếm total product ở mỗi category của mỗi seller
-    public Map<String, Integer> getMyProductCountByCategory(int sellerId) {
-        Map<String, Integer> result = new HashMap<>();
-        String sql = "SELECT c.CategoryName, COUNT(p.ProductID) AS totalProducts FROM Categories c LEFT JOIN Products p ON c.categoryId = p.categoryId WHERE SellerId = ? GROUP BY c.categoryName";
+    public Map<Integer, Integer> getMyProductCountByCategory(int sellerId) {
+        Map<Integer, Integer> result = new HashMap<>();
+        String sql = "SELECT CategoryID, COUNT(*) AS Total FROM Products WHERE SellerID = ? GROUP BY CategoryID";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, sellerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String categoryName = rs.getString("CategoryName");
-                int count = rs.getInt("totalProducts");
-                result.put(categoryName, count);
+                result.put(rs.getInt("CategoryID"),
+                        rs.getInt("Total"));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -216,6 +233,41 @@ public class ProductDAO extends DBContext {
             while (rs.next()) {
                 int productId = rs.getInt("ProductID");
                 int sellerId = rs.getInt("SellerID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                String ingredient = rs.getString("Ingredient");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+                String imageUrl = rs.getString("ImageUrl");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("🔴 SQL Error: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public List<Product> getMySearchedList(String txt, int sellerId) {
+        String sql = "SELECT * FROM Products WHERE SellerID = ? AND ([ProductName] LIKE ? OR [Ingredient] LIKE ? OR [Tags] LIKE ?)";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, sellerId);
+            ps.setString(2, "%" + txt + "%");
+            ps.setString(3, "%" + txt + "%");
+            ps.setString(4, "%" + txt + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
                 int categoryId = rs.getInt("CategoryID");
                 String productName = rs.getString("ProductName");
                 int price = rs.getInt("Price");
@@ -311,8 +363,8 @@ public class ProductDAO extends DBContext {
                 + "LEFT JOIN \n"
                 + "    OrderDetails OD ON P.ProductID = OD.ProductID\n"
                 + "GROUP BY \n"
-                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price,\n"
-                + "    P.Description, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags\n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price, P.Description,\n"
+                + "    P.Ingredient, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags, P.ImageUrl\n"
                 + "ORDER BY \n"
                 + "    TotalSold DESC";
         List<Product> list = new ArrayList<>();
@@ -353,10 +405,10 @@ public class ProductDAO extends DBContext {
                 + "    Products P\n"
                 + "LEFT JOIN \n"
                 + "    OrderDetails OD ON P.ProductID = OD.ProductID\n"
-                + "WHERE P.SellerID = ?"
+                + "WHERE P.SellerID = ? "
                 + "GROUP BY \n"
-                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price,\n"
-                + "    P.Description, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags\n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price, P.Description,\n"
+                + "    P.Ingredient, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags, P.ImageUrl\n"
                 + "ORDER BY \n"
                 + "    TotalSold DESC";
         List<Product> list = new ArrayList<>();
@@ -429,8 +481,8 @@ public class ProductDAO extends DBContext {
                 + "WHERE \n"
                 + "    P.CategoryID = ? AND P.ProductID <> ?\n"
                 + "GROUP BY \n"
-                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price,\n"
-                + "    P.Description, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags\n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price, P.Description,\n"
+                + "    P.Ingredient, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags, P.ImageUrl\n"
                 + "ORDER BY \n"
                 + "    TotalSold DESC;";
         List<Product> list = new ArrayList<>();
@@ -621,41 +673,6 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
-    public List<Product> getMySearchedList(String txt, int sellerId) {
-        String sql = "SELECT * FROM Products WHERE SellerID = ? AND ([ProductName] LIKE ? OR [Ingredient] LIKE ? OR [Tags] LIKE ?)";
-        List<Product> list = new ArrayList<>();
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, sellerId);
-            ps.setString(2, "%" + txt + "%");
-            ps.setString(3, "%" + txt + "%");
-            ps.setString(4, "%" + txt + "%");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int productId = rs.getInt("ProductID");
-                int categoryId = rs.getInt("CategoryID");
-                String productName = rs.getString("ProductName");
-                int price = rs.getInt("Price");
-                String description = rs.getString("Description");
-                String ingredient = rs.getString("Ingredient");
-                double weight = rs.getDouble("Weight");
-                double calories = rs.getDouble("Calories");
-                double protein = rs.getDouble("Protein");
-                double fat = rs.getDouble("Fat");
-                double carbs = rs.getDouble("Carbs");
-                String tags = rs.getString("Tags");
-                String imageUrl = rs.getString("ImageUrl");
-
-                Product p = new Product(productId, sellerId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
-                list.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println("🔴 SQL Error: " + e.getMessage());
-        }
-        return list;
-    }
 
     public void deleteProduct(int id) {
         String sql = "DELETE FROM [Products] WHERE ProductID = ?";
@@ -668,5 +685,4 @@ public class ProductDAO extends DBContext {
             System.out.println(e);
         }
     }
-
 }

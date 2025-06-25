@@ -124,7 +124,7 @@
                     <div class="col-md-3 col-lg-3">
                         <div class="logo">
                             <a href="home">
-                                <img src="img/logo.jpg" alt="Logo">
+                                <img src="img/header-logo.png" alt="Logo">
                             </a>
                         </div>
                     </div>

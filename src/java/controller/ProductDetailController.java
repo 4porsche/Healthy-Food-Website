@@ -21,7 +21,7 @@ public class ProductDetailController extends HttpServlet {
         int productId = Integer.parseInt(request.getParameter("pid"));
 
         ProductDAO dao = new ProductDAO();
-        Map<String, Integer> categoriesList = dao.getProductCountByCategory();
+        Map<Integer, Integer> categoriesList = dao.getProductCountByCategory();
         request.setAttribute("categoriesList", categoriesList);
         
         Product detail = dao.getProductById(productId);
