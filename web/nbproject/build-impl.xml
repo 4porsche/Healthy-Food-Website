@@ -72,7 +72,7 @@
         <condition property="no.deps">
             <and>
                 <istrue value="${no.dependencies}"/>
-            </and>
+</and>
         </condition>
         <condition property="no.dist.ear.dir">
             <not>
@@ -151,7 +151,7 @@
                 </not>
                 <or>
                     <isfalse value="${directory.deployment.supported}"/>
-                    <isset property="dist.ear.dir"/>
+<isset property="dist.ear.dir"/>
                 </or>
             </and>
         </condition>
@@ -218,7 +218,7 @@
             <istrue value="${junit+testng.available}"/>
         </condition>
         <condition else="" property="testng.debug.mode" value="-mixed">
-            <istrue value="${junit+testng.available}"/>
+<istrue value="${junit+testng.available}"/>
         </condition>
     </target>
     <target depends="init" name="-init-cos" unless="deploy.on.save">
@@ -274,7 +274,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
             <attribute name="value"/>
             <sequential>
                 <property name="@{name}" value="${@{value}}"/>
-            </sequential>
+</sequential>
         </macrodef>
     </target>
     <target depends="-init-ap-cmdline-properties" if="ap.supported.internal" name="-init-macrodef-javac-with-processors">
@@ -321,7 +321,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
             <attribute default="${build.classes.dir}" name="destdir"/>
             <attribute default="${javac.classpath}:${j2ee.platform.classpath}" name="classpath"/>
             <attribute default="${javac.processorpath}" name="processorpath"/>
-            <attribute default="${build.generated.sources.dir}/ap-source-output" name="apgeneratedsrcdir"/>
+<attribute default="${build.generated.sources.dir}/ap-source-output" name="apgeneratedsrcdir"/>
             <attribute default="${includes}" name="includes"/>
             <attribute default="${excludes}" name="excludes"/>
             <attribute default="${javac.debug}" name="debug"/>
@@ -372,7 +372,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                 <tempfile deleteonexit="true" property="javac.includesfile.binary"/>
                 <echo file="${javac.includesfile.binary}" message="${javac.includes.binary}"/>
                 <delete>
-                    <files includesfile="${javac.includesfile.binary}"/>
+<files includesfile="${javac.includesfile.binary}"/>
                 </delete>
                 <delete file="${javac.includesfile.binary}"/>
             </sequential>
@@ -430,7 +430,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
             <element name="customize" optional="true"/>
             <sequential>
                 <property name="run.jvmargs.ide" value=""/>
-                <junit dir="${basedir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true" tempdir="${build.dir}">
+<junit dir="${basedir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true" tempdir="${build.dir}">
                     <batchtest todir="${build.test.results.dir}">
                         <fileset dir="${test.src.dir}" excludes="@{excludes},${excludes}" includes="@{includes}">
                             <filename name="@{testincludes}"/>
@@ -474,7 +474,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                     <xmlfileset dir="${build.test.classes.dir}" includes="@{testincludes}"/>
                     <propertyset>
                         <propertyref prefix="test-sys-prop."/>
-                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+<mapper from="test-sys-prop.*" to="*" type="glob"/>
                     </propertyset>
                     <customize/>
                 </testng>
@@ -529,7 +529,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
             <attribute default="" name="testmethods"/>
             <sequential>
                 <webproject2:test-impl excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
-                    <customize>
+<customize>
                         <classpath>
                             <path path="${run.test.classpath}:${j2ee.platform.classpath}:${j2ee.platform.embeddableejb.classpath}"/>
                         </classpath>
@@ -577,7 +577,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                         <fileset dir="${test.src.dir}" excludes="@{excludes},${excludes}" includes="@{includes}">
                             <filename name="@{testincludes}"/>
                         </fileset>
-                        <fileset dir="${build.test.classes.dir}" excludes="@{excludes},${excludes},${test.binaryexcludes}" includes="${test.binaryincludes}">
+<fileset dir="${build.test.classes.dir}" excludes="@{excludes},${excludes},${test.binaryexcludes}" includes="${test.binaryincludes}">
                             <filename name="${test.binarytestincludes}"/>
                         </fileset>
                     </batchtest>
@@ -626,7 +626,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                 <webproject1:debug args="${testng.cmd.args}" classname="org.testng.TestNG" classpath="${debug.test.classpath}:${j2ee.platform.embeddableejb.classpath}">
                     <customize>
                         <customize2/>
-                        <jvmarg value="-ea"/>
+<jvmarg value="-ea"/>
                         <arg line="${testng.debug.mode}"/>
                         <arg line="-d ${build.test.results.dir}"/>
                         <arg line="-listener org.testng.reporters.VerboseReporter"/>
@@ -679,7 +679,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
             <sequential>
                 <webproject2:testng-debug-impl testClass="@{testClass}" testMethod="@{testMethod}">
                     <customize2>
-                        <syspropertyset>
+<syspropertyset>
                             <propertyref prefix="test-sys-prop."/>
                             <mapper from="test-sys-prop.*" to="*" type="glob"/>
                         </syspropertyset>
@@ -740,7 +740,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                 </nbjpdareload>
             </sequential>
         </macrodef>
-        <macrodef name="nbjpdaappreloaded" uri="http://www.netbeans.org/ns/web-project/1">
+<macrodef name="nbjpdaappreloaded" uri="http://www.netbeans.org/ns/web-project/1">
             <sequential>
                 <nbjpdaappreloaded/>
             </sequential>
@@ -796,7 +796,7 @@ exists or setup the property manually. For example like this:
         <property name="annotation.processing.processors.list" value=""/>
         <property name="annotation.processing.run.all.processors" value="true"/>
         <property name="javac.processorpath" value="${javac.classpath}"/>
-        <property name="javac.test.processorpath" value="${javac.test.classpath}"/>
+<property name="javac.test.processorpath" value="${javac.test.classpath}"/>
         <condition property="ap.supported.internal" value="true">
             <not>
                 <matches pattern="1\.[0-5](\..*)?" string="${javac.source}"/>
@@ -845,7 +845,7 @@ exists or setup the property manually. For example like this:
     </target>
     <target name="-pre-compile">
         <!-- Empty placeholder for easier customization. -->
-        <!-- You can override this target in the ../build.xml file. -->
+<!-- You can override this target in the ../build.xml file. -->
     </target>
     <target name="-copy-webdir">
        
@@ -896,7 +896,7 @@ exists or setup the property manually. For example like this:
         <mkdir dir="${build.generated.dir}/src"/>
         <java classname="org.netbeans.modules.web.project.ant.JspC" failonerror="true" fork="true">
             <arg value="-uriroot"/>
-            <arg file="${basedir}/${build.web.dir}"/>
+<arg file="${basedir}/${build.web.dir}"/>
             <arg value="-d"/>
             <arg file="${basedir}/${build.generated.dir}/src"/>
             <arg value="-die1"/>
@@ -948,7 +948,7 @@ exists or setup the property manually. For example like this:
         <!-- Empty placeholder for easier customization. -->
         <!-- You can override this target in the ../build.xml file. -->
     </target>
-    <target depends="init,compile,compile-jsps,-pre-dist" if="do.war.package.without.custom.manifest" name="-do-dist-without-manifest">
+<target depends="init,compile,compile-jsps,-pre-dist" if="do.war.package.without.custom.manifest" name="-do-dist-without-manifest">
         <dirname file="${dist.war}" property="dist.jar.dir"/>
         <mkdir dir="${dist.jar.dir}"/>
         <jar compress="${jar.compress}" jarfile="${dist.war}">
@@ -984,7 +984,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.javax.activation-1.2.0.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.javax.mail-1.6.2.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.javax.mail-api-1.6.2.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.javax.mail.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+<copyfiles files="${file.reference.javax.mail.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.mail.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.smtp-1.6.2.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.jaxb-api-2.1.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
@@ -1032,7 +1032,7 @@ exists or setup the property manually. For example like this:
         <!-- This target can be overriden by NetBeans modules. Don't override it directly, use -post-run-deploy task instead. -->
     </target>
     <target name="-run-deploy-am">
-        <!-- Task to deploy to the Access Manager runtime. -->
+<!-- Task to deploy to the Access Manager runtime. -->
     </target>
     <target depends="init,-init-cos,compile,compile-jsps,-do-compile-single-jsp,-pre-dist,-do-tmp-dist-with-manifest,-do-tmp-dist-without-manifest,-pre-run-deploy,-pre-nbmodule-run-deploy,-run-deploy-nb,-init-deploy-ant,-deploy-ant,-run-deploy-am,-post-nbmodule-run-deploy,-post-run-deploy,-do-update-breakpoints" name="run-deploy"/>
     <target if="netbeans.home" name="-run-deploy-nb">
@@ -1089,7 +1089,7 @@ exists or setup the property manually. For example like this:
         </condition>
         <property environment="env"/>
         <condition property="browser" value="${env.BROWSER}">
-            <isset property="env.BROWSER"/>
+<isset property="env.BROWSER"/>
         </condition>
         <condition property="browser" value="/usr/bin/firefox">
             <available file="/usr/bin/firefox"/>
@@ -1146,7 +1146,7 @@ exists or setup the property manually. For example like this:
         <nbdeploy clientUrlPart="${client.urlPart}" debugmode="true" forceRedeploy="true"/>
         <antcall target="debug-display-browser-old"/>
         <antcall target="debug-display-browser"/>
-        <antcall target="connect-client-debugger"/>
+<antcall target="connect-client-debugger"/>
     </target>
     <target if="do.debug.server" name="connect-debugger" unless="is.debugged">
         <condition property="listeningcp" value="sourcepath">
@@ -1198,7 +1198,7 @@ exists or setup the property manually. For example like this:
     <!--
             =================
             PROFILING SECTION
-            =================
+=================
             -->
     <!--
                 pre NB7.2 profiling section; consider it deprecated
@@ -1252,7 +1252,7 @@ exists or setup the property manually. For example like this:
     <target if="netbeans.home" name="-profile-check">
         <condition property="profiler.configured">
             <or>
-                <contains casesensitive="true" string="${run.jvmargs.ide}" substring="-agentpath:"/>
+<contains casesensitive="true" string="${run.jvmargs.ide}" substring="-agentpath:"/>
                 <contains casesensitive="true" string="${run.jvmargs.ide}" substring="-javaagent:"/>
             </or>
         </condition>
@@ -1301,7 +1301,7 @@ exists or setup the property manually. For example like this:
             </fileset>
         </copy>
     </target>
-    <target depends="init,javadoc-build" if="netbeans.home" name="javadoc-browse" unless="no.javadoc.preview">
+<target depends="init,javadoc-build" if="netbeans.home" name="javadoc-browse" unless="no.javadoc.preview">
         <nbbrowse file="${dist.javadoc.dir}/index.html"/>
     </target>
     <target depends="init,javadoc-build,javadoc-browse" description="Build Javadoc." name="javadoc"/>
@@ -1349,7 +1349,7 @@ exists or setup the property manually. For example like this:
                 TEST EXECUTION SECTION
             -->
     <target depends="init" if="have.tests" name="-pre-test-run">
-        <mkdir dir="${build.test.results.dir}"/>
+<mkdir dir="${build.test.results.dir}"/>
     </target>
     <target depends="init,compile-test,-pre-test-run" if="have.tests" name="-do-test-run">
         <webproject2:test includes="${includes}" testincludes="**/*Test.java"/>
@@ -1388,7 +1388,7 @@ exists or setup the property manually. For example like this:
         <fail unless="test.class">Must select one file in the IDE or set test.class</fail>
         <webproject2:test-debug excludes="" includes="${javac.includes}" testClass="${test.class}" testincludes="${javac.includes}"/>
     </target>
-    <target depends="init,compile-test-single,-pre-test-run-single" if="have.tests" name="-debug-start-debuggee-test-method">
+<target depends="init,compile-test-single,-pre-test-run-single" if="have.tests" name="-debug-start-debuggee-test-method">
         <fail unless="test.class">Must select one file in the IDE or set test.class</fail>
         <fail unless="test.method">Must select some method in the IDE or set test.method</fail>
         <webproject2:test-debug excludes="" includes="${javac.includes}" testClass="${test.class}" testMethod="${test.method}" testincludes="${test.class}" testmethods="${test.method}"/>

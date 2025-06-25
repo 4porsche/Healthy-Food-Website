@@ -5,10 +5,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Consultation Requests</title>
-        <link rel="stylesheet" href="styles.css">
-        <link href="stylecss.css" rel="stylesheet" type="text/css"/>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+               <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+               <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/nutri.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     </head>
     <body>
@@ -16,7 +15,7 @@
             <div class="col-md-12">
 
 
-                <h2 class="text-center text-primary mt-4 mb-3">Yêu cầu tư vấn khách hàng</h2>
+                <h2 class="text-center text-success mt-4 mb-3">Yêu cầu tư vấn khách hàng</h2>
 
                 <div class="container">
                     <div class="table-responsive">
@@ -59,7 +58,7 @@
                                                     Thay đổi
                                                 </button>
 
-                                             
+
 
                                                 <!-- Modal Thay đổi -->
                                                 <div class="modal fade" id="editModal${c.requestID}" tabindex="-1" aria-labelledby="editModalLabel${c.requestID}" aria-hidden="true">
