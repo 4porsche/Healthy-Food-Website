@@ -143,31 +143,39 @@ CREATE TABLE ConsulationRequests (
     FOREIGN KEY (CustomerID) REFERENCES CustomerProfiles(CustomerID)
 );
 
-INSERT INTO ConsulationRequests (
-    CustomerID, PreferredDate, Status, ResponseNote
-)
-VALUES (
-    3, 
-    '2025-06-15 08:30:00', 
-    'Accepted', 
-    N' Thực đơn 1 ngày:
-	- Sáng: 1 bát cháo yến mạch + 1 quả trứng luộc + 1 ly sữa đậu nành
-	- Trưa: 100g ức gà + rau luộc + 1 chén cơm gạo lứt
-	- Xế: 1 quả táo + 10 hạt hạnh nhân
-	- Tối: Salad cá hồi + 1 củ khoai lang luộc'
-);
-INSERT INTO ConsulationRequests (
-    CustomerID, PreferredDate, ResponseNote
-)
-VALUES (
-    4, 
-    '2025-06-13 08:30:00', 
-    N' Thực đơn 1 ngày:
-	- Sáng: 1 bát cháo yến mạch + 1 quả trứng luộc + 1 ly sữa đậu nành
-	- Trưa: 100g ức gà + rau luộc + 1 chén cơm gạo lứt
-	- Xế: 1 quả táo + 10 hạt hạnh nhân
-	- Tối: Salad cá hồi + 1 củ khoai lang luộc'
-);
+INSERT INTO ConsulationRequests (CustomerID, PreferredDate, Status, ResponseNote)
+VALUES 
+(3, '2025-06-10 09:00:00', 'Accepted', N'Chế độ ăn nhẹ: sáng cháo yến mạch, trưa ức gà luộc, tối cá hấp.'),
+(4, '2025-06-12 14:00:00', 'Rejected', N'Khách hàng chưa đủ thông tin sức khỏe, vui lòng bổ sung.'),
+(3, '2025-06-15 08:30:00', 'Accepted', 
+ N' Thực đơn 1 ngày:
+ - Sáng: 1 bát cháo yến mạch + 1 quả trứng luộc + 1 ly sữa đậu nành
+ - Trưa: 100g ức gà + rau luộc + 1 chén cơm gạo lứt
+ - Xế: 1 quả táo + 10 hạt hạnh nhân
+ - Tối: Salad cá hồi + 1 củ khoai lang luộc'),
+(4, '2025-06-13 08:30:00', 'Pending', 
+ N' Đang chờ xác nhận từ chuyên gia dinh dưỡng.'),
+(4, '2025-06-14 07:30:00', 'Accepted', 
+ N' Thực đơn phù hợp người giảm cân:
+ - Sáng: trứng luộc + bánh mì đen
+ - Trưa: thịt bò áp chảo + salad
+ - Tối: súp bí đỏ'),
+(4, '2025-06-16 10:15:00', 'Pending', NULL),
+(3, '2025-06-17 15:00:00', 'Rejected', 
+ N'Lý do từ chối: trùng lịch tư vấn, vui lòng chọn thời gian khác.'),
+(3, '2025-06-18 11:00:00', 'Accepted', 
+ N'Chế độ tăng cơ:
+ - Sáng: yến mạch + sữa chua Hy Lạp
+ - Trưa: thịt bò + khoai lang + rau xanh
+ - Tối: cá hồi áp chảo + gạo lứt'),
+(4, '2025-06-19 13:30:00', 'Pending', 
+ N'Đang phân tích hồ sơ sức khỏe.'),
+(4, '2025-06-20 09:30:00', 'Accepted', 
+ N'Chế độ ăn kiêng cho người tiểu đường:
+ - Sáng: bánh mì nguyên cám + sữa hạt không đường
+ - Trưa: ức gà nướng + salad
+ - Tối: canh rau củ + cơm gạo lứt');
+
 
 
 select * from ConsulationRequests
@@ -230,3 +238,6 @@ VALUES
 (N'Món cuộn nấm kim châm rong biển', 8, 3, 55000, N'Nấm kim châm hấp cuộn rong biển và đậu hũ non', N'nấm kim châm, rong biển, đậu hũ non, cà rốt, xà lách', 160, 200, 9, 3, 26, N'nấm, rong biển, đậu hũ', 'img/EnokiSeaweedRolls.jpg'),
 (N'Tô hạt sen và yến mạch', 8, 3, 56000, N'Hạt sen luộc, yến mạch ngâm và chuối tươi', N'hạt sen luộc, yến mạch ngâm, chuối chín, sữa hạnh nhân', 200, 240, 8, 5, 30, N'yến mạch', 'img/LotusOatmealBowl.png');
 
+select*from Products
+
+SELECT * FROM ConsulationRequests ORDER BY RequestDate OFFSET 1 ROWS FETCH NEXT 10 ROWS ONLY
