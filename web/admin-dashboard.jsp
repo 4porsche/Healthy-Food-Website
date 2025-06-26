@@ -7,7 +7,7 @@
     <title>Admin Panel - Healthy Food</title>
     <style>
         :root {
-            --primary: #4CAF50;
+            --primary: #3C603C;
             --primary-dark: #388E3C;
             --primary-light: #C8E6C9;
             --secondary: #FF9800;
