@@ -31,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="c" items="${requests}">
+                                <c:forEach var="c" items="${list}">
                                     <tr>
                                         <td>${c.customerName}</td>
                                         <td class="text-center">
@@ -111,17 +111,17 @@
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
                                 <c:if test="${currentPage > 1}">
-                                    <li class="page-item"><a class="page-link" href="consultationManager?page=${currentPage - 1}">Previous</a></li>
+                                    <li class="page-item"><a class="page-link" href="requests?page=${currentPage - 1}">Previous</a></li>
                                     </c:if>
 
                                 <c:forEach begin="1" end="${totalPages}" var="i">
                                     <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                        <a class="page-link" href="consultationManager?page=${i}">${i}</a>
+                                        <a class="page-link" href="requests?page=${i}">${i}</a>
                                     </li>
                                 </c:forEach>
 
                                 <c:if test="${currentPage < totalPages}">
-                                    <li class="page-item"><a class="page-link" href="consultationManager?page=${currentPage + 1}">Next</a></li>
+                                    <li class="page-item"><a class="page-link" href="requests?page=${currentPage + 1}">Next</a></li>
                                     </c:if>
                             </ul>
                         </nav>

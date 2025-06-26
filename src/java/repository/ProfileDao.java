@@ -65,7 +65,7 @@ public class ProfileDao extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void updateprofilecustomer(String phone, String gender, int id, int roleid) {
         String sql = "update a set Phone = ?, Gender = ? from CustomerProfiles a join Users b on a.customerID = b.UserID where customerID = ? and b.roleid = ?";
         try {
@@ -74,14 +74,14 @@ public class ProfileDao extends DBContext {
             ps.setString(2, gender);
             ps.setInt(3, id);
             ps.setInt(4, roleid);
- 
+
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
-      public void updateprofileuser(String fullname, String email, int id, int roleid) {
+
+    public void updateprofileuser(String fullname, String email, int id, int roleid) {
         String sql = "update Users set Fullname = ?, Email = ? where UserID = ? and roleid = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -89,16 +89,12 @@ public class ProfileDao extends DBContext {
             ps.setString(2, email);
             ps.setInt(3, id);
             ps.setInt(4, roleid);
- 
+
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
-    
-    
-    
 
     public List<Requests> getAllRequestsForNutritionist() {
         List<Requests> list = new ArrayList<>();
@@ -151,12 +147,60 @@ public class ProfileDao extends DBContext {
         }
     }
 
+    public int countPageConsultation(int perPage) {
+        String sql = "select count(*) from ConsulationRequests";
+        int totalPage = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int totalRecords = rs.getInt(1);
+                totalPage = totalRecords / perPage;
+                if (totalRecords % perPage != 0) {
+                    totalPage++;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error counting consultation pages: " + e.getMessage());
+        }
+        return totalPage;
+    }
+
+    public List<Requests> getConsultationRequestsPagination(int begin, int count) {
+        List<Requests> list = new ArrayList<>();
+        String sql = "SELECT * FROM ConsulationRequests a join Users b on a.CustomerID = b.UserID ORDER BY RequestDate OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            int offset = (begin - 1) * count;
+            ps.setInt(1, offset);
+            ps.setInt(2, count);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Requests c = new Requests();
+                c.setRequestID(rs.getInt("RequestID"));
+                c.setCustomerID(rs.getInt("CustomerID"));
+                c.setRequestDate(rs.getDate("RequestDate"));
+                c.setCustomerName(rs.getString("Fullname"));
+                c.setPreferredDate(rs.getDate("PreferredDate"));
+                c.setStatus(rs.getString("Status"));
+                c.setResponseNote(rs.getString("ResponseNote"));
+                list.add(c);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error loading consultation list: " + e.getMessage());
+        }
+
+        return list;
+    }
+
     public static void main(String[] args) {
         ProfileDao dao = new ProfileDao();
-        CustomerProfile cp = dao.getCustomer(3, 3);
-//        List<Requests> r = dao.getAllRequestsForNutritionist();
-        dao.updateprofilecustomer("0912837472", "Nam", 3, 3);
-        System.out.println(cp.toString());
+//        CustomerProfile cp = dao.getCustomer(3, 3);
+        List<Requests> r = dao.getConsultationRequestsPagination(1, 10);
+//        dao.updateprofilecustomer("0912837472", "Nam", 3, 3);
+        System.out.println(r.toString());
 //        System.out.println(r.toString());
     }
 }

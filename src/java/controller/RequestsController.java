@@ -59,8 +59,28 @@ public class RequestsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProfileDao pd = new ProfileDao();
-        List<Requests> list = pd.getAllRequestsForNutritionist();
-        request.setAttribute("requests", list);
+        List<Requests> listRequests = pd.getAllRequestsForNutritionist();
+        String pageRaw = request.getParameter("page");
+        if (pageRaw == null) {
+            pageRaw = "1";
+        }
+//        try {
+//            page = Integer.parseInt(pageRaw);
+//            if (page <= 0) {
+//                page = 1;
+//            }
+//        } catch (NumberFormatException e) {
+//            page = 1;
+//        }
+
+        List<Requests> list = pd.getConsultationRequestsPagination(Integer.parseInt(pageRaw), 10);
+        int totalPages = pd.countPageConsultation(10);
+
+        request.setAttribute("list", list);
+        request.setAttribute("currentPage", pageRaw);
+        request.setAttribute("totalPages", totalPages);
+
+        request.setAttribute("requests", listRequests);
         request.getRequestDispatcher("nutritionist.jsp").forward(request, response);
     }
 
