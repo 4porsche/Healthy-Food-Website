@@ -1,5 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="model.Product" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -317,6 +320,14 @@
                 font-weight: 600;
             }
 
+            .pimg {
+                width: 170px;
+                height: 170px;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+
             /* CRUD Actions */
             .crud-actions {
                 display: flex;
@@ -376,47 +387,124 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <h3>Healthy Food Người Bán</h3>
-            </div>
-            <div class="sidebar-menu">
-                <a href="seller-dashboard?action=report">
-                    <i class="fas fa-chart-simple"></i>Thống kê
-                </a>
 
-                <a href="manage-product">
-                    <i class="fas fa-pen"></i>Quản lý sản phẩm
-                </a>
+        <div id="searchForm">
+            <h3><i class="fas fa-search"></i>Tìm kiếm sản phẩm</h3>
+            <form action="seller-dashboard" method="get" style="margin-bottom: 20px;">
+                <input type="hidden" name="action" value="search">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 3;">
+                        <label for="searchQuery">Search by Keyword:</label>
+                        <input type="text" id="searchQuery" name="query" placeholder="Search by name, email, username...">
+                    </div>
+                    <div class="form-group" style="flex: 1; align-self: flex-end;">
+                        <button type="submit" class="btn-primary" style="width: 100%;">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-                <a href="seller-dashboard?action=product">
-                    <i class="fas fa-pen"></i>Quản lý sản phẩm
-                </a>
-
-                <a href="home">
-                    <i class="fas fa-home"></i>Trang chủ
-                </a>
-            </div>
+            <form action="admin-dashboard" method="get">
+                <input type="hidden" name="action" value="filter">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 3;">
+                        <label for="filterRoleId">Filter by Role:</label>
+                        <select id="filterRoleId" name="roleId">
+                            <option value="all" selected>All Roles</option>
+                            <option value="1">Administrator</option>
+                            <option value="3">Customer</option>
+                            <option value="4">Nutritionist</option>
+                            <option value="5">Seller</option>
+                            <option value="6">Shipper</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1; align-self: flex-end;">
+                        <button type="submit" class="btn-outline" style="width: 100%;">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
 
-        <div class="main-content">
-    <%
-        String action = request.getParameter("action");
-        if ("report".equals(action)) {
-    %>
-        <jsp:include page="report.jsp" />
-    <%
-        } else if ("product".equals(action)) {
-    %>
-        <jsp:include page="manage-product1.jsp" />
-    <%
-        } else {
-    %>
-        <jsp:include page="home.jsp" />
-    <%
-        }
-    %>
-</div>
+        <!-- View Account List Section -->
+        <div class="section">
+            <div class="add-account-btn">
+                <button class="btn-primary" onclick="showAddAccountForm()">
+                    <i class="fas fa-plus-circle"></i> Thêm sản phẩm
+                </button>
+            </div>
+
+            <h3><i class="fas fa-list"></i> User Accounts</h3>
+            <c:choose>
+                <c:when test="${empty productList}">
+                    <div style='padding: 20px; text-align: center; background: #f9f9f9; border-radius: 8px;'>
+                        <i class='fas fa-exclamation-circle' style='font-size: 2rem; color: #FF9800; margin-bottom: 15px;'></i>
+                        <h3 style='color: #555;'>No users found</h3>
+                        <p>No user data is available at this time</p>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên</th>
+                                <th>Ảnh</th>
+                                <th>Giá</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="p" items="${productList}" varStatus="status">
+                                <tr class="product-row">
+                                    <td>${status.index + 1}</td>
+                                    <td class="pname">${p.productName}</td>
+                                    <td><img src="${p.imageUrl}" alt="Product Image" class="pimg"></td>
+                                    <td>${p.price}đ</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-secondary btn-sm" onclick="showEditForm(
+                                                            '${p.productId}',
+                                                            '${fn:replace(p.categoryId, "'", "\\'")}',
+                                                            '${fn:replace(p.productName, "'", "\\'")}',
+                                                            '${fn:replace(p.price, "'", "\\'")}',
+                                                            '${fn:replace(p.description, "'", "\\'")}',
+                                                            '${fn:replace(p.ingredient, "'", "\\'")}',
+                                                            '${p.weight}',
+                                                            '${p.calories}',
+                                                            '${p.protein}',
+                                                            '${p.fat}',
+                                                            '${p.carbs}',
+                                                            '${fn:replace(p.tags, "'", "\\'")}',
+                                                            '${fn:replace(p.imageUrl, "'", "\\'")}'
+                                                            )">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <form action=admin-dashboard" method="post" style="display:inline;">
+                                                <input type="hidden" name="action" value="crud">
+                                                <input type="hidden" name="crudAction" value="delete">
+                                                <input type="hidden" name="userId" value="${p.productId}">
+                                                <button type="submit" class="btn-danger btn-sm">
+                                                    <i class="fas fa-trash-alt"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+
+
+                        </tbody>
+                    </table>
+
+                </c:otherwise>
+            </c:choose>
+
+
+
+        </div>
 
         <script>
             // Function to show/hide add account form
@@ -430,13 +518,20 @@
             }
 
             // Function to show/hide edit account form
-            function showEditForm(userId, fullname, username, email, roleId, isActive) {
-                document.getElementById('editUserId').value = userId;
-                document.getElementById('editFullname').value = fullname;
-                document.getElementById('editUsername').value = username;
-                document.getElementById('editEmail').value = email;
-                document.getElementById('editRoleId').value = roleId;
-                document.getElementById('editActive').checked = (isActive === 'true');
+            function showEditForm(productId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl) {
+                document.getElementById('editProductId').value = productId;
+                document.getElementById('editCategoryId').value = categoryId;
+                document.getElementById('editProductName').value = productName;
+                document.getElementById('editPrice').value = price;
+                document.getElementById('editDescription').value = description;
+                document.getElementById('editIngredient').value = ingredient;
+                document.getElementById('editWeight').value = weight;
+                document.getElementById('editCalories').value = calories;
+                document.getElementById('editProtein').value = protein;
+                document.getElementById('editFat').value = fat;
+                document.getElementById('editCarbs').value = carbs;
+                document.getElementById('editTags').value = tags;
+                document.getElementById('editImageUrl').value = imageUrl;
 
                 document.getElementById('editAccountForm').style.display = 'block';
                 document.getElementById('editAccountForm').scrollIntoView({behavior: 'smooth'});

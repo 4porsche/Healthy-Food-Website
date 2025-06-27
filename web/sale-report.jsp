@@ -376,47 +376,136 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <h3>Healthy Food Người Bán</h3>
-            </div>
-            <div class="sidebar-menu">
-                <a href="seller-dashboard?action=report">
-                    <i class="fas fa-chart-simple"></i>Thống kê
-                </a>
 
-                <a href="manage-product">
-                    <i class="fas fa-pen"></i>Quản lý sản phẩm
-                </a>
+        <div id="searchForm">
+            <h3><i class="fas fa-search"></i>Tìm kiếm sản phẩm</h3>
+            <form action="seller-dashboard" method="get" style="margin-bottom: 20px;">
+                <input type="hidden" name="action" value="search">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 3;">
+                        <label for="searchQuery">Search by Keyword:</label>
+                        <input type="text" id="searchQuery" name="query" placeholder="Search by name, email, username...">
+                    </div>
+                    <div class="form-group" style="flex: 1; align-self: flex-end;">
+                        <button type="submit" class="btn-primary" style="width: 100%;">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-                <a href="seller-dashboard?action=product">
-                    <i class="fas fa-pen"></i>Quản lý sản phẩm
-                </a>
-
-                <a href="home">
-                    <i class="fas fa-home"></i>Trang chủ
-                </a>
-            </div>
+            <form action="admin-dashboard" method="get">
+                <input type="hidden" name="action" value="filter">
+                <div class="form-row">
+                    <div class="form-group" style="flex: 3;">
+                        <label for="filterRoleId">Filter by Role:</label>
+                        <select id="filterRoleId" name="roleId">
+                            <option value="all" selected>All Roles</option>
+                            <option value="1">Administrator</option>
+                            <option value="3">Customer</option>
+                            <option value="4">Nutritionist</option>
+                            <option value="5">Seller</option>
+                            <option value="6">Shipper</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1; align-self: flex-end;">
+                        <button type="submit" class="btn-outline" style="width: 100%;">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
 
-        <div class="main-content">
-    <%
-        String action = request.getParameter("action");
-        if ("report".equals(action)) {
-    %>
-        <jsp:include page="report.jsp" />
-    <%
-        } else if ("product".equals(action)) {
-    %>
-        <jsp:include page="manage-product1.jsp" />
-    <%
-        } else {
-    %>
-        <jsp:include page="home.jsp" />
-    <%
-        }
-    %>
-</div>
+        <!-- View Account List Section -->
+        <div class="section">
+            <div class="add-account-btn">
+                <button class="btn-primary" onclick="showAddAccountForm()">
+                    <i class="fas fa-plus-circle"></i> Add Account
+                </button>
+            </div>
+
+            <h3><i class="fas fa-list"></i> User Accounts</h3>
+            <%
+                List<User> users = (List<User>) request.getAttribute("userList");
+                if (users == null || users.isEmpty()) {
+                    out.println("<div style='padding: 20px; text-align: center; background: #f9f9f9; border-radius: 8px;'>");
+                    out.println("<i class='fas fa-exclamation-circle' style='font-size: 2rem; color: #FF9800; margin-bottom: 15px;'></i>");
+                    out.println("<h3 style='color: #555;'>No users found</h3>");
+                    out.println("<p>No user data is available at this time</p>");
+                    out.println("</div>");
+                } else {
+            %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Full Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% 
+                        for (User user : users) {
+                            String roleName = "";
+                            switch(user.getRoleID()) {
+                                case 1: roleName = "Admin"; break;
+                                case 3: roleName = "Customer"; break;
+                                case 4: roleName = "Nutritionist"; break;
+                                case 5: roleName = "Seller"; break;
+                                case 6: roleName = "Shipper"; break;
+                                default: roleName = "Unknown";
+                            }
+                    %>
+                    <tr>
+                        <td><%= user.getUserID() %></td>
+                        <td><%= user.getFullname() != null ? user.getFullname() : "N/A" %></td>
+                        <td><%= user.getUsername() != null ? user.getUsername() : "N/A" %></td>
+                        <td><%= user.getEmail() != null ? user.getEmail() : "N/A" %></td>
+                        <td><%= roleName %></td>
+                        <td>
+                            <% if(user.isIsActive()) { %>
+                            <span class="status-active">Active</span>
+                            <% } else { %>
+                            <span class="status-inactive">Inactive</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-secondary btn-sm" onclick="showEditForm(
+                                                    '<%= user.getUserID() %>',
+                                                    '<%= user.getFullname() != null ? user.getFullname().replace("'", "\\'") : "" %>',
+                                                    '<%= user.getUsername() != null ? user.getUsername().replace("'", "\\'") : "" %>',
+                                                    '<%= user.getEmail() != null ? user.getEmail().replace("'", "\\'") : "" %>',
+                                                    '<%= user.getRoleID() %>',
+                                                    '<%= user.isIsActive() %>'
+                                                    )">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <form action=admin-dashboard" method="post" style="display:inline;">
+                                    <input type="hidden" name="action" value="crud">
+                                    <input type="hidden" name="crudAction" value="delete">
+                                    <input type="hidden" name="userId" value="<%= user.getUserID() %>">
+                                    <button type="submit" class="btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <% 
+                        }
+                    %>
+                </tbody>
+            </table>
+            <% 
+                }
+            %>
+        </div>
 
         <script>
             // Function to show/hide add account form
