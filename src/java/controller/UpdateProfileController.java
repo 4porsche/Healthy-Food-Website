@@ -131,7 +131,7 @@ public class UpdateProfileController extends HttpServlet {
 
             // Lưu vào session
             HttpSession session = request.getSession();
-            session.setAttribute("account", updatedProfile); // hoặc "userProfile"
+            session.setAttribute("account", updatedProfile);
 
             request.setAttribute("success", "Cập nhật thành công.");
             request.setAttribute("customer", updatedProfile); // nếu cần giữ lại form
