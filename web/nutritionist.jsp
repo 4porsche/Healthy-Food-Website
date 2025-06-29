@@ -5,8 +5,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Consultation Requests</title>
-               <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-               <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/nutri.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     </head>
@@ -71,10 +71,11 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <input type="hidden" name="requestID" value="${c.requestID}" />
-                                                                    <div class="mb-3">
+                                                                   <div class="mb-3">
                                                                         <label for="responseNote${c.requestID}" class="form-label">Ghi chú phản hồi</label>
                                                                         <textarea class="form-control" name="responseNote" id="responseNote${c.requestID}" rows="4">${c.responseNote}</textarea>
                                                                     </div>
+
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="submit" class="btn btn-success">Lưu</button>
@@ -89,10 +90,19 @@
 
 
                                             <td>
+                                                <c:choose>
+                                                    <c:when test="${c.status == 'Pending'}">
+                                                        <a class="btn btn-sm btn-success mb-1" href="updateconsultation?id=${c.requestID}">Chấp nhận</a>
+                                                        <a class="btn btn-sm btn-danger" href="updateconsultation?id=${c.requestID}" onclick="return confirmDelete()">Hủy</a>
+                                                    </c:when>
 
-                                                <a class="btn btn-sm btn-success mb-1" href="updateconsultation?id=${c.requestID}">Chấp nhận</a>
-                                                <a class="btn btn-sm btn-danger" href="deleteconsultation?id=${c.requestID}" onclick="return confirmDelete()">Hủy</a>
+                                                    <c:when test="${c.status == 'Accepted' || c.status == 'Rejected'}">
+                                                        <a class="btn btn-sm btn-warning mb-1" href="editconsultation?id=${c.requestID}">Sửa</a>
+                                                        <a class="btn btn-sm btn-danger" href="deleteconsultation?id=${c.requestID}" onclick="return confirmDelete()">Xóa</a>
+                                                    </c:when>
+                                                </c:choose>
                                             </td>
+
                                         </tr>
                                     </c:forEach>
                                 </tbody>

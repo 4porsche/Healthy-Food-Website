@@ -10,15 +10,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Requests;
+import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import model.User;
 import repository.RequestsDao;
 
 /**
  *
  * @author Admin
  */
-public class RequestsController extends HttpServlet {
+public class SubmitRequestController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +41,10 @@ public class RequestsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RequestsController</title>");
+            out.println("<title>Servlet SubmitRequestController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RequestsController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SubmitRequestController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,30 +62,7 @@ public class RequestsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestsDao pd = new RequestsDao();
-//        List<Requests> listRequests = pd.getAllRequestsForNutritionist();
-        String pageRaw = request.getParameter("page");
-        if (pageRaw == null) {
-            pageRaw = "1";
-        }
-//        try {
-//            page = Integer.parseInt(pageRaw);
-//            if (page <= 0) {
-//                page = 1;
-//            }
-//        } catch (NumberFormatException e) {
-//            page = 1;
-//        }
-
-        List<Requests> list = pd.getConsultationRequestsPagination(Integer.parseInt(pageRaw), 10);
-        int totalPages = pd.countPageConsultation(10);
-
-        request.setAttribute("list", list);
-        request.setAttribute("currentPage", pageRaw);
-        request.setAttribute("totalPages", totalPages);
-
-//        request.setAttribute("requests", listRequests);
-        request.getRequestDispatcher("nutritionist.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -95,7 +76,49 @@ public class RequestsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
+        HttpSession session = request.getSession();
+        RequestsDao rd = new RequestsDao();
+
+        String preferredDateStr = request.getParameter("preferredDate");
+
+        try {
+            // Lấy User từ session
+            User user = (User) session.getAttribute("user");
+//            if (user == null) {
+//                session.setAttribute("requestMessage", "Bạn cần đăng nhập để gửi yêu cầu.");
+//                response.sendRedirect("login.jsp");
+//                return;
+//            }
+
+            int customerId = user.getUserID(); // Lấy ID từ user trong session
+            session.setAttribute("customerId", customerId); // ✅ Lưu vào session nếu muốn sử dụng sau
+
+            if (preferredDateStr == null || preferredDateStr.trim().isEmpty()) {
+                session.setAttribute("requestMessage", "Vui lòng chọn ngày tư vấn mong muốn.");
+                response.sendRedirect("profile?userid=" + customerId);
+                return;
+            }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            Date preferredDate = sdf.parse(preferredDateStr);
+
+            // Thêm yêu cầu và nhận lại object đã có RequestID
+            rd.addRequest(customerId, preferredDate);
+
+            session.setAttribute("requestMessage", "Yêu cầu tư vấn đã được gửi thành công!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            session.setAttribute("requestMessage", "Lỗi khi gửi yêu cầu: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("requestMessage", "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.");
+        }
+
+        response.sendRedirect("profile?userid=" + session.getAttribute("customerId"));
+
     }
 
     /**

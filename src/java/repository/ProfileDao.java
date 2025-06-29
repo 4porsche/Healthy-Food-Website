@@ -96,44 +96,7 @@ public class ProfileDao extends DBContext {
         }
     }
 
-    public List<Requests> getAllRequestsForNutritionist() {
-        List<Requests> list = new ArrayList<>();
-        String sql = "select a.RequestID, a.CustomerID, b.Fullname, a.RequestDate, a.PreferredDate, a.Status, a.ResponseNote from ConsulationRequests a join Users b ON a.CustomerID = b.UserID";
-        try {
-
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int requestID = rs.getInt("RequestID");
-                int customerID = rs.getInt("CustomerID");
-                String customerName = rs.getString("Fullname");
-
-                Date requestDate = rs.getDate("RequestDate");
-                Date preferredDate = rs.getDate("PreferredDate");
-                String status = rs.getString("Status");
-                String note = rs.getString("ResponseNote");
-                Requests c = new Requests(requestID, customerID, customerName, requestDate, preferredDate, status, note);
-                list.add(c);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return list;
-    }
-
-    public void updateResponse(int requestID, String status, String note) {
-        String sql = "update ConsulationRequests set Status = ?, ResponseNote = ? where RequestID = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, status);
-            ps.setString(2, note);
-            ps.setInt(3, requestID);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+    
 
     public void changePass(String pass, int id) {
         String sql = "update Users set Password = ? where UserID = ?";
@@ -147,60 +110,14 @@ public class ProfileDao extends DBContext {
         }
     }
 
-    public int countPageConsultation(int perPage) {
-        String sql = "select count(*) from ConsulationRequests";
-        int totalPage = 0;
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                int totalRecords = rs.getInt(1);
-                totalPage = totalRecords / perPage;
-                if (totalRecords % perPage != 0) {
-                    totalPage++;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error counting consultation pages: " + e.getMessage());
-        }
-        return totalPage;
-    }
-
-    public List<Requests> getConsultationRequestsPagination(int begin, int count) {
-        List<Requests> list = new ArrayList<>();
-        String sql = "SELECT * FROM ConsulationRequests a join Users b on a.CustomerID = b.UserID ORDER BY RequestDate OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            int offset = (begin - 1) * count;
-            ps.setInt(1, offset);
-            ps.setInt(2, count);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Requests c = new Requests();
-                c.setRequestID(rs.getInt("RequestID"));
-                c.setCustomerID(rs.getInt("CustomerID"));
-                c.setRequestDate(rs.getDate("RequestDate"));
-                c.setCustomerName(rs.getString("Fullname"));
-                c.setPreferredDate(rs.getDate("PreferredDate"));
-                c.setStatus(rs.getString("Status"));
-                c.setResponseNote(rs.getString("ResponseNote"));
-                list.add(c);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error loading consultation list: " + e.getMessage());
-        }
-
-        return list;
-    }
+    
 
     public static void main(String[] args) {
         ProfileDao dao = new ProfileDao();
 //        CustomerProfile cp = dao.getCustomer(3, 3);
-        List<Requests> r = dao.getConsultationRequestsPagination(1, 10);
+//        List<Requests> r = dao.getConsultationRequestsPagination(1, 10);
 //        dao.updateprofilecustomer("0912837472", "Nam", 3, 3);
-        System.out.println(r.toString());
+//        System.out.println(r.toString());
 //        System.out.println(r.toString());
     }
 }
