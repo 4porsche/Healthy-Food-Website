@@ -28,7 +28,6 @@
             }
 
             body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 background-color: #f9fbfa;
                 color: #333;
                 line-height: 1.6;
@@ -390,7 +389,7 @@
                 </a>
 
                 <a href="seller-dashboard?action=product">
-                    <i class="fas fa-pen"></i>Quản lý sản phẩm
+                    <i class="fas fa-pen"></i>Quản lý sản phẩm #
                 </a>
 
                 <a href="home">
