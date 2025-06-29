@@ -50,7 +50,8 @@ public class ProfileDao extends DBContext {
     }
 
     public void update(double height, double weight, double bmi, String activitylevel, String goal, int id, int roleid) {
-        String sql = "update CustomerProfiles set Height = ?, Weight = ?, BMI = ?, ActivityLevel = ?,  Goal = ? where CustomerID = ? and roleid = ?";
+        String sql = "update a set a.height = ?, a.weight = ?, a.bmi = ?, a.activitylevel = ?, a.goal = ? from customerprofiles a join users b on a.customerid = b.userid where a.customerid = ? and b.roleid = ?";
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setDouble(1, height);
@@ -62,7 +63,7 @@ public class ProfileDao extends DBContext {
             ps.setInt(7, roleid);
             ps.executeUpdate();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Lỗi khi cập nhật thông tin cơ thể: " + e.getMessage());
         }
     }
 
@@ -96,8 +97,6 @@ public class ProfileDao extends DBContext {
         }
     }
 
-    
-
     public void changePass(String pass, int id) {
         String sql = "update Users set Password = ? where UserID = ?";
         try {
@@ -110,14 +109,32 @@ public class ProfileDao extends DBContext {
         }
     }
 
-    
-
     public static void main(String[] args) {
         ProfileDao dao = new ProfileDao();
-//        CustomerProfile cp = dao.getCustomer(3, 3);
-//        List<Requests> r = dao.getConsultationRequestsPagination(1, 10);
-//        dao.updateprofilecustomer("0912837472", "Nam", 3, 3);
-//        System.out.println(r.toString());
-//        System.out.println(r.toString());
+
+        // Thử cập nhật chỉ số cơ thể cho user có ID = 3, role = 3
+        double testHeight = 175.0;
+        double testWeight = 80;
+        double testBMI = testWeight / Math.pow(testHeight / 100.0, 2); // BMI = kg / m^2
+        String testActivity = "Trung bình";
+        String testGoal = "Tăng cơ";
+        int testUserId = 3;
+        int testRole = 3;
+
+        dao.update(testHeight, testWeight, testBMI, testActivity, testGoal, testUserId, testRole);
+
+        // In lại để kiểm tra
+        CustomerProfile updated = dao.getCustomer(testUserId, testRole);
+        if (updated != null) {
+            System.out.println("✅ Cập nhật thành công!");
+            System.out.println("Chiều cao: " + updated.getHeight());
+            System.out.println("Cân nặng: " + updated.getWeight());
+            System.out.println("BMI: " + updated.getBMI());
+            System.out.println("Mức độ hoạt động: " + updated.getActivitylevel());
+            System.out.println("Mục tiêu: " + updated.getGoal());
+        } else {
+            System.out.println("❌ Không tìm thấy hồ sơ khách hàng sau khi cập nhật.");
+        }
     }
+
 }

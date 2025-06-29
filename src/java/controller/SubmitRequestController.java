@@ -94,7 +94,7 @@ public class SubmitRequestController extends HttpServlet {
 //            }
 
             int customerId = user.getUserID(); // Lấy ID từ user trong session
-            session.setAttribute("customerId", customerId); // ✅ Lưu vào session nếu muốn sử dụng sau
+            session.setAttribute("customerId", customerId); // Lưu vào session nếu muốn sử dụng sau
 
             if (preferredDateStr == null || preferredDateStr.trim().isEmpty()) {
                 session.setAttribute("requestMessage", "Vui lòng chọn ngày tư vấn mong muốn.");
