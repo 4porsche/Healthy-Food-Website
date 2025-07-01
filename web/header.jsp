@@ -178,7 +178,7 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav m-auto">
                             <a href="home" class="nav-item nav-link active">Trang chủ</a>
-                            <a href="product-list.html" class="nav-item nav-link">Sản phẩm</a>
+                            <a href="products" class="nav-item nav-link">Sản phẩm</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu">
