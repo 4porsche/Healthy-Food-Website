@@ -399,23 +399,145 @@
         </div>
 
         <div class="main-content">
-    <%
-        String action = request.getParameter("action");
-        if ("report".equals(action)) {
-    %>
-        <jsp:include page="report.jsp" />
-    <%
-        } else if ("product".equals(action)) {
-    %>
-        <jsp:include page="manage-product1.jsp" />
-    <%
-        } else {
-    %>
-        <jsp:include page="home.jsp" />
-    <%
-        }
-    %>
-</div>
+            <%
+                String action = request.getParameter("action");
+                if ("report".equals(action)) {
+            %>
+            <jsp:include page="report.jsp" />
+            <%
+                } else if ("product".equals(action)) {
+            %>
+            <jsp:include page="manage-product1.jsp" />
+            <%
+                } else {
+            %>
+            <jsp:include page="home.jsp" />
+            <%
+                }
+            %>
+        </div>
+
+        <!-- Add Account Form (Initially Hidden) -->
+        <div class="section" id="addAccountForm" style="display: none;">
+            <h3><i class="fas fa-user-plus"></i>Thêm sản phẩm</h3>
+            <form action="seller-dashboard" method="post">
+                <input type="hidden" name="action" value="crud">
+                <input type="hidden" name="crudAction" value="create">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addName">Tên sản phẩm</label>
+                        <input type="text" id="addName" name="name" required placeholder="Nhập tên sản phẩm">
+                    </div>
+                    <div class="form-group">
+                        <label for="addUsername">Username:</label>
+                        <input type="text" id="addUsername" name="username" required placeholder="Enter username">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addPrice">Giá</label>
+                        <input type="number" id="addPrice" name="price" required placeholder="Nhập giá sản phẩm">
+                    </div>
+                    <div class="form-group">
+                        <label for="addDescription">Mô tả</label>
+                        <input type="tex" id="addDescription" name="description" required placeholder="Nhập mô tả sản phẩm">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addRoleId">Role:</label>
+                        <select id="addRoleId" name="roleId" required>
+                            <option value="" disabled selected>Select a role</option>
+                            <option value="1">Administrator</option>
+                            <option value="3">Customer</option>
+                            <option value="4">Nutritionist</option>
+                            <option value="5">Seller</option>
+                            <option value="6">Shipper</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addActive">Account Status:</label>
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="addActive" name="isActive" checked style="width: auto; margin-right: 10px;">
+                            <label for="addActive" style="display: inline; font-weight: normal;">Active Account</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crud-actions">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-plus-circle"></i> Create Account
+                    </button>
+                    <button type="button" class="btn-outline" onclick="hideAddAccountForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Edit Account Form (Initially Hidden) -->
+        <div class="section" id="editAccountForm" style="display: none;">
+            <h3><i class="fas fa-user-edit"></i> Edit Account</h3>
+            <form action="admin-dashboard" method="post">
+                <input type="hidden" name="action" value="crud">
+                <input type="hidden" name="crudAction" value="update">
+                <input type="hidden" id="editUserId" name="userId">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editFullname">Full Name:</label>
+                        <input type="text" id="editFullname" name="fullname" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="editUsername">Username:</label>
+                        <input type="text" id="editUsername" name="username" required placeholder="Enter username">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editEmail">Email:</label>
+                        <input type="email" id="editEmail" name="email" required placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPassword">Password (leave blank to keep current):</label>
+                        <input type="password" id="editPassword" name="password" placeholder="Enter new password">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editRoleId">Role:</label>
+                        <select id="editRoleId" name="roleId" required>
+                            <option value="1">Administrator</option>
+                            <option value="3">Customer</option>
+                            <option value="4">Nutritionist</option>
+                            <option value="5">Seller</option>
+                            <option value="6">Shipper</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editActive">Account Status:</label>
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="editActive" name="isActive" style="width: auto; margin-right: 10px;">
+                            <label for="editActive" style="display: inline; font-weight: normal;">Active Account</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crud-actions">
+                    <button type="submit" class="btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Update Account
+                    </button>
+                    <button type="button" class="btn-outline" onclick="hideEditAccountForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
 
         <script>
             // Function to show/hide add account form
