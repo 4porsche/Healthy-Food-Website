@@ -58,29 +58,36 @@ public class RequestsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestsDao pd = new RequestsDao();
-//        List<Requests> listRequests = pd.getAllRequestsForNutritionist();
+        RequestsDao rd = new RequestsDao();
+
+        // Lấy thông tin tìm kiếm và lọc
+        String search = request.getParameter("search");     // tên khách hàng
+        String status = request.getParameter("status");     // Accepted / Pending / Rejected
         String pageRaw = request.getParameter("page");
-        if (pageRaw == null) {
-            pageRaw = "1";
+
+        int page = 1;
+        int pageSize = 10;
+
+        if (pageRaw != null) {
+            try {
+                page = Integer.parseInt(pageRaw);
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
         }
-//        try {
-//            page = Integer.parseInt(pageRaw);
-//            if (page <= 0) {
-//                page = 1;
-//            }
-//        } catch (NumberFormatException e) {
-//            page = 1;
-//        }
 
-        List<Requests> list = pd.getConsultationRequestsPagination(Integer.parseInt(pageRaw), 10);
-        int totalPages = pd.countPageConsultation(10);
-
+        // Truy vấn danh sách yêu cầu tư vấn theo search + filter
+        List<Requests> list = rd.getFilteredRequests(search, status, page, pageSize);
+        int totalRecords = rd.countFilteredRequests(search, status);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        
+        // Gửi dữ liệu về JSP
         request.setAttribute("list", list);
-        request.setAttribute("currentPage", pageRaw);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("search", search);
+        request.setAttribute("status", status);
 
-//        request.setAttribute("requests", listRequests);
         request.getRequestDispatcher("nutritionist.jsp").forward(request, response);
     }
 

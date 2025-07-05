@@ -17,7 +17,7 @@ import java.sql.Timestamp;
  *
  * @author Admin
  */
-public class RequestsDao extends DBContext{
+public class RequestsDao extends DBContext {
 //    public List<Requests> getAllRequestsForNutritionist() {
 //        List<Requests> list = new ArrayList<>();
 //        String sql = "select a.RequestID, a.CustomerID, b.Fullname, a.RequestDate, a.PreferredDate, a.Status, a.ResponseNote from ConsulationRequests a join Users b ON a.CustomerID = b.UserID";
@@ -56,11 +56,11 @@ public class RequestsDao extends DBContext{
             System.out.println(e);
         }
     }
-    
+
     public Requests getConsultationById(int id) {
         String sql = "select * from ConsulationRequests where requestID = ?";
         try (
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+                PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -75,7 +75,7 @@ public class RequestsDao extends DBContext{
         }
         return null;
     }
-    
+
     public int countPageConsultation(int perPage) {
         String sql = "select count(*) from ConsulationRequests";
         int totalPage = 0;
@@ -122,9 +122,9 @@ public class RequestsDao extends DBContext{
         }
         return list;
     }
-    
-    public void addRequest(int customerid,  Date prefferedDate) throws SQLException{
-          String sql = "insert into ConsulationRequests (CustomerID, PreferredDate, Status) VALUES (?, ?, 'Pending') ";
+
+    public void addRequest(int customerid, Date prefferedDate) throws SQLException {
+        String sql = "insert into ConsulationRequests (CustomerID, PreferredDate, Status) VALUES (?, ?, 'Pending') ";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
 //            ps.setString(1, addid);
@@ -135,6 +135,93 @@ public class RequestsDao extends DBContext{
             System.out.println(e);
         }
     }
+
+    public List<Requests> getFilteredRequests(String search, String status, int page, int pageSize) {
+        List<Requests> list = new ArrayList<>();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT * FROM ConsulationRequests a join Users b on a.CustomerID = b.UserID WHERE 1=1";
+
+            if (search != null && !search.trim().isEmpty()) {
+                sql += " AND b.fullname LIKE ?";
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                sql += " AND a.Status = ?";
+            }
+
+            sql += " ORDER BY requestDate DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+            ps = connection.prepareStatement(sql);
+
+            int paramIndex = 1;
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + search.trim() + "%");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(paramIndex++, status);
+            }
+
+            ps.setInt(paramIndex++, (page - 1) * pageSize);
+            ps.setInt(paramIndex, pageSize);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                 Requests c = new Requests();
+                c.setRequestID(rs.getInt("RequestID"));
+                c.setCustomerID(rs.getInt("CustomerID"));
+                c.setRequestDate(rs.getDate("RequestDate"));
+                c.setCustomerName(rs.getString("Fullname"));
+                c.setPreferredDate(rs.getDate("PreferredDate"));
+                c.setStatus(rs.getString("Status"));
+                c.setResponseNote(rs.getString("ResponseNote"));
+                list.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public int countFilteredRequests(String search, String status) {
+        int count = 0;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT COUNT(*) FROM ConsulationRequests a join Users b on a.CustomerID = b.UserID WHERE 1=1";
+
+            if (search != null && !search.trim().isEmpty()) {
+                sql += " AND b.Fullname LIKE ?";
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                sql += " AND a.Status = ?";
+            }
+
+            ps = connection.prepareStatement(sql);
+
+            int paramIndex = 1;
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + search.trim() + "%");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(paramIndex++, status);
+            }
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+
+        return count;
+    }
+
     public static void main(String[] args) {
         RequestsDao rd = new RequestsDao();
         Requests r = rd.getConsultationById(4);

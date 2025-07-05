@@ -56,11 +56,19 @@ public class UpdateStatusController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         RequestsDao rd = new RequestsDao();
         try {
             int requestId = Integer.parseInt(request.getParameter("id"));
             String status = request.getParameter("status");
+
+            // Lấy thông tin lọc hiện tại
+            String search = request.getParameter("search");
+            String filterStatus = request.getParameter("status");
+
+            String pageStr = request.getParameter("page");
+            int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
 
             Requests req = rd.getConsultationById(requestId);
             String currentStatus = req.getStatus();
@@ -71,18 +79,26 @@ public class UpdateStatusController extends HttpServlet {
             String statusLower = status.toLowerCase();
 
             // Nếu cập nhật sang Accepted hoặc Rejected mà ghi chú rỗng thì báo lỗi
-            if ((statusLower.equals("accepted"))
+            if (statusLower.equals("accepted")
                     && (note == null || note.trim().isEmpty())) {
-
                 request.setAttribute("error", "Ghi chú không được để trống khi thay đổi trạng thái.");
-                request.setAttribute("list", rd.getConsultationRequestsPagination(1, 10));
-                request.setAttribute("totalPages", rd.countPageConsultation(10));
+
+                // Gửi lại danh sách theo search/status hiện tại
+                List<Requests> list = rd.getFilteredRequests(search, filterStatus, 1, 10);
+                int totalRecords = rd.countFilteredRequests(search, filterStatus);
+                int totalPages = (int) Math.ceil((double) totalRecords / 10);
+
+                request.setAttribute("list", list);
+                request.setAttribute("totalPages", totalPages);
                 request.setAttribute("currentPage", 1);
+                request.setAttribute("search", search);
+                request.setAttribute("status", filterStatus);
+
                 request.getRequestDispatcher("nutritionist.jsp").forward(request, response);
                 return;
             }
 
-            // Cập nhật trạng thái nếu hợp lệ
+            // Cập nhật nếu hợp lệ
             if ("accepted".equals(statusLower) && currentStatusLower.equals("pending")) {
                 rd.updateResponse(requestId, "Accepted", note);
             } else if ("rejected".equals(statusLower) && currentStatusLower.equals("pending")) {
@@ -92,26 +108,42 @@ public class UpdateStatusController extends HttpServlet {
                 rd.updateResponse(requestId, "Pending", note);
             }
 
-            response.sendRedirect("requests");
+            // Quay về danh sách mặc định (không lọc)
+            response.sendRedirect("requests?page=" + page + "&search=" + (search != null ? search : "") + "&status=" + (filterStatus != null ? filterStatus : ""));
+
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(500, "Lỗi xử lý trạng thái.");
         }
     }
 
-    // 2. Xử lý chỉnh sửa ghi chú (từ modal POST)
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         RequestsDao rd = new RequestsDao();
         try {
             int requestId = Integer.parseInt(request.getParameter("requestID"));
             String newNote = request.getParameter("responseNote");
 
+            // Lấy thông tin lọc hiện tại
+            String search = request.getParameter("search");
+            String filterStatus = request.getParameter("status");
+            String pageStr = request.getParameter("page");
+            int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
+
             if (newNote == null || newNote.trim().isEmpty()) {
                 request.setAttribute("error", "Ghi chú không được để trống.");
-                request.setAttribute("list", rd.getConsultationRequestsPagination(1, 10));
-                request.setAttribute("totalPages", rd.countPageConsultation(10));
+
+                List<Requests> list = rd.getFilteredRequests(search, filterStatus, 1, 10);
+                int totalRecords = rd.countFilteredRequests(search, filterStatus);
+                int totalPages = (int) Math.ceil((double) totalRecords / 10);
+
+                request.setAttribute("list", list);
+                request.setAttribute("totalPages", totalPages);
                 request.setAttribute("currentPage", 1);
+                request.setAttribute("search", search);
+                request.setAttribute("status", filterStatus);
+
                 request.getRequestDispatcher("nutritionist.jsp").forward(request, response);
                 return;
             }
@@ -119,10 +151,11 @@ public class UpdateStatusController extends HttpServlet {
             Requests req = rd.getConsultationById(requestId);
             String currentStatus = req.getStatus();
 
-            // Cập nhật note mà không đổi trạng thái
             rd.updateResponse(requestId, currentStatus, newNote);
 
-            response.sendRedirect("requests");
+            // Quay về danh sách mặc định
+            response.sendRedirect("requests?page=" + page + "&search=" + (search != null ? search : "") + "&status=" + (filterStatus != null ? filterStatus : ""));
+
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(500, "Lỗi khi cập nhật ghi chú.");
