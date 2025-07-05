@@ -57,6 +57,25 @@ public class RequestsDao extends DBContext{
         }
     }
     
+    public Requests getConsultationById(int id) {
+        String sql = "select * from ConsulationRequests where requestID = ?";
+        try (
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Requests c = new Requests();
+                c.setRequestID(rs.getInt("RequestID"));
+                c.setResponseNote(rs.getString("ResponseNote"));
+                c.setStatus(rs.getString("Status"));
+                return c;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public int countPageConsultation(int perPage) {
         String sql = "select count(*) from ConsulationRequests";
         int totalPage = 0;
@@ -115,5 +134,11 @@ public class RequestsDao extends DBContext{
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    public static void main(String[] args) {
+        RequestsDao rd = new RequestsDao();
+        Requests r = rd.getConsultationById(4);
+        rd.updateResponse(4, "Accepted", "Hello");
+        System.out.println(r.toString());
     }
 }

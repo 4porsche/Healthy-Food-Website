@@ -63,7 +63,7 @@
                                                 <!-- Modal Thay đổi -->
                                                 <div class="modal fade" id="editModal${c.requestID}" tabindex="-1" aria-labelledby="editModalLabel${c.requestID}" aria-hidden="true">
                                                     <div class="modal-dialog">
-                                                        <form action="updateresponse" method="post">
+                                                        <form action="updatestatus" method="post">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="editModalLabel${c.requestID}">Chỉnh sửa ghi chú</h5>
@@ -71,7 +71,7 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <input type="hidden" name="requestID" value="${c.requestID}" />
-                                                                   <div class="mb-3">
+                                                                    <div class="mb-3">
                                                                         <label for="responseNote${c.requestID}" class="form-label">Ghi chú phản hồi</label>
                                                                         <textarea class="form-control" name="responseNote" id="responseNote${c.requestID}" rows="4">${c.responseNote}</textarea>
                                                                     </div>
@@ -92,16 +92,23 @@
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${c.status == 'Pending'}">
-                                                        <a class="btn btn-sm btn-success mb-1" href="updateconsultation?id=${c.requestID}">Chấp nhận</a>
-                                                        <a class="btn btn-sm btn-danger" href="updateconsultation?id=${c.requestID}" onclick="return confirmDelete()">Hủy</a>
+                                                        <a class="btn btn-sm btn-success mb-1" 
+                                                           href="updatestatus?id=${c.requestID}&status=accepted">Chấp nhận</a>
+
+                                                        <a class="btn btn-sm btn-danger" 
+                                                           href="updatestatus?id=${c.requestID}&status=rejected">Hủy</a>
                                                     </c:when>
 
                                                     <c:when test="${c.status == 'Accepted' || c.status == 'Rejected'}">
-                                                        <a class="btn btn-sm btn-warning mb-1" href="editconsultation?id=${c.requestID}">Sửa</a>
-                                                        <a class="btn btn-sm btn-danger" href="deleteconsultation?id=${c.requestID}" onclick="return confirmDelete()">Xóa</a>
+                                                        <a class="btn btn-sm btn-warning mb-1" 
+                                                           href="updatestatus?id=${c.requestID}&status=pending">Sửa</a>
+
+                                                        <a class="btn btn-sm btn-danger" 
+                                                           href="deleteconsultation?id=${c.requestID}">Xóa</a>
                                                     </c:when>
                                                 </c:choose>
                                             </td>
+
 
                                         </tr>
                                     </c:forEach>

@@ -143,6 +143,7 @@ CREATE TABLE ConsulationRequests (
     FOREIGN KEY (CustomerID) REFERENCES CustomerProfiles(CustomerID)
 );
 
+
 INSERT INTO ConsulationRequests (CustomerID, PreferredDate, Status, ResponseNote)
 VALUES 
 (3, '2025-06-10 09:00:00', 'Accepted', N'Chế độ ăn nhẹ: sáng cháo yến mạch, trưa ức gà luộc, tối cá hấp.'),
@@ -240,4 +241,10 @@ VALUES
 
 select*from Products
 
-SELECT * FROM ConsulationRequests ORDER BY RequestDate OFFSET 1 ROWS FETCH NEXT 10 ROWS ONLY
+SELECT * FROM ConsulationRequests a join Users b on a.CustomerID = b.UserID ORDER BY RequestDate OFFSET 1 ROWS FETCH NEXT 10 ROWS ONLY
+select * from Users
+select * from CustomerProfiles a join Users b on a.CustomerID = b.UserID
+
+ALTER TABLE Users ADD google_id VARCHAR(255) NULL;
+ALTER TABLE Users ADD IsActive BIT DEFAULT 1;
+UPDATE Users SET IsActive = 1;
