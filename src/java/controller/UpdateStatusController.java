@@ -65,7 +65,7 @@ public class UpdateStatusController extends HttpServlet {
 
             // Lấy thông tin lọc hiện tại
             String search = request.getParameter("search");
-            String filterStatus = request.getParameter("status");
+            String filterStatus = request.getParameter("filterStatus");
 
             String pageStr = request.getParameter("page");
             int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
@@ -127,7 +127,7 @@ public class UpdateStatusController extends HttpServlet {
 
             // Lấy thông tin lọc hiện tại
             String search = request.getParameter("search");
-            String filterStatus = request.getParameter("status");
+            String filterStatus = request.getParameter("filterStatus");
             String pageStr = request.getParameter("page");
             int page = (pageStr != null && !pageStr.isEmpty()) ? Integer.parseInt(pageStr) : 1;
 
@@ -154,7 +154,7 @@ public class UpdateStatusController extends HttpServlet {
             rd.updateResponse(requestId, currentStatus, newNote);
 
             // Quay về danh sách mặc định
-            response.sendRedirect("requests?page=" + page + "&search=" + (search != null ? search : "") + "&status=" + (filterStatus != null ? filterStatus : ""));
+            response.sendRedirect("requests?page=" + page + "&search=" + (search != null ? search : "") + "&filterStatus=" + (filterStatus != null ? filterStatus : ""));
 
         } catch (Exception e) {
             e.printStackTrace();

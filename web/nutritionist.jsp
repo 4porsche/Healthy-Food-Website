@@ -138,7 +138,7 @@
             </div>
 
             <!-- Pagination -->
-            <c:if test="${totalPages > 1}">
+            <c:if test="${totalPages >= 1}">
                 <nav>
                     <ul class="pagination justify-content-center">
                         <c:if test="${currentPage > 1}">

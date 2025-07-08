@@ -248,3 +248,5 @@ select * from CustomerProfiles a join Users b on a.CustomerID = b.UserID
 ALTER TABLE Users ADD google_id VARCHAR(255) NULL;
 ALTER TABLE Users ADD IsActive BIT DEFAULT 1;
 UPDATE Users SET IsActive = 1;
+
+SELECT * FROM ConsulationRequests where 1=1 and customerName
