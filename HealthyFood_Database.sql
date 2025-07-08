@@ -137,9 +137,23 @@ CREATE TABLE ConsulationRequests (
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID)
 );
 
+INSERT INTO ConsulationRequests (CustomerID, PreferredDate, Status, ResponseNote)
+VALUES 
+(3, '2025-07-09 09:00:00', 'Pending', NULL),
+(3, '2025-07-10 10:00:00', 'Accepted', N'Đã tư vấn thực đơn giảm cân.'),
+(3, '2025-07-11 11:30:00', 'Rejected', N'Không liên hệ được khách hàng.'),
+(4, '2025-07-12 14:00:00', 'Pending', NULL),
+(4, '2025-07-13 15:00:00', 'Accepted', N'Tư vấn chế độ ăn chay.'),
+(4, '2025-07-14 16:00:00', 'Pending', NULL),
+(5, '2025-07-15 09:00:00', 'Pending', NULL),
+(5, '2025-07-16 10:30:00', 'Rejected', N'Khách yêu cầu hủy lịch tư vấn.'),
+(5, '2025-07-17 13:00:00', 'Accepted', N'Tư vấn tăng cân bằng protein.'),
+(5, '2025-07-18 11:00:00', 'Pending', NULL);
 
 
 
+
+Delete From ConsulationRequests
 
 select * from ConsulationRequests
 
@@ -208,4 +222,4 @@ ALTER TABLE Users ADD google_id VARCHAR(255) NULL;
 ALTER TABLE Users ADD IsActive BIT DEFAULT 1;
 UPDATE Users SET IsActive = 1;
 
-SELECT * FROM ConsulationRequests where 1=1 and customerName
+SELECT * FROM Users where 1=1 and customerName
