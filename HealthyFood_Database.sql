@@ -17,21 +17,15 @@ CREATE TABLE Users (
     Username VARCHAR(50) UNIQUE,
     Password VARCHAR(50),
     Email VARCHAR(50) UNIQUE,
-    RoleID INT,
-    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
-);
-
--- CustomerProfiles Table
-CREATE TABLE CustomerProfiles (
-    CustomerID INT PRIMARY KEY,
-    Phone VARCHAR(50) UNIQUE,
+	 Phone VARCHAR(50) UNIQUE,
     Gender NVARCHAR(10),
     Height DECIMAL(5,2),
     Weight DECIMAL(5,2),
     BMI DECIMAL(5,2),
     ActivityLevel NVARCHAR(50),
     Goal NVARCHAR(50),
-    FOREIGN KEY (CustomerID) REFERENCES Users(UserID) ON DELETE CASCADE
+    RoleID INT,
+    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
 );
 
 -- Categories Table
@@ -140,42 +134,10 @@ CREATE TABLE ConsulationRequests (
     PreferredDate DATETIME NULL, -- Ngày và giờ mong muốn tư vấn (gộp lại)
     Status NVARCHAR(50) DEFAULT 'Pending',
     ResponseNote NVARCHAR(1000) NULL,
-    FOREIGN KEY (CustomerID) REFERENCES CustomerProfiles(CustomerID)
+    FOREIGN KEY (CustomerID) REFERENCES Users(UserID)
 );
 
 
-INSERT INTO ConsulationRequests (CustomerID, PreferredDate, Status, ResponseNote)
-VALUES 
-(3, '2025-06-10 09:00:00', 'Accepted', N'Chế độ ăn nhẹ: sáng cháo yến mạch, trưa ức gà luộc, tối cá hấp.'),
-(4, '2025-06-12 14:00:00', 'Rejected', N'Khách hàng chưa đủ thông tin sức khỏe, vui lòng bổ sung.'),
-(3, '2025-06-15 08:30:00', 'Accepted', 
- N' Thực đơn 1 ngày:
- - Sáng: 1 bát cháo yến mạch + 1 quả trứng luộc + 1 ly sữa đậu nành
- - Trưa: 100g ức gà + rau luộc + 1 chén cơm gạo lứt
- - Xế: 1 quả táo + 10 hạt hạnh nhân
- - Tối: Salad cá hồi + 1 củ khoai lang luộc'),
-(4, '2025-06-13 08:30:00', 'Pending', 
- N' Đang chờ xác nhận từ chuyên gia dinh dưỡng.'),
-(4, '2025-06-14 07:30:00', 'Accepted', 
- N' Thực đơn phù hợp người giảm cân:
- - Sáng: trứng luộc + bánh mì đen
- - Trưa: thịt bò áp chảo + salad
- - Tối: súp bí đỏ'),
-(4, '2025-06-16 10:15:00', 'Pending', NULL),
-(3, '2025-06-17 15:00:00', 'Rejected', 
- N'Lý do từ chối: trùng lịch tư vấn, vui lòng chọn thời gian khác.'),
-(3, '2025-06-18 11:00:00', 'Accepted', 
- N'Chế độ tăng cơ:
- - Sáng: yến mạch + sữa chua Hy Lạp
- - Trưa: thịt bò + khoai lang + rau xanh
- - Tối: cá hồi áp chảo + gạo lứt'),
-(4, '2025-06-19 13:30:00', 'Pending', 
- N'Đang phân tích hồ sơ sức khỏe.'),
-(4, '2025-06-20 09:30:00', 'Accepted', 
- N'Chế độ ăn kiêng cho người tiểu đường:
- - Sáng: bánh mì nguyên cám + sữa hạt không đường
- - Trưa: ức gà nướng + salad
- - Tối: canh rau củ + cơm gạo lứt');
 
 
 
@@ -190,23 +152,21 @@ INSERT INTO Roles (RoleName) VALUES ('Seller');
 INSERT INTO Roles (RoleName) VALUES ('Shipper');
 
 -- Insert Users
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Admin One', 'admin1', 'pass123', 'admin1@example.com', 1);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Guest One', 'guest1', 'pass123', 'guest1@example.com', 2);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Customer One', 'customer1', 'pass123', 'cust1@example.com', 3);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Customer Two', 'customer2', 'pass123', 'cust2@example.com', 3);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Customer Three', 'customer3', 'pass123', 'cust3@example.com', 3);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Nutritionist One', 'nutri1', 'pass123', 'nutri1@example.com', 4);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Seller One', 'seller1', 'pass123', 'seller1@example.com', 5);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Seller Two', 'seller2', 'pass123', 'seller2@example.com', 5);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Shipper One', 'shipper1', 'pass123', 'shipper1@example.com', 6);
-INSERT INTO Users (Fullname, Username, Password, Email, RoleID) VALUES ('Shipper One', 'shipper2', 'pass123', 'shipper2@example.com', 6);
+INSERT INTO Users (Fullname, Username, Password, Email, Phone, Gender, Height, Weight, BMI, ActivityLevel, Goal, RoleID) VALUES
+('Admin One', 'admin1', 'pass123', 'admin1@example.com', '0911000001', N'Nam', NULL, NULL, NULL, NULL, NULL, 1),
+('Guest One', 'guest1', 'pass123', 'guest1@example.com', '0911000002', N'Nữ', NULL, NULL, NULL, NULL, NULL, 2),
+('Customer One', 'customer1', 'pass123', 'cust1@example.com', '0911000003', N'Nam', 170.00, 68.00, 23.53, N'Vận động nhẹ', N'Giảm cân', 3),
+('Customer Two', 'customer2', 'pass123', 'cust2@example.com', '0911000004', N'Nữ', 155.00, 52.00, 21.64, N'Trung bình', N'Tăng cân', 3),
+('Customer Three', 'customer3', 'pass123', 'cust3@example.com', '0911000005', N'Nam', 180.00, 80.00, 24.69, N'Vận động nặng', N'Giữ cân', 3),
+('Nutritionist One', 'nutri1', 'pass123', 'nutri1@example.com', '0911000006', N'Nữ', NULL, NULL, NULL, NULL, NULL, 4),
+('Seller One', 'seller1', 'pass123', 'seller1@example.com', '0911000007', N'Nam', NULL, NULL, NULL, NULL, NULL, 5),
+('Seller Two', 'seller2', 'pass123', 'seller2@example.com', '0911000008', N'Nữ', NULL, NULL, NULL, NULL, NULL, 5),
+('Shipper One', 'shipper1', 'pass123', 'shipper1@example.com', '0911000009', N'Nam', NULL, NULL, NULL, NULL, NULL, 6),
+('Shipper Two', 'shipper2', 'pass123', 'shipper2@example.com', '0911000010', N'Nữ', NULL, NULL, NULL, NULL, NULL, 6);
 
--- Insert CustomerProfiles
-INSERT INTO CustomerProfiles (CustomerID, Phone, Gender, Height, Weight, BMI, ActivityLevel, Goal)
-VALUES
-	(3, '0901234567', N'Nam', 175.5, 70.0, 22.8, N'Trung bình', N'Tăng cơ'),
-	(4, '0901234568', N'Nữ', 160.0, 55.0, 21.5, N'Thấp', N'Giảm cân'),
-	(5, '0912345678', N'Nam', 180.0, 80.0, 24.7, N'Cao', N'Giữ dáng');
+select * from Users
+DELETE FROM Users;
+
 
 
 -- Insert Categories
@@ -242,8 +202,7 @@ VALUES
 select*from Products
 
 SELECT * FROM ConsulationRequests a join Users b on a.CustomerID = b.UserID ORDER BY RequestDate OFFSET 1 ROWS FETCH NEXT 10 ROWS ONLY
-select * from Users
-select * from CustomerProfiles a join Users b on a.CustomerID = b.UserID
+select * from CustomerProfiles a join Users b on a.CustomerID = b.UserID where b.
 
 ALTER TABLE Users ADD google_id VARCHAR(255) NULL;
 ALTER TABLE Users ADD IsActive BIT DEFAULT 1;
