@@ -395,7 +395,7 @@
                 <div class="form-row">
                     <div class="form-group" style="flex: 3;">
                         <label for="searchQuery">Search by Keyword:</label>
-                        <input type="text" id="searchQuery" name="query" placeholder="Search by name, email, username...">
+                        <input type="text" id="searchQuery" name="query" placeholder="Tìm kiếm sản phẩm...">
                     </div>
                     <div class="form-group" style="flex: 1; align-self: flex-end;">
                         <button type="submit" class="btn-primary" style="width: 100%;">
