@@ -390,38 +390,35 @@
 
         <div id="searchForm">
             <h3><i class="fas fa-search"></i>Tìm kiếm sản phẩm</h3>
-            <form action="seller-dashboard" method="get" style="margin-bottom: 20px;">
+            <form action="manage-product1" style="margin-bottom: 20px;">
                 <input type="hidden" name="action" value="search">
                 <div class="form-row">
                     <div class="form-group" style="flex: 3;">
-                        <label for="searchQuery">Search by Keyword:</label>
-                        <input type="text" id="searchQuery" name="query" placeholder="Tìm kiếm sản phẩm...">
+                        <input value="${txtS}" type="text" id="searchQuery" name="txt" placeholder="Tìm kiếm sản phẩm...">
                     </div>
                     <div class="form-group" style="flex: 1; align-self: flex-end;">
                         <button type="submit" class="btn-primary" style="width: 100%;">
-                            <i class="fas fa-search"></i> Search
+                            <i class="fas fa-search"></i> Tìm kiếm
                         </button>
                     </div>
                 </div>
             </form>
 
-            <form action="admin-dashboard" method="get">
+            <form action="manage-product1">
                 <input type="hidden" name="action" value="filter">
                 <div class="form-row">
                     <div class="form-group" style="flex: 3;">
-                        <label for="filterRoleId">Filter by Role:</label>
-                        <select id="filterRoleId" name="roleId">
-                            <option value="all" selected>All Roles</option>
-                            <option value="1">Administrator</option>
-                            <option value="3">Customer</option>
-                            <option value="4">Nutritionist</option>
-                            <option value="5">Seller</option>
-                            <option value="6">Shipper</option>
+                        <label>Lọc theo danh mục:</label>
+                        <select name="sort">
+                            <option value="" selected>-- Tất cả danh mục --</option>
+                            <option value="1" ${param.sort == 1 ? 'selected' : ''}>Cuốn lành mạnh</option>
+                            <option value="2" ${param.sort == 2 ? 'selected' : ''}>Ít tinh bột</option>
+                            <option value="3" ${param.sort == 3 ? 'selected' : ''}>Thuần chay đặc biệt</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex: 1; align-self: flex-end;">
                         <button type="submit" class="btn-outline" style="width: 100%;">
-                            <i class="fas fa-filter"></i> Filter
+                            <i class="fas fa-filter"></i> Lọc
                         </button>
                     </div>
                 </div>
@@ -501,10 +498,69 @@
 
                 </c:otherwise>
             </c:choose>
-
-
-
         </div>
+        
+        <!-- Add Account Form (Initially Hidden) -->
+            <div class="section" id="addProductForm" style="display: none;">
+                <h3><i class="fas fa-user-plus"></i> Add New Account</h3>
+                <form action="admin-dashboard" method="post">
+                    <input type="hidden" name="action" value="crud">
+                    <input type="hidden" name="crudAction" value="create">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addFullname">Full Name:</label>
+                            <input type="text" id="addFullname" name="fullname" required placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="addUsername">Username:</label>
+                            <input type="text" id="addUsername" name="username" required placeholder="Enter username">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addEmail">Email:</label>
+                            <input type="email" id="addEmail" name="email" required placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="addPassword">Password:</label>
+                            <input type="password" id="addPassword" name="password" required placeholder="Enter password">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addRoleId">Role:</label>
+                            <select id="addRoleId" name="roleId" required>
+                                <option value="" disabled selected>Select a role</option>
+                                <option value="1">Administrator</option>
+                                <option value="3">Customer</option>
+                                <option value="4">Nutritionist</option>
+                                <option value="5">Seller</option>
+                                <option value="6">Shipper</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="addActive">Account Status:</label>
+                            <div style="margin-top: 10px;">
+                                <input type="checkbox" id="addActive" name="isActive" checked style="width: auto; margin-right: 10px;">
+                                <label for="addActive" style="display: inline; font-weight: normal;">Active Account</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="crud-actions">
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus-circle"></i> Create Account
+                        </button>
+                        <button type="button" class="btn-outline" onclick="hideAddAccountForm()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
 
         <script>
             // Function to show/hide add account form
@@ -520,7 +576,7 @@
             // Function to show/hide edit account form
             function showEditForm(productId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl) {
                 document.getElementById('editProductId').value = productId;
-                document.getElementById('editCategoryId').value = categoryId;
+                document.getElementByategoryId').value = categoryId;
                 document.getElementById('editProductName').value = productName;
                 document.getElementById('editPrice').value = price;
                 document.getElementById('editDescription').value = description;

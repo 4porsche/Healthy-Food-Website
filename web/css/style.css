@@ -604,6 +604,7 @@ button.btn {
     font-size: 30px;
     color: #3C603C;
     font-weight: 700;
+    text-align: center;
 }
 
 .product-item .product-content .price span {

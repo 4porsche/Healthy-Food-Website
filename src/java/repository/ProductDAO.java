@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import model.Categories;
 import model.Product;
@@ -685,4 +687,53 @@ public class ProductDAO extends DBContext {
             System.out.println(e);
         }
     }
+
+    public List<Product> getMyProductByTag(int sellerId, String tag) {
+        String sql = "SELECT * FROM Products WHERE SellerID = ? AND Tags LIKE ?";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, sellerId);
+            ps.setString(2, "%" + tag + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                String ingredient = rs.getString("Ingredient");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+                String imageUrl = rs.getString("ImageUrl");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public Set<String> getAllTagsBySeller(int sellerId) {
+        List<Product> allProducts = getMyProduct(sellerId); // Phải gọi đúng method lấy ALL product, KHÔNG bị filter
+        Set<String> allTags = new LinkedHashSet<>();
+
+        for (Product product : allProducts) {
+            if (product.getTags() != null && !product.getTags().trim().isEmpty()) {
+                String[] tags = product.getTags().split(",");
+                for (String tag : tags) {
+                    allTags.add(tag.trim());
+                }
+            }
+        }
+        return allTags;
+    }
+
 }
