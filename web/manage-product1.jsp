@@ -573,7 +573,7 @@
                 document.getElementById('addAccountForm').style.display = 'none';
             }
 
-            // Function to show/hide edit account form
+            // Function to show/hide edit product form
             function showEditForm(productId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl) {
                 document.getElementById('editProductId').value = productId;
                 document.getElementByategoryId').value = categoryId;
