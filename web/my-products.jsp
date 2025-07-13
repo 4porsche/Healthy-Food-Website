@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -134,12 +135,12 @@
                                     <c:set var="pageSize" value="6" />
                                     <c:set var="currentPage" value="${param.page != null ? param.page : 1}" />
                                     <c:set var="totalProducts" value="${productList.size()}" />
-                                    <c:set var="totalPages" value="${(totalProducts + pageSize - 1) / pageSize}" />
+                                    <c:set var="totalPagesRaw" value="${(totalProducts + pageSize - 1) / pageSize}" />
+<c:set var="totalPages" value="${fn:substringBefore(totalPagesRaw, '.')}" />
 
                                     <c:set var="start" value="${(currentPage - 1) * pageSize}" />
                                     <c:set var="end" value="${start + pageSize - 1}" />
-
-
+                                    
                                     <c:forEach var="p" items="${productList}" varStatus="status">
                                         <c:if test="${status.index >= start && status.index <= end}">
                                             <div class="col-lg-4">
