@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.CustomerProfile;
 import repository.ProfileDao;
 
@@ -77,7 +78,9 @@ public class UpdateProfileController extends HttpServlet {
 
             try {
                 userID = Integer.parseInt(request.getParameter("userid"));
-                if (userID <= 0) throw new NumberFormatException();
+                if (userID <= 0) {
+                    throw new NumberFormatException();
+                }
             } catch (NumberFormatException e) {
                 request.setAttribute("error", "User ID không hợp lệ.");
                 request.getRequestDispatcher("profile").forward(request, response);
@@ -119,10 +122,20 @@ public class UpdateProfileController extends HttpServlet {
                 return;
             }
 
+            // Cập nhật dữ liệu
             pd.updateprofilecustomer(phone, gender, userID, 3);
             pd.updateprofileuser(fullname, email, userID, 3);
 
+            // Lấy lại thông tin đã cập nhật
+            CustomerProfile updatedProfile = pd.getCustomer(userID, 3);
+
+            // Lưu vào session
+            HttpSession session = request.getSession();
+            session.setAttribute("account", updatedProfile);
+
             request.setAttribute("success", "Cập nhật thành công.");
+            request.setAttribute("customer", updatedProfile); // nếu cần giữ lại form
+
             request.getRequestDispatcher("profile").forward(request, response);
 
         } catch (Exception ex) {
@@ -130,16 +143,16 @@ public class UpdateProfileController extends HttpServlet {
             request.setAttribute("error", "Đã xảy ra lỗi khi cập nhật.");
             request.getRequestDispatcher("profile").forward(request, response);
         }
+
     }
 
-
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-@Override
-public String getServletInfo() {
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

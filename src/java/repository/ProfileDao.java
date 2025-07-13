@@ -22,7 +22,7 @@ public class ProfileDao extends DBContext {
 
     public CustomerProfile getCustomer(int id, int roleid) {
         CustomerProfile cp = null;
-        String sql = "select * from Users a join CustomerProfiles b on a.UserID = b.CustomerID where userID = ? and roleID = ?";
+        String sql = "select * from Users where userID = ? and roleID = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
@@ -50,7 +50,8 @@ public class ProfileDao extends DBContext {
     }
 
     public void update(double height, double weight, double bmi, String activitylevel, String goal, int id, int roleid) {
-        String sql = "update CustomerProfiles set Height = ?, Weight = ?, BMI = ?, ActivityLevel = ?,  Goal = ? where CustomerID = ? and roleid = ?";
+        String sql = "update a set a.height = ?, a.weight = ?, a.bmi = ?, a.activitylevel = ?, a.goal = ? from users a where a.userid = ? and a.roleid = ?";
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setDouble(1, height);
@@ -62,12 +63,12 @@ public class ProfileDao extends DBContext {
             ps.setInt(7, roleid);
             ps.executeUpdate();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Lỗi khi cập nhật thông tin cơ thể: " + e.getMessage());
         }
     }
 
     public void updateprofilecustomer(String phone, String gender, int id, int roleid) {
-        String sql = "update a set Phone = ?, Gender = ? from CustomerProfiles a join Users b on a.customerID = b.UserID where customerID = ? and b.roleid = ?";
+        String sql = "update a set Phone = ?, Gender = ? from Users a where userID = ? and roleid = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, phone);
@@ -96,45 +97,6 @@ public class ProfileDao extends DBContext {
         }
     }
 
-    public List<Requests> getAllRequestsForNutritionist() {
-        List<Requests> list = new ArrayList<>();
-        String sql = "select a.RequestID, a.CustomerID, b.Fullname, a.RequestDate, a.PreferredDate, a.Status, a.ResponseNote from ConsulationRequests a join Users b ON a.CustomerID = b.UserID";
-        try {
-
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int requestID = rs.getInt("RequestID");
-                int customerID = rs.getInt("CustomerID");
-                String customerName = rs.getString("Fullname");
-
-                Date requestDate = rs.getDate("RequestDate");
-                Date preferredDate = rs.getDate("PreferredDate");
-                String status = rs.getString("Status");
-                String note = rs.getString("ResponseNote");
-                Requests c = new Requests(requestID, customerID, customerName, requestDate, preferredDate, status, note);
-                list.add(c);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return list;
-    }
-
-    public void updateResponse(int requestID, String status, String note) {
-        String sql = "update ConsulationRequests set Status = ?, ResponseNote = ? where RequestID = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, status);
-            ps.setString(2, note);
-            ps.setInt(3, requestID);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
     public void changePass(String pass, int id) {
         String sql = "update Users set Password = ? where UserID = ?";
         try {
@@ -147,60 +109,32 @@ public class ProfileDao extends DBContext {
         }
     }
 
-    public int countPageConsultation(int perPage) {
-        String sql = "select count(*) from ConsulationRequests";
-        int totalPage = 0;
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                int totalRecords = rs.getInt(1);
-                totalPage = totalRecords / perPage;
-                if (totalRecords % perPage != 0) {
-                    totalPage++;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error counting consultation pages: " + e.getMessage());
-        }
-        return totalPage;
-    }
-
-    public List<Requests> getConsultationRequestsPagination(int begin, int count) {
-        List<Requests> list = new ArrayList<>();
-        String sql = "SELECT * FROM ConsulationRequests a join Users b on a.CustomerID = b.UserID ORDER BY RequestDate OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            int offset = (begin - 1) * count;
-            ps.setInt(1, offset);
-            ps.setInt(2, count);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Requests c = new Requests();
-                c.setRequestID(rs.getInt("RequestID"));
-                c.setCustomerID(rs.getInt("CustomerID"));
-                c.setRequestDate(rs.getDate("RequestDate"));
-                c.setCustomerName(rs.getString("Fullname"));
-                c.setPreferredDate(rs.getDate("PreferredDate"));
-                c.setStatus(rs.getString("Status"));
-                c.setResponseNote(rs.getString("ResponseNote"));
-                list.add(c);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error loading consultation list: " + e.getMessage());
-        }
-
-        return list;
-    }
-
     public static void main(String[] args) {
         ProfileDao dao = new ProfileDao();
-//        CustomerProfile cp = dao.getCustomer(3, 3);
-        List<Requests> r = dao.getConsultationRequestsPagination(1, 10);
-//        dao.updateprofilecustomer("0912837472", "Nam", 3, 3);
-        System.out.println(r.toString());
-//        System.out.println(r.toString());
+
+        // Thử cập nhật chỉ số cơ thể cho user có ID = 3, role = 3
+        double testHeight = 175.0;
+        double testWeight = 80;
+        double testBMI = testWeight / Math.pow(testHeight / 100.0, 2); // BMI = kg / m^2
+        String testActivity = "Trung bình";
+        String testGoal = "Tăng cơ";
+        int testUserId = 3;
+        int testRole = 3;
+
+        dao.update(testHeight, testWeight, testBMI, testActivity, testGoal, testUserId, testRole);
+
+        // In lại để kiểm tra
+        CustomerProfile updated = dao.getCustomer(testUserId, testRole);
+        if (updated != null) {
+            System.out.println("✅ Cập nhật thành công!");
+            System.out.println("Chiều cao: " + updated.getHeight());
+            System.out.println("Cân nặng: " + updated.getWeight());
+            System.out.println("BMI: " + updated.getBMI());
+            System.out.println("Mức độ hoạt động: " + updated.getActivitylevel());
+            System.out.println("Mục tiêu: " + updated.getGoal());
+        } else {
+            System.out.println("❌ Không tìm thấy hồ sơ khách hàng sau khi cập nhật.");
+        }
     }
+
 }
