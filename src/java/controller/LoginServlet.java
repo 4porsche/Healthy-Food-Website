@@ -29,16 +29,19 @@ public class LoginServlet extends HttpServlet {
             int roleID = user.getRoleID();
             switch (roleID) {
                 case 1:
-                    response.sendRedirect("admin.jsp");
+                    response.sendRedirect("admin-dashboard");
                     break;
                 case 3:
                     response.sendRedirect("home");
                     break;
+                case 4:
+                    response.sendRedirect("nutritionist-dashboard");
+                    break;
                 case 5:
-                    response.sendRedirect("seller.jsp");
+                    response.sendRedirect("seller-dashboard");
                     break;
                 case 6:
-                    response.sendRedirect("shipper.jsp");
+                    response.sendRedirect("shipper-dashboard");
                     break;
                 default:
                     response.sendRedirect("login.jsp?error=role");
