@@ -44,10 +44,10 @@
                     <table class="table table-bordered table-hover text-center align-middle">
                         <thead class="table-info">
                             <tr>
-                                <th>ID</th>
+
                                 <th>Tên khách hàng</th>
                                 <th>Thông tin</th>
-                                <th>Ngày yêu cầu</th>
+                                <th>Ngày mong muốn tư vấn</th>
                                 <th>Trạng thái</th>
                                 <th style="width:35%">Ghi chú tư vấn</th>
                                 <th>Hành động</th>
@@ -56,12 +56,11 @@
                         <tbody>
                             <c:forEach var="c" items="${list}">
                                 <tr>
-                                    <td>${c.requestID}</td>
                                     <td>${c.customerName}</td>
                                     <td>
                                         <a class="btn btn-primary btn-sm" href="profile?userid=${c.customerID}">Xem</a>
                                     </td>
-                                    <td>${c.requestDate}</td>
+                                    <td>${c.preferredDate}</td>
                                     <td class="text-capitalize">
                                         <span class="badge
                                               ${c.status == 'Accepted' ? 'bg-success' :
