@@ -403,7 +403,7 @@
                 String action = request.getParameter("action");
                 if ("report".equals(action)) {
             %>
-            <jsp:include page="report.jsp" />
+            <jsp:include page="sale-report.jsp" />
             <%
                 } else if ("product".equals(action)) {
             %>
@@ -411,7 +411,7 @@
             <%
                 } else {
             %>
-            <jsp:include page="home.jsp" />
+            <jsp:include page="sale-report.jsp" />
             <%
                 }
             %>

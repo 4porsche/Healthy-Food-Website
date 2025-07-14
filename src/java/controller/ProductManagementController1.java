@@ -30,6 +30,7 @@ public class ProductManagementController1 extends HttpServlet {
         HttpSession session = request.getSession();
         int sellerId = 8;
 
+        String action = request.getParameter("action"); // thêm dòng này
         String searchTxt = request.getParameter("txt");
         String sortType_raw = request.getParameter("sort");
         int sortType = 0;
@@ -37,20 +38,19 @@ public class ProductManagementController1 extends HttpServlet {
         ProductDAO dao = new ProductDAO();
         List<Product> productList = null;
 
-        if (searchTxt != null && !searchTxt.trim().isEmpty()) {
+        if ("search".equals(action) && searchTxt != null && !searchTxt.trim().isEmpty()) {
             productList = dao.getMySearchedList(searchTxt.trim(), sellerId);
-        } else if (sortType_raw != null && !sortType_raw.trim().isEmpty()) {
+            request.setAttribute("txtS", searchTxt); // giữ lại text search
+        } else if ("filter".equals(action) && sortType_raw != null && !sortType_raw.trim().isEmpty()) {
             sortType = Integer.parseInt(sortType_raw);
             productList = dao.getMyProductByCategory(sellerId, sortType);
+            request.setAttribute("sortT", sortType); // giữ lại loại lọc
         } else {
             productList = dao.getMyProduct(sellerId);
         }
 
         request.setAttribute("productList", productList);
-        request.setAttribute("txtS", searchTxt);
-        request.setAttribute("sortT", sortType);
         request.getRequestDispatcher("manage-product1.jsp").forward(request, response);
-
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ProductManagementController1 extends HttpServlet {
                 try {
                     dao.addProduct(sellerId, categoryId, capitalizedName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
                     session.setAttribute("ms", "Thêm sản phẩm thành công");
-                    response.sendRedirect("manage-product");
+                    response.sendRedirect("manage-product1");
                     return;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -104,7 +104,7 @@ public class ProductManagementController1 extends HttpServlet {
                 int productId = Integer.parseInt(request.getParameter("productId"));
                 dao.deleteProduct(productId);
                 session.setAttribute("ms", "Sản phẩm đã được xóa thành công");
-                response.sendRedirect("manage-product");
+                response.sendRedirect("manage-product1");
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -113,7 +113,7 @@ public class ProductManagementController1 extends HttpServlet {
         }
         request.setAttribute("productList", productList);
 
-        request.getRequestDispatcher("manage-product.jsp").forward(request, response);
+        request.getRequestDispatcher("manage-product1.jsp").forward(request, response);
 
     }
 

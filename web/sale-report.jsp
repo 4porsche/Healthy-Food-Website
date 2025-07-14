@@ -1,5 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="model.Product" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -317,6 +320,14 @@
                 font-weight: 600;
             }
 
+            .pimg {
+                width: 170px;
+                height: 170px;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+
             /* CRUD Actions */
             .crud-actions {
                 display: flex;
@@ -379,38 +390,35 @@
 
         <div id="searchForm">
             <h3><i class="fas fa-search"></i>Tìm kiếm sản phẩm</h3>
-            <form action="seller-dashboard" method="get" style="margin-bottom: 20px;">
+            <form action="manage-product1" style="margin-bottom: 20px;">
                 <input type="hidden" name="action" value="search">
                 <div class="form-row">
                     <div class="form-group" style="flex: 3;">
-                        <label for="searchQuery">Search by Keyword:</label>
-                        <input type="text" id="searchQuery" name="query" placeholder="Search by name, email, username...">
+                        <input value="${txtS}" type="text" id="searchQuery" name="txt" placeholder="Tìm kiếm sản phẩm...">
                     </div>
                     <div class="form-group" style="flex: 1; align-self: flex-end;">
                         <button type="submit" class="btn-primary" style="width: 100%;">
-                            <i class="fas fa-search"></i> Search
+                            <i class="fas fa-search"></i> Tìm kiếm
                         </button>
                     </div>
                 </div>
             </form>
 
-            <form action="admin-dashboard" method="get">
+            <form action="manage-product1">
                 <input type="hidden" name="action" value="filter">
                 <div class="form-row">
                     <div class="form-group" style="flex: 3;">
-                        <label for="filterRoleId">Filter by Role:</label>
-                        <select id="filterRoleId" name="roleId">
-                            <option value="all" selected>All Roles</option>
-                            <option value="1">Administrator</option>
-                            <option value="3">Customer</option>
-                            <option value="4">Nutritionist</option>
-                            <option value="5">Seller</option>
-                            <option value="6">Shipper</option>
+                        <label>Lọc theo danh mục:</label>
+                        <select name="sort">
+                            <option value="" selected>-- Tất cả danh mục --</option>
+                            <option value="1" ${param.sort == 1 ? 'selected' : ''}>Cuốn lành mạnh</option>
+                            <option value="2" ${param.sort == 2 ? 'selected' : ''}>Ít tinh bột</option>
+                            <option value="3" ${param.sort == 3 ? 'selected' : ''}>Thuần chay đặc biệt</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex: 1; align-self: flex-end;">
                         <button type="submit" class="btn-outline" style="width: 100%;">
-                            <i class="fas fa-filter"></i> Filter
+                            <i class="fas fa-filter"></i> Lọc
                         </button>
                     </div>
                 </div>
@@ -421,91 +429,138 @@
         <div class="section">
             <div class="add-account-btn">
                 <button class="btn-primary" onclick="showAddAccountForm()">
-                    <i class="fas fa-plus-circle"></i> Add Account
+                    <i class="fas fa-plus-circle"></i> Thêm sản phẩm
                 </button>
             </div>
 
             <h3><i class="fas fa-list"></i> User Accounts</h3>
-            <%
-                List<User> users = (List<User>) request.getAttribute("userList");
-                if (users == null || users.isEmpty()) {
-                    out.println("<div style='padding: 20px; text-align: center; background: #f9f9f9; border-radius: 8px;'>");
-                    out.println("<i class='fas fa-exclamation-circle' style='font-size: 2rem; color: #FF9800; margin-bottom: 15px;'></i>");
-                    out.println("<h3 style='color: #555;'>No users found</h3>");
-                    out.println("<p>No user data is available at this time</p>");
-                    out.println("</div>");
-                } else {
-            %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Full Name</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% 
-                        for (User user : users) {
-                            String roleName = "";
-                            switch(user.getRoleID()) {
-                                case 1: roleName = "Admin"; break;
-                                case 3: roleName = "Customer"; break;
-                                case 4: roleName = "Nutritionist"; break;
-                                case 5: roleName = "Seller"; break;
-                                case 6: roleName = "Shipper"; break;
-                                default: roleName = "Unknown";
-                            }
-                    %>
-                    <tr>
-                        <td><%= user.getUserID() %></td>
-                        <td><%= user.getFullname() != null ? user.getFullname() : "N/A" %></td>
-                        <td><%= user.getUsername() != null ? user.getUsername() : "N/A" %></td>
-                        <td><%= user.getEmail() != null ? user.getEmail() : "N/A" %></td>
-                        <td><%= roleName %></td>
-                        <td>
-                            <% if(user.isIsActive()) { %>
-                            <span class="status-active">Active</span>
-                            <% } else { %>
-                            <span class="status-inactive">Inactive</span>
-                            <% } %>
-                        </td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-secondary btn-sm" onclick="showEditForm(
-                                                    '<%= user.getUserID() %>',
-                                                    '<%= user.getFullname() != null ? user.getFullname().replace("'", "\\'") : "" %>',
-                                                    '<%= user.getUsername() != null ? user.getUsername().replace("'", "\\'") : "" %>',
-                                                    '<%= user.getEmail() != null ? user.getEmail().replace("'", "\\'") : "" %>',
-                                                    '<%= user.getRoleID() %>',
-                                                    '<%= user.isIsActive() %>'
-                                                    )">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <form action=admin-dashboard" method="post" style="display:inline;">
-                                    <input type="hidden" name="action" value="crud">
-                                    <input type="hidden" name="crudAction" value="delete">
-                                    <input type="hidden" name="userId" value="<%= user.getUserID() %>">
-                                    <button type="submit" class="btn-danger btn-sm">
-                                        <i class="fas fa-trash-alt"></i> Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    <% 
-                        }
-                    %>
-                </tbody>
-            </table>
-            <% 
-                }
-            %>
+            <c:choose>
+                <c:when test="${empty productList}">
+                    <div style='padding: 20px; text-align: center; background: #f9f9f9; border-radius: 8px;'>
+                        <i class='fas fa-exclamation-circle' style='font-size: 2rem; color: #FF9800; margin-bottom: 15px;'></i>
+                        <h3 style='color: #555;'>No users found</h3>
+                        <p>No user data is available at this time</p>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên</th>
+                                <th>Ảnh</th>
+                                <th>Giá</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="p" items="${productList}" varStatus="status">
+                                <tr class="product-row">
+                                    <td>${status.index + 1}</td>
+                                    <td class="pname">${p.productName}</td>
+                                    <td><img src="${p.imageUrl}" alt="Product Image" class="pimg"></td>
+                                    <td>${p.price}đ</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-secondary btn-sm" onclick="showEditForm(
+                                                            '${p.productId}',
+                                                            '${fn:replace(p.categoryId, "'", "\\'")}',
+                                                            '${fn:replace(p.productName, "'", "\\'")}',
+                                                            '${fn:replace(p.price, "'", "\\'")}',
+                                                            '${fn:replace(p.description, "'", "\\'")}',
+                                                            '${fn:replace(p.ingredient, "'", "\\'")}',
+                                                            '${p.weight}',
+                                                            '${p.calories}',
+                                                            '${p.protein}',
+                                                            '${p.fat}',
+                                                            '${p.carbs}',
+                                                            '${fn:replace(p.tags, "'", "\\'")}',
+                                                            '${fn:replace(p.imageUrl, "'", "\\'")}'
+                                                            )">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <form action=admin-dashboard" method="post" style="display:inline;">
+                                                <input type="hidden" name="action" value="crud">
+                                                <input type="hidden" name="crudAction" value="delete">
+                                                <input type="hidden" name="userId" value="${p.productId}">
+                                                <button type="submit" class="btn-danger btn-sm">
+                                                    <i class="fas fa-trash-alt"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+
+
+                        </tbody>
+                    </table>
+
+                </c:otherwise>
+            </c:choose>
         </div>
+        
+        <!-- Add Account Form (Initially Hidden) -->
+            <div class="section" id="addProductForm" style="display: none;">
+                <h3><i class="fas fa-user-plus"></i> Add New Account</h3>
+                <form action="admin-dashboard" method="post">
+                    <input type="hidden" name="action" value="crud">
+                    <input type="hidden" name="crudAction" value="create">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addFullname">Full Name:</label>
+                            <input type="text" id="addFullname" name="fullname" required placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="addUsername">Username:</label>
+                            <input type="text" id="addUsername" name="username" required placeholder="Enter username">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addEmail">Email:</label>
+                            <input type="email" id="addEmail" name="email" required placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="addPassword">Password:</label>
+                            <input type="password" id="addPassword" name="password" required placeholder="Enter password">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addRoleId">Role:</label>
+                            <select id="addRoleId" name="roleId" required>
+                                <option value="" disabled selected>Select a role</option>
+                                <option value="1">Administrator</option>
+                                <option value="3">Customer</option>
+                                <option value="4">Nutritionist</option>
+                                <option value="5">Seller</option>
+                                <option value="6">Shipper</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="addActive">Account Status:</label>
+                            <div style="margin-top: 10px;">
+                                <input type="checkbox" id="addActive" name="isActive" checked style="width: auto; margin-right: 10px;">
+                                <label for="addActive" style="display: inline; font-weight: normal;">Active Account</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="crud-actions">
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus-circle"></i> Create Account
+                        </button>
+                        <button type="button" class="btn-outline" onclick="hideAddAccountForm()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
 
         <script>
             // Function to show/hide add account form
@@ -518,14 +573,21 @@
                 document.getElementById('addAccountForm').style.display = 'none';
             }
 
-            // Function to show/hide edit account form
-            function showEditForm(userId, fullname, username, email, roleId, isActive) {
-                document.getElementById('editUserId').value = userId;
-                document.getElementById('editFullname').value = fullname;
-                document.getElementById('editUsername').value = username;
-                document.getElementById('editEmail').value = email;
-                document.getElementById('editRoleId').value = roleId;
-                document.getElementById('editActive').checked = (isActive === 'true');
+            // Function to show/hide edit product form
+            function showEditForm(productId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl) {
+                document.getElementById('editProductId').value = productId;
+                document.getElementByategoryId').value = categoryId;
+                document.getElementById('editProductName').value = productName;
+                document.getElementById('editPrice').value = price;
+                document.getElementById('editDescription').value = description;
+                document.getElementById('editIngredient').value = ingredient;
+                document.getElementById('editWeight').value = weight;
+                document.getElementById('editCalories').value = calories;
+                document.getElementById('editProtein').value = protein;
+                document.getElementById('editFat').value = fat;
+                document.getElementById('editCarbs').value = carbs;
+                document.getElementById('editTags').value = tags;
+                document.getElementById('editImageUrl').value = imageUrl;
 
                 document.getElementById('editAccountForm').style.display = 'block';
                 document.getElementById('editAccountForm').scrollIntoView({behavior: 'smooth'});

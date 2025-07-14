@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import model.Product;
 import model.Categories;
+import model.Users;
 import repository.ProductDAO;
 
 @WebServlet(name = "MyProductController", urlPatterns = {"/my-products"})
@@ -28,7 +29,12 @@ public class MyProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int sellerId = 8;
+        if (session == null || session.getAttribute("userid") == null) {
+            response.sendRedirect("login.jsp?error=sessionExpired");
+            return;
+        }
+
+        int sellerId = (Integer) session.getAttribute("userid");
 
         String searchTxt = request.getParameter("txt");
         String sortType = request.getParameter("sort");
@@ -77,7 +83,7 @@ public class MyProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
 }

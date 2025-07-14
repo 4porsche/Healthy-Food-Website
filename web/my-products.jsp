@@ -136,11 +136,11 @@
                                     <c:set var="currentPage" value="${param.page != null ? param.page : 1}" />
                                     <c:set var="totalProducts" value="${productList.size()}" />
                                     <c:set var="totalPagesRaw" value="${(totalProducts + pageSize - 1) / pageSize}" />
-<c:set var="totalPages" value="${fn:substringBefore(totalPagesRaw, '.')}" />
+                                    <c:set var="totalPages" value="${fn:substringBefore(totalPagesRaw, '.')}" />
 
                                     <c:set var="start" value="${(currentPage - 1) * pageSize}" />
                                     <c:set var="end" value="${start + pageSize - 1}" />
-                                    
+
                                     <c:forEach var="p" items="${productList}" varStatus="status">
                                         <c:if test="${status.index >= start && status.index <= end}">
                                             <div class="col-lg-4">

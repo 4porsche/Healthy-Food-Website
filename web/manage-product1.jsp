@@ -335,6 +335,98 @@
                 margin-top: 15px;
                 flex-wrap: wrap;
             }
+            
+            /* Popup form */
+            .popup {
+                display: none; /* Ẩn mặc định */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                justify-content: center;
+                align-items: center;
+            }
+
+            .popup-content {
+                background: white;
+                border-radius: 8px;
+                width: 30%;
+                height: 80%;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                max-height: 90vh;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .popup-body {
+                flex-grow: 1;
+                overflow-y: auto;
+
+                overflow-y: auto;
+                max-height: 70vh; /* hoặc tính toán tùy nội dung */
+                padding-right: 12px; /* tránh scrollbar che nội dung */
+                box-sizing: border-box;
+            }
+
+            .popup-footer {
+                margin-top: 10px;
+                display: flex;
+                gap: 10px;
+                flex-direction: column;
+            }
+
+            .btn-submit,
+            .btn-cancel {
+                padding: 10px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+
+            .btn-submit {
+                background: #28a745;
+            }
+
+            .btn-cancel {
+                background: #dc3545;
+            }
+
+
+            .popup-content h3 {
+                text-align: center !important;
+            }
+
+            /* Nút đóng */
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 30px;
+                cursor: pointer;
+            }
+
+            /* Input, select, textarea */
+            input, select {
+                width: 100%;
+                padding: 8px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            /* Button */
+
+            .popup-button {
+                margin-top: 15px;
+                display: flex;
+                justify-content: right;
+                gap: 8px;
+            }
 
             /* Responsive Design */
             @media (max-width: 992px) {
@@ -390,8 +482,10 @@
 
         <div id="searchForm">
             <h3><i class="fas fa-search"></i>Tìm kiếm sản phẩm</h3>
-            <form action="manage-product1" style="margin-bottom: 20px;">
-                <input type="hidden" name="action" value="search">
+
+            <form action="seller-dashboard" style="margin-bottom: 20px;">
+                <input type="hidden" name="action" value="product">
+                <input type="hidden" name="subaction" value="search">
                 <div class="form-row">
                     <div class="form-group" style="flex: 3;">
                         <input value="${txtS}" type="text" id="searchQuery" name="txt" placeholder="Tìm kiếm sản phẩm...">
@@ -404,16 +498,17 @@
                 </div>
             </form>
 
-            <form action="manage-product1">
-                <input type="hidden" name="action" value="filter">
+            <form action="seller-dashboard">
+                <input type="hidden" name="action" value="product">
+                <input type="hidden" name="subaction" value="filter">
                 <div class="form-row">
                     <div class="form-group" style="flex: 3;">
                         <label>Lọc theo danh mục:</label>
                         <select name="sort">
                             <option value="" selected>-- Tất cả danh mục --</option>
-                            <option value="1" ${param.sort == 1 ? 'selected' : ''}>Cuốn lành mạnh</option>
-                            <option value="2" ${param.sort == 2 ? 'selected' : ''}>Ít tinh bột</option>
-                            <option value="3" ${param.sort == 3 ? 'selected' : ''}>Thuần chay đặc biệt</option>
+                            <option value="1" ${param.sort == '1' ? 'selected' : ''}>Cuốn lành mạnh</option>
+                            <option value="2" ${param.sort == '2' ? 'selected' : ''}>Ít tinh bột</option>
+                            <option value="3" ${param.sort == '3' ? 'selected' : ''}>Thuần chay đặc biệt</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex: 1; align-self: flex-end;">
@@ -428,7 +523,8 @@
         <!-- View Account List Section -->
         <div class="section">
             <div class="add-account-btn">
-                <button class="btn-primary" onclick="showAddAccountForm()">
+                <!--                <button class="btn-primary" onclick="showAddAccountForm()">-->
+                <button class="btn-primary" onclick="openPopup('popup-add')">
                     <i class="fas fa-plus-circle"></i> Thêm sản phẩm
                 </button>
             </div>
@@ -499,70 +595,247 @@
                 </c:otherwise>
             </c:choose>
         </div>
+
+        <form action="seller-dashboard" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="add" />
+
+            <div id="popup-add" class="popup">
+                <div class="popup-content">
+
+                    <div class="popup-body">
+                        <h3>Thêm sản phẩm</h3>
+                        <label for="name">Tên</label>
+                        <input type="text" id="name" name="name" required>
+
+                        <label for="image">Ảnh</label>
+                        <input type="file" id="image" name="image" accept="image/*" required>
+
+                        <label for="price">Giá (VND)</label>
+                        <input type="number" id="price" name="price" required>
+
+                        <label for="description">Mô tả</label>
+                        <input type="text" id="description" name="description" required>
+
+                        <label for="ingredient">Thành phần</label>
+                        <input type="text" id="ingredient" name="ingredient" required>
+
+                        <label for="weight">Khối lượng (gam)</label>
+                        <input type="number" id="weight" name="weight" required>
+
+                        <label for="calories">Lượng calo (kcal)</label>
+                        <input type="number" id="calories" name="calories" required>
+
+                        <label for="protein">Hàm lượng đạm (gam)</label>
+                        <input type="number" id="protein" name="protein" required>
+
+                        <label for="fat">Hàm lượng chất béo (gam)</label>
+                        <input type="number" id="fat" name="fat" required>
+
+                        <label for="carbs">Hàm lượng tinh bột (gam)</label>
+                        <input type="number" id="carbs" name="carbs" required>
+
+                        <label for="tags">Tag</label>
+                        <div class="tag-group">
+                            <label><input type="checkbox" name="tags" value="bún" /> <span>bún</span></label>
+                            <label><input type="checkbox" name="tags" value="bánh tráng" /> <span>bánh tráng</span></label>
+                            <label><input type="checkbox" name="tags" value="vỏ tortilla" /> <span>vỏ tortilla</span></label>
+                            <label><input type="checkbox" name="tags" value="yến mạch" /> <span>yến mạch</span></label>
+                            <label><input type="checkbox" name="tags" value="gà" /> <span>gà</span></label>
+                            <label><input type="checkbox" name="tags" value="hải sản" /> <span>hải sản</span></label>
+                            <label><input type="checkbox" name="tags" value="trứng" /> <span>trứng</span></label>
+                            <label><input type="checkbox" name="tags" value="hạt" /> <span>hạt</span></label>
+                            <label><input type="checkbox" name="tags" value="nấm" /> <span>nấm</span></label>
+                            <label><input type="checkbox" name="tags" value="đậu hũ" /> <span>đậu hũ</span></label>
+                            <label><input type="checkbox" name="tags" value="đậu que" /> <span>đậu que</span></label>
+                            <label><input type="checkbox" name="tags" value="rong biển" /> <span>rong biển</span></label>
+                            <label><input type="checkbox" name="tags" value="trái cây" /> <span>trái cây</span></label>
+                        </div>
+
+                        <label for="category">Danh mục</label>
+                        <select id="category" name="category">
+                            <option value="1">Cuốn lành mạnh</option>
+                            <option value="2">Ít tinh bột</option>
+                            <option value="3">Thuần chay đặc biệt</option>
+                        </select>
+                    </div>
+
+                    <div class="popup-button">
+                        <button type="button" class="btn-cancel" onclick="closePopup('popup-add')">Hủy</button>
+                        <button type="submit" class="btn-submit">Thêm</button>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </form>
         
         <!-- Add Account Form (Initially Hidden) -->
-            <div class="section" id="addProductForm" style="display: none;">
-                <h3><i class="fas fa-user-plus"></i> Add New Account</h3>
-                <form action="admin-dashboard" method="post">
-                    <input type="hidden" name="action" value="crud">
-                    <input type="hidden" name="crudAction" value="create">
+        <div class="section" id="addProductForm" style="display: none;">
+            <h3><i class="fas fa-user-plus"></i> Add New Account</h3>
+            <form action="admin-dashboard" method="post">
+                <input type="hidden" name="action" value="crud">
+                <input type="hidden" name="crudAction" value="create">
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="addFullname">Full Name:</label>
-                            <input type="text" id="addFullname" name="fullname" required placeholder="Enter full name">
-                        </div>
-                        <div class="form-group">
-                            <label for="addUsername">Username:</label>
-                            <input type="text" id="addUsername" name="username" required placeholder="Enter username">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addFullname">Full Name:</label>
+                        <input type="text" id="addFullname" name="fullname" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="addUsername">Username:</label>
+                        <input type="text" id="addUsername" name="username" required placeholder="Enter username">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addEmail">Email:</label>
+                        <input type="email" id="addEmail" name="email" required placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="addPassword">Password:</label>
+                        <input type="password" id="addPassword" name="password" required placeholder="Enter password">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addRoleId">Role:</label>
+                        <select id="addRoleId" name="roleId" required>
+                            <option value="" disabled selected>Select a role</option>
+                            <option value="1">Administrator</option>
+                            <option value="3">Customer</option>
+                            <option value="4">Nutritionist</option>
+                            <option value="5">Seller</option>
+                            <option value="6">Shipper</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addActive">Account Status:</label>
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="addActive" name="isActive" checked style="width: auto; margin-right: 10px;">
+                            <label for="addActive" style="display: inline; font-weight: normal;">Active Account</label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="addEmail">Email:</label>
-                            <input type="email" id="addEmail" name="email" required placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="addPassword">Password:</label>
-                            <input type="password" id="addPassword" name="password" required placeholder="Enter password">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="addRoleId">Role:</label>
-                            <select id="addRoleId" name="roleId" required>
-                                <option value="" disabled selected>Select a role</option>
-                                <option value="1">Administrator</option>
-                                <option value="3">Customer</option>
-                                <option value="4">Nutritionist</option>
-                                <option value="5">Seller</option>
-                                <option value="6">Shipper</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="addActive">Account Status:</label>
-                            <div style="margin-top: 10px;">
-                                <input type="checkbox" id="addActive" name="isActive" checked style="width: auto; margin-right: 10px;">
-                                <label for="addActive" style="display: inline; font-weight: normal;">Active Account</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="crud-actions">
-                        <button type="submit" class="btn-primary">
-                            <i class="fas fa-plus-circle"></i> Create Account
-                        </button>
-                        <button type="button" class="btn-outline" onclick="hideAddAccountForm()">
-                            <i class="fas fa-times"></i> Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="crud-actions">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-plus-circle"></i> Create Account
+                    </button>
+                    <button type="button" class="btn-outline" onclick="hideAddAccountForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
 
 
         <script>
+            window.addEventListener("DOMContentLoaded", function () {
+                const message = localStorage.getItem("flashMessage");
+                const shown = localStorage.getItem("flashShown");
+
+                if (message && shown !== "true") {
+                    showNotification(message);
+                    localStorage.setItem("flashShown", "true");
+                    // Optionally xóa luôn nếu muốn
+                    setTimeout(() => {
+                        localStorage.removeItem("flashMessage");
+                        localStorage.removeItem("flashShown");
+                    }, 6000); // sau khi notification biến mất
+                } else {
+                    console.log("Không gọi showNotification");
+                }
+            });
+
+            function openPopup(popupId) {
+                document.getElementById(popupId).style.display = "flex";
+            }
+
+            function closePopup(popupId) {
+                document.getElementById(popupId).style.display = "none";
+            }
+
+            function confirmDelete(event, productName) {
+                event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+                let confirmation = confirm("Bạn có chắc chắn muốn xóa sản phẩm '" + productName + "' không?");
+                if (confirmation) {
+                    window.location.href = event.currentTarget.href; // Chuyển hướng nếu xác nhận
+                }
+            }
+
+            window.onload = function () {
+                var errorMessage = document.querySelector("#error-message")?.innerText;
+                if (errorMessage && errorMessage.trim() !== "") {
+                    document.getElementById("popupForm").style.display = "flex";
+                }
+            };
+
+            function validateSearchInput() {
+                var input = document.getElementById('searchInput').value.trim();
+                if (input === "") {
+                    return false; // Ngăn biểu mẫu được gửi đi
+                }
+                return true; // Cho phép gửi biểu mẫu
+            }
+
+            let timeoutId = null;
+
+            function showNotification(message) {
+                const noti = document.getElementById("notification");
+                const messageEl = document.getElementById("notification-message");
+                const timerBar = document.getElementById("notification-timer");
+
+                messageEl.innerText = message;
+                noti.classList.add("show");
+                noti.classList.remove("hide");
+
+                // Reset animation bar
+                timerBar.style.animation = "none";
+                timerBar.offsetHeight; // trigger reflow
+                timerBar.style.animation = "countdown 5s linear forwards";
+
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    hideNotification();
+                }, 5000);
+            }
+
+            function hideNotification() {
+                const noti = document.getElementById("notification");
+                noti.classList.remove("show");
+                noti.classList.add("hide");
+            }
+
+            window.addEventListener("load", function () {
+                // Nếu server có truyền message xuống, thì show notification
+                if (typeof serverMessage !== "undefined" && serverMessage.trim() !== "") {
+                    showNotification(serverMessage);
+                }
+
+                const errorMessage = document.querySelector("#error-message")?.innerText;
+                if (errorMessage && errorMessage.trim() !== "") {
+                    document.getElementById("popupForm").style.display = "flex";
+                }
+            });
+
+            function confirmDelete(event, productName) {
+                let confirmation = confirm("Bạn có chắc chắn muốn xóa sản phẩm '" + productName + "' không?");
+                if (!confirmation) {
+                    event.preventDefault(); // Hủy gửi form nếu người dùng không xác nhận
+                    return false;
+                }
+                // Nếu xác nhận, cho phép form gửi đi
+                return true;
+            }
+
+            if (!localStorage.getItem("flashMessage")) {
+                localStorage.setItem("flashMessage", "${fn:escapeXml(sessionScope.ms)}");
+                localStorage.removeItem("flashShown");
+            }
+            
             // Function to show/hide add account form
             function showAddAccountForm() {
                 document.getElementById('addAccountForm').style.display = 'block';
@@ -577,7 +850,7 @@
             function showEditForm(productId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl) {
                 document.getElementById('editProductId').value = productId;
                 document.getElementByategoryId').value = categoryId;
-                document.getElementById('editProductName').value = productName;
+                        document.getElementById('editProductName').value = productName;
                 document.getElementById('editPrice').value = price;
                 document.getElementById('editDescription').value = description;
                 document.getElementById('editIngredient').value = ingredient;

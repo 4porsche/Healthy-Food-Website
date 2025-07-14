@@ -593,6 +593,7 @@ button.btn {
     color: #3C603C;
     font-size: 18px;
     font-weight: 600;
+    text-align: center;
 }
 
 .product-item .product-content .ratting i {
