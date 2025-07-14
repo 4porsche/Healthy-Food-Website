@@ -79,7 +79,7 @@
                                 <strong>Mức độ hoạt động:</strong>
                                 <p>${customer.activitylevel}</p>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <strong>Mục tiêu:</strong>
                                 <p>${customer.goal}</p>
                             </div>
@@ -136,6 +136,7 @@
 
 
                     </div>
+                    
 
                 </div>
 
