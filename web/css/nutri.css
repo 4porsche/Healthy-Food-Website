@@ -1,0 +1,136 @@
+body {
+    background-color: #e8f5e9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.container {
+    max-width: 1400px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    background-color: #ffffff;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.table thead th {
+    background-color: #388e3c;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 15px;
+    border: none;
+}
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+.table tbody tr:hover {
+    background-color: #f1f8e9;
+}
+.table td {
+    padding: 12px;
+    vertical-align: middle;
+    border: none;
+    border-bottom: 1px solid #c8e6c9;
+}
+.badge {
+    font-size: 0.9em;
+    padding: 8px 12px;
+    border-radius: 20px;
+}
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85em;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.btn-sm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.btn-primary {
+    background-color: #4caf50;
+    border-color: #4caf50;
+}
+.btn-primary:hover {
+    background-color: #388e3c;
+    border-color: #388e3c;
+}
+.btn-warning {
+    background-color: #fbc02d;
+    border-color: #fbc02d;
+    color: #333;
+}
+.btn-warning:hover {
+    background-color: #f9a825;
+    border-color: #f9a825;
+}
+.btn-success {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
+.btn-success:hover {
+    background-color: #1b5e20;
+    border-color: #1b5e20;
+}
+.btn-danger {
+    background-color: #e53935;
+    border-color: #e53935;
+}
+.btn-danger:hover {
+    background-color: #c62828;
+    border-color: #c62828;
+}
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+.modal-header {
+    background-color: #388e3c;
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.pagination .page-link {
+    border-radius: 5px;
+    margin: 0 3px;
+    color: #4caf50;
+    transition: all 0.2s ease;
+}
+.pagination .page-link:hover {
+    background-color: #4caf50;
+    color: white;
+    transform: translateY(-1px);
+}
+.pagination .active .page-link {
+    background-color: #4caf50;
+    border-color: #4caf50;
+    color: white;
+}
+.title {
+    font-weight: 700;
+    color: #2e7d32;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+@media (max-width: 768px) {
+    .table-responsive {
+        border-radius: 15px;
+        overflow-x: auto;
+    }
+    .btn-sm {
+        margin-bottom: 5px;
+    }
+}

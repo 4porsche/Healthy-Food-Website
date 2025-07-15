@@ -1,0 +1,13 @@
+# Ignore build & dist folders
+/build/
+/dist/
+
+# Ignore IDE files
+*.log
+*.class
+*.iml
+.DS_Store
+
+# NetBeans
+nbproject/private/
+build/
