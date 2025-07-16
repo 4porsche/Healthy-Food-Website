@@ -13,7 +13,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -29,22 +29,25 @@ public class LoginServlet extends HttpServlet {
             int roleID = user.getRoleID();
             switch (roleID) {
                 case 1:
-                    response.sendRedirect("admin-dashboard");
+                    response.sendRedirect("admin.jsp");
+                    break;
+                case 4:
+                    response.sendRedirect("requests");
                     break;
                 case 3:
                     response.sendRedirect("home");
                     break;
-                case 4:
-                    response.sendRedirect("nutritionist-dashboard");
-                    break;
                 case 5:
-                    response.sendRedirect("seller-dashboard");
+                    response.sendRedirect("seller.jsp");
                     break;
                 case 6:
-                    response.sendRedirect("shipper-dashboard");
+                    response.sendRedirect("shipper.jsp");
                     break;
                 default:
                     response.sendRedirect("login.jsp?error=role");
+                    break;
+                case 7: // Manager
+                    response.sendRedirect("managerHome.jsp");
                     break;
             }
         } else {
