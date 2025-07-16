@@ -1,5 +1,4 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,33 +52,89 @@
                 line-height: 1.4;
             }
 
-            .sidebar-widget.category ul li {
-                margin-bottom: 10px;
+            .top-header {
+                padding: 20px 0;
+                height: auto;
+            }
+            .top-header {
+                height: auto !important;
+                padding: 20px 0;
+                overflow: hidden;
             }
 
-            .sold-badge {
-                position: absolute;
-                top: 8px;
-                left: 8px;
-                background-color: rgba(0, 150, 136, 0.8);
-                color: white;
-                font-size: 0.8rem;
-                padding: 5px 7px;
-                border-radius: 4px;
-                font-weight: bold;
+            .logo img {
+                max-width: 100%;
+                height: auto;
+                display: block;
             }
+
+            .container, .row {
+                height: auto !important;
+            }
+
+            .top-header .logo a img {
+                max-height: 90px;
+                height: auto;
+                width: auto;
+            }
+
+            .header {
+                padding: 7px 0px;
+            }
+
+            .top-header {
+                position: relative;
+                z-index: 10; /* Giữ header nằm trên */
+            }
+
+            .dropdown-menu {
+                position: absolute;
+                z-index: 999; /* Đảm bảo dropdown nằm trên mọi thứ khác */
+            }
+            .top-header {
+                overflow: visible;
+            }
+
+            @media (min-width: 768px) {
+                .top-header {
+                    max-height: none;
+                }
+            }
+
+            .navbar-nav .nav-link,
+            .navbar-brand {
+                font-size: 18px !important;
+                font-weight: 510;
+            }
+
+            .navbar-nav {
+                display: flex;
+                gap: 50px;
+            }
+
+            .product-item .product-content .price {
+                text-align: center;
+            }
+            
+            .home-slider .slick-track {
+                display: flex !important;
+                align-items: stretch !important;
+            }
+
         </style>
 
     </head>
     <body>
         <%@ include file="header.jsp" %>
 
+
         <!-- Breadcrumb Start -->
         <div class="breadcrumb-wrap">
             <div class="container">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="home">Trang chủ</a></li>
-                    <li class="breadcrumb-item active"><a href="my-products">Sản phẩm của tôi</a></li>
+                    <li class="breadcrumb-item"><a href="home.jsp">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">My Products</li>
                 </ul>
             </div>
         </div>
@@ -97,7 +152,7 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="product-search">
-                                            <form action="my-products" onsubmit="return validateSearchInput()">
+                                            <form action="my-products" method="POST" onsubmit="return validateSearchInput()">
                                                 <div class="search-box">
                                                     <input value="${txtS}" type="text" id="searchInput" name="txt" placeholder="Tìm kiếm...">
                                                     <button type="submit" class="search-icon">
@@ -110,7 +165,7 @@
 
                                     <div class="col-md-4">
                                         <div class="product-short">
-                                            <form action="my-products">
+                                            <form action="my-products" method="POST">
                                                 <select name="sort" class="form-control" onchange="this.form.submit()">
                                                     <option value="">-- Sắp xếp theo --</option>
                                                     <option value="newest" ${param.sort == 'newest' ? 'selected' : ''}>Mới nhất</option>
@@ -129,91 +184,47 @@
                                     <tr><td colspan="5">Không tìm thấy kết quả phù hợp.</td></tr>
                                 </c:when>
                                 <c:otherwise>
-
-                                    <c:set var="pageSize" value="6" />
-                                    <c:set var="currentPage" value="${param.page != null ? param.page : 1}" />
-                                    <c:set var="totalProducts" value="${productList.size()}" />
-                                    <c:set var="totalPagesRaw" value="${(totalProducts + pageSize - 1) / pageSize}" />
-                                    <c:set var="totalPages" value="${fn:substringBefore(totalPagesRaw, '.')}" />
-
-                                    <c:set var="start" value="${(currentPage - 1) * pageSize}" />
-                                    <c:set var="end" value="${start + pageSize - 1}" />
-
                                     <c:forEach var="p" items="${productList}" varStatus="status">
-                                        <c:if test="${status.index >= start && status.index <= end}">
-                                            <div class="col-lg-4">
-                                                <div class="product-item">
-                                                    <div class="product-image">
-                                                        <a href="product-detail?pid=${p.productId}">
-                                                            <img src="${p.imageUrl}" alt="${p.productName}" class="product-img">
-                                                        </a>
-
-                                                        <div class="sold-badge">
-                                                            Đã bán: 50
-                                                        </div>
-                                                        <div class="product-action">
-                                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                                            <a href="#"><i class="fa fa-search"></i></a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <div class="title"><a href="#">${p.getProductName()}</a></div>
-                                                        <div class="price">${p.getPrice()}đ</div>
+                                        <div class="col-lg-4">
+                                            <div class="product-item">
+                                                <div class="product-image">
+                                                    <a href="product-detail?pid=${p.productId}">
+                                                        <img src="${p.imageUrl}" alt="${p.productName}" class="product-img">
+                                                    </a>
+                                                    <div class="product-action">
+                                                        <!-- SỬA TẠI ĐÂY: Thay đổi href sang product-detail -->
+                                                        <a href="product-detail?pid=${p.productId}"><i class="fa fa-cart-plus"></i></a>
+                                                        <a href="#"><i class="fa fa-search"></i></a>
                                                     </div>
                                                 </div>
+                                                <div class="product-content">
+                                                    <div class="title"><a href="#">${p.getProductName()}</a></div>
+                                                    <div class="price">${p.getPrice()}đ</div>
+                                                </div>
                                             </div>
-                                        </c:if>
+                                        </div>
                                     </c:forEach>
-
                                 </c:otherwise>
                             </c:choose>
                             <%-- View Search + Sort Product Result End --%>
+
+
 
                         </div>
 
                         <div class="col-lg-12">
                             <nav aria-label="Page navigation example">
-                                <c:set var="totalPages" value="${(productList.size() + pageSize - 1) / pageSize}" />
-                                <div>
-                                    <ul class="pagination justify-content-center">
-
-                                        <!-- First -->
-                                        <c:if test="${currentPage > 2}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="my-products?page=1">Trang đầu</a>
-                                            </li>
-                                        </c:if>
-
-                                        <!-- Previous -->
-                                        <c:if test="${currentPage > 1}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="my-products?page=${currentPage - 1}">Trước</a>
-                                            </li>
-                                        </c:if>
-
-                                        <!-- Page Numbers -->
-                                        <c:forEach begin="1" end="${totalPages}" var="i">
-                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="my-products?page=${i}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-
-                                        <!-- Next -->
-                                        <c:if test="${currentPage < totalPages}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="my-products?page=${currentPage + 1}">Sau</a>
-                                            </li>
-                                        </c:if>
-
-                                        <!-- Last -->
-                                        <c:if test="${currentPage < totalPages - 1}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="my-products?page=${totalPages}">Trang cuối</a>
-                                            </li>
-                                        </c:if>
-
-                                    </ul>
-                                </div>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
                             </nav>
                         </div>
                     </div>
@@ -227,7 +238,7 @@
                                     <c:set var="categoryName" value="${i.value}" />
                                     <c:set var="count" value="${categoryCountMap[categoryId]}" />
                                     <li>
-                                        <form action="my-products" id="form-${categoryId}">
+                                        <form action="my-products" method="POST" id="form-${categoryId}">
                                             <input type="hidden" name="categoryId" value="${categoryId}" />
                                             <a href="#" onclick="document.getElementById('form-${categoryId}').submit(); return false;">
                                                 ${categoryName}

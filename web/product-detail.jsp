@@ -22,6 +22,18 @@
         <link href="css/style.css" rel="stylesheet">
 
         <style>
+           .cart-btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                font-size: inherit;
+                color: inherit;
+            }
+            
+            .action-form {
+                display: inline-block;
+            }
             .product-img {
                 height: 350px;
                 object-fit: cover;
@@ -103,28 +115,37 @@
                                 </div>
                             </div>
                             <div class="col-md-7">
-                                <div class="product-content product-content-large">
-                                    <div class="title"><h2>${detail.productName}</h2></div>
-                                    <div class="price">${detail.price}đ</div>
-                                    <div class="details">
-                                        <p>
-                                            ${detail.description}
-                                        </p>
-                                    </div>
+                                <!-- FORM THÊM VÀO GIỎ HÀNG -->
+                                <form id="addToCartForm" action="add-to-cart" method="POST">
+                                    <input type="hidden" name="productId" value="${detail.productId}">
+                                    <input type="hidden" name="productName" value="${detail.productName}">
+                                    <input type="hidden" name="price" value="${detail.price}">
+                                    <input type="hidden" name="imageUrl" value="${detail.imageUrl}">
+                                    
+                                    <div class="product-content product-content-large">
+                                        <div class="title"><h2>${detail.productName}</h2></div>
+                                        <div class="price">${detail.price}đ</div>
+                                        <div class="details">
+                                            <p>${detail.description}</p>
+                                        </div>
 
-                                    <div class="quantity">
-                                        <h4>Số lượng:</h4>
-                                        <div class="qty">
-                                            <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                            <input type="text" value="1">
-                                            <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                                        <div class="quantity">
+                                            <h4>Số lượng:</h4>
+                                            <div class="qty">
+                                                <button type="button" class="btn-minus"><i class="fa fa-minus"></i></button>
+                                                <input type="text" name="quantity" id="quantity" value="1">
+                                                <button type="button" class="btn-plus"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="action">
+                                            <!-- Nút giỏ hàng submit form -->
+                                            <button type="submit" class="cart-btn">
+                                                <i class="fa fa-cart-plus"></i>
+                                            </button>
+                                            <a href="#"><i class="fa fa-search"></i></a>
                                         </div>
                                     </div>
-                                    <div class="action">
-                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                        <a href="#"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
 
@@ -198,7 +219,7 @@
                             </div>
                         </div>
 
-                        <div class="container">
+                          <div class="container">
                             <div class="section-header">
                                 <h3>Sản phẩm liên quan</h3>
                             </div>
@@ -213,8 +234,20 @@
                                                 <img src="${p.imageUrl}" alt="${p.productName}" class="product-img-mini">
                                             </a>
                                             <div class="product-action">
-                                                <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                                <a href="#"><i class="fa fa-search"></i></a>
+                                                <!-- Form cho sản phẩm liên quan -->
+                                                <form action="add-to-cart" method="POST" class="action-form">
+                                                    <input type="hidden" name="productId" value="${p.productId}">
+                                                    <input type="hidden" name="productName" value="${p.productName}">
+                                                    <input type="hidden" name="price" value="${p.price}">
+                                                    <input type="hidden" name="imageUrl" value="${p.imageUrl}">
+                                                    <input type="hidden" name="quantity" value="1">
+                                                    <button type="submit" class="cart-btn">
+                                                        <i class="fa fa-cart-plus"></i>
+                                                    </button>
+                                                </form>
+                                                <a href="product-detail?pid=${p.getProductId()}">
+                                                    <i class="fa fa-search"></i>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="product-content product-content-mini">
@@ -224,7 +257,6 @@
                                     </div>
                                 </div>
                             </c:forEach>
-
                         </div>
                     </div>
 
@@ -278,6 +310,24 @@
 
 
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+        <script>
+            // Xử lý nút +/-
+            document.querySelector('.btn-plus')?.addEventListener('click', function() {
+                const quantityInput = document.getElementById('quantity');
+                let quantity = parseInt(quantityInput.value) || 1;
+                quantityInput.value = quantity + 1;
+            });
+
+            document.querySelector('.btn-minus')?.addEventListener('click', function() {
+                const quantityInput = document.getElementById('quantity');
+                let quantity = parseInt(quantityInput.value) || 1;
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                }
+            });
+
+            // Sửa lỗi: Thay thế Fetch API bằng cách sử dụng form submit thông thường
+            // Loại bỏ phần xử lý submit bằng Fetch API
+        </script>
     </body>
 </html>

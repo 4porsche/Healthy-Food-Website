@@ -16,13 +16,13 @@ public class User {
 
     public User(int userID, String fullname, String username, String password, String email, int roleID, boolean isActive, String googleId) {
         this.userID = userID;
-        this.fullname = fullname != null ? fullname : "";
-        this.username = username != null ? username : "";
-        this.password = password != null ? password : "";
-        this.email = email != null ? email : "";
-        this.roleID = roleID;
-        this.isActive = isActive;
-        this.googleId = googleId != null ? googleId : "";
+    this.fullname = fullname != null ? fullname : "";
+    this.username = username != null ? username : "";
+    this.password = password != null ? password : "";
+    this.email = email != null ? email : "";
+    this.roleID = roleID;
+    this.isActive = isActive;
+    this.googleId = googleId != null ? googleId : "";
     }
 
     // Getters and setters

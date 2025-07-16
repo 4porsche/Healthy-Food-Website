@@ -169,7 +169,7 @@ public class GoogleLoginServlet extends HttpServlet {
         if (roleID == 1) {
             response.sendRedirect("admin.jsp");
         } else if (roleID == 3 || roleID == 0) {
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("home");
         } else if (roleID == 5) {
             response.sendRedirect("seller.jsp");
         } else if (roleID == 6) {
