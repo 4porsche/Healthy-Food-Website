@@ -154,7 +154,7 @@
 <!-- Logo góc trên trái -->
 <div class="top-header">
     <a href="home.jsp">
-         <img src="img/header-logo.png" alt="Logo">
+        <img src="img/logo.png" alt="Logo">
     </a>
 </div>
 

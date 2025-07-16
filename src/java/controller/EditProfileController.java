@@ -11,7 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import model.CustomerProfile;
 
 /**
@@ -72,84 +71,58 @@ public class EditProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-
-        HttpSession session = request.getSession();
-        ProfileDao pd = new ProfileDao();
-
+//        response.setContentType("text/html;charset=UTF-8");
         try {
-            // 1. Lấy userID từ form
-            String userIdRaw = request.getParameter("userid");
-            if (userIdRaw == null || userIdRaw.trim().isEmpty()) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
-
             int userID;
+             ProfileDao pd = new ProfileDao();
+                     
             try {
-                userID = Integer.parseInt(userIdRaw);
+                userID = Integer.parseInt(request.getParameter("userid"));
                 if (userID <= 0) {
-                    throw new NumberFormatException();
+                    throw new NumberFormatException("User ID must be positive.");
                 }
             } catch (NumberFormatException e) {
-                request.setAttribute("error", "ID người dùng không hợp lệ.");
+                
+                request.setAttribute("error", "User ID không hợp lệ.");
                 request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
-
-            // 2. Lấy CustomerProfile hiện tại từ session hoặc DB
-            CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
-            if (cp == null || cp.getUserid() != userID) {
-                cp = pd.getCustomer(userID, 3); // role = 3
-            }
-
-            // 3. Parse chiều cao và cân nặng
+            
             double height, weight, BMI;
+                CustomerProfile cp = pd.getCustomer(userID, 3);
             try {
                 height = Double.parseDouble(request.getParameter("height"));
                 weight = Double.parseDouble(request.getParameter("weight"));
-
-                if (height <= 0 || height > 300 || weight <= 0 || weight > 300) {
-                    throw new NumberFormatException();
-                }
-
                 double heightInMeters = height / 100;
-                BMI = weight / (heightInMeters * heightInMeters);
-
-                if (BMI <= 0 || BMI > 100) {
-                    throw new NumberFormatException();
-                }
+                BMI = (weight) / (heightInMeters * heightInMeters);
             } catch (NumberFormatException e) {
-                request.setAttribute("error", "Chiều cao, cân nặng, hoặc BMI không hợp lệ.");
+                request.setAttribute("error", "Chiều cao, cân nặng, và BMI phải là số.");
                 request.setAttribute("loadcustomer", cp);
                 request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
 
-            // 4. Lấy activity và goal
+            if (height <= 0 || height > 300 || weight <= 0 || weight > 300 || BMI <= 0 || BMI > 100) {
+                request.setAttribute("error", "Chiều cao, cân nặng, hoặc BMI không hợp lệ (quá lớn hoặc nhỏ).");
+                 request.setAttribute("loadcustomer", cp);
+                request.getRequestDispatcher("inputbody.jsp").forward(request, response);
+                return;
+            }
+
             String activity = request.getParameter("activitylevel");
             String goal = request.getParameter("goal");
 
             if (activity == null || activity.trim().isEmpty() || goal == null || goal.trim().isEmpty()) {
                 request.setAttribute("error", "Mức độ hoạt động và mục tiêu không được để trống.");
-                request.setAttribute("loadcustomer", cp);
+                 request.setAttribute("loadcustomer", cp);
                 request.getRequestDispatcher("inputbody.jsp").forward(request, response);
                 return;
             }
 
-            // 5. Cập nhật DB
-            pd.update(height, weight, BMI, activity, goal, userID, 3); // role = 3
+           
 
-            // 6. Load lại thông tin và cập nhật session
-            CustomerProfile updatedProfile = pd.getCustomer(userID, 3);
-            session.setAttribute("account", updatedProfile);
-
-            // 7. Forward về profile.jsp
-            request.setAttribute("success", "Cập nhật thành công.");
-            request.setAttribute("customer", updatedProfile);
-            request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
+            pd.update(height, weight, BMI, activity, goal, userID, 3);
+            request.getRequestDispatcher("profile").forward(request, response);
 
         } catch (Exception ex) {
             ex.printStackTrace();

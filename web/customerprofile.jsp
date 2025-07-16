@@ -78,6 +78,7 @@
                                     onclick="return confirm('Bạn có chắc muốn lưu thay đổi?')">
                                 <i class="fa fa-save"></i> Lưu thay đổi
                             </button>
+
                             <a class="btn btn-outline-success btn-sm mr-2" href="load?userid=${customer.userid}">
                                 <i class="fa fa-plus-square"></i> Nhập chỉ số cơ thể
                             </a>
@@ -87,51 +88,10 @@
                         </div>
                     </div>
                 </form>
-
-                <!-- Consultation Request Form -->
-                <div class="mt-5">
-                    <h3 class="text-success mb-4">Gửi yêu cầu tư vấn dinh dưỡng</h3>
-
-                    <!-- Thông báo khi có message -->
-                    <c:if test="${not empty sessionScope.requestMessage}">
-                        <div class="alert alert-info text-center" role="alert">
-                            ${sessionScope.requestMessage}
-                        </div>
-                    </c:if>
-
-                    <!-- Ẩn mã request đã gửi (dành cho debug, tracking hoặc dùng JS sau này) -->
-                    <c:if test="${not empty sessionScope.lastRequest}">
-                        <input type="hidden" id="lastRequestId" value="${lastRequest.requestId}" />
-                    </c:if>
-
-                    <!-- Chỉ hiển thị form nếu đã đăng nhập -->
-                    <c:if test="${not empty sessionScope.user}">
-                        <form action="submitRequest" method="post">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <strong>Ngày và giờ mong muốn tư vấn:</strong>
-                                    <input type="datetime-local" class="form-control" name="preferredDate" required>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <button type="submit" class="btn btn-primary btn-sm"
-                                            onclick="return confirm('Bạn có chắc muốn gửi yêu cầu tư vấn?')">
-                                        <i class="fa fa-paper-plane"></i> Gửi yêu cầu
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </c:if>
-
-                    <!-- Nếu chưa đăng nhập -->
-                    <c:if test="${empty sessionScope.user}">
-                        <div class="alert alert-warning text-center">Vui lòng <a href="login.jsp">đăng nhập</a> để gửi yêu cầu tư vấn.</div>
-                    </c:if>
-                </div>
-                
             </div>
         </div>
-
         <%@ include file="footer.jsp" %>
+        <!-- Footer Bottom End -->
 
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>

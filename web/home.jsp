@@ -122,19 +122,6 @@
                 display: flex !important;
                 align-items: stretch !important;
             }
-            
-            /* Thêm style cho nút giỏ hàng */
-            .cart-icon {
-                cursor: pointer;
-            }
-
-            /* Style cho nút submit trong form */
-            .btn-cart-form {
-                background: none;
-                border: none;
-                padding: 0;
-                cursor: pointer;
-            }
 
         </style>
     </head>
@@ -254,22 +241,12 @@
                                         <img src="${p.imageUrl}" alt="${p.productName}" class="product-img">
                                     </a>
                                     <div class="product-action">
-                                        <!-- Form thêm vào giỏ hàng -->
-                                        <form action="add-to-cart" method="POST" style="display: inline;">
-                                            <input type="hidden" name="productId" value="${p.productId}">
-                                            <input type="hidden" name="productName" value="${p.productName}">
-                                            <input type="hidden" name="price" value="${p.price}">
-                                            <input type="hidden" name="imageUrl" value="${p.imageUrl}">
-                                            <input type="hidden" name="quantity" value="1">
-                                            <button type="submit" class="btn-cart-form">
-                                                <i class="fa fa-cart-plus cart-icon"></i>
-                                            </button>
-                                        </form>
-                                        <a href="product-detail?pid=${p.productId}"><i class="fa fa-search"></i></a>
+                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                        <a href="#"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
                                 <div class="product-content">
-                                    <div class="title"><a href="product-detail?pid=${p.productId}">${p.productName}</a></div>
+                                    <div class="title"><a href="#">${p.productName}</a></div>
                                     <div class="price">${p.price}đ</div>
                                 </div>
                             </div>
@@ -299,22 +276,12 @@
                                         <img src="${p.imageUrl}" alt="${p.productName}" class="product-img">
                                     </a>
                                     <div class="product-action">
-                                        <!-- Form thêm vào giỏ hàng -->
-                                        <form action="add-to-cart" method="POST" style="display: inline;">
-                                            <input type="hidden" name="productId" value="${p.productId}">
-                                            <input type="hidden" name="productName" value="${p.productName}">
-                                            <input type="hidden" name="price" value="${p.price}">
-                                            <input type="hidden" name="imageUrl" value="${p.imageUrl}">
-                                            <input type="hidden" name="quantity" value="1">
-                                            <button type="submit" class="btn-cart-form">
-                                                <i class="fa fa-cart-plus cart-icon"></i>
-                                            </button>
-                                        </form>
-                                        <a href="product-detail?pid=${p.productId}"><i class="fa fa-search"></i></a>
+                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                        <a href="#"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
                                 <div class="product-content">
-                                    <div class="title"><a href="product-detail?pid=${p.productId}">${p.productName}</a></div>
+                                    <div class="title"><a href="#">${p.productName}</a></div>
                                     <div class="price">${p.price}đ</div>
                                 </div>
                             </div>
@@ -340,19 +307,6 @@
 
         <!-- Javascript -->
         <script src="js/main.js"></script>
-        
-        <script>
-            // Thêm hiệu ứng hover cho biểu tượng giỏ hàng
-            $(document).ready(function() {
-                $('.cart-icon').hover(
-                    function() {
-                        $(this).css('color', '#FF6B6B'); // Màu khi hover
-                    },
-                    function() {
-                        $(this).css('color', ''); // Trở lại màu mặc định
-                    }
-                );
-            });
-        </script>
     </body>
+
 </html>

@@ -124,7 +124,7 @@
 <div class="custom-header">
     <div class="logo-container">
         <a href="home.jsp">
-             <img src="img/header-logo.png" alt="Logo">
+            <img src="img/logo.png" alt="Logo">
         </a>
     </div>
 </div>

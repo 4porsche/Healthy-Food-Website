@@ -96,6 +96,56 @@
                 overflow: visible;
             }
 
+            /* Vùng chào người dùng + dropdown */
+            .welcome-content {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 20px;
+                font-size: 16px;
+                position: relative;
+            }
+
+            /* Giỏ hàng */
+            .welcome-content .cart {
+                position: relative;
+                display: inline-block;
+            }
+
+            .welcome-content .cart a {
+                font-size: 25px;
+                color: #3C603C;
+                transition: color 0.3s;
+            }
+
+            .welcome-content .cart a:hover {
+                color: #28a745;
+            }
+
+            .welcome-content .cart span {
+                position: absolute;
+                top: -8px;
+                right: -12px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #dc3545;
+                background: none;
+                border: none;
+            }
+
+
+            /* Animation dropdown */
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(5px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
             @media (min-width: 768px) {
                 .top-header {
                     max-height: none;
@@ -128,13 +178,24 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="search">
-                            <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                            <button><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+
+                    <!--                    <div class="col-md-6 brand-message text-center">
+                                            <h5 style="margin: 0; font-weight: 600; font-size: 25px; color: #28a745;">Ăn lành mạnh, sống tích cực 🌿</h5>
+                                        </div>-->
+
+                    <div class="col-md-6 text-center" id="timeDisplay" style="font-size: 20px; color: #3C603C;"></div>
+                    <script>
+                        function updateTime() {
+                            const now = new Date();
+                            document.getElementById("timeDisplay").innerText =
+                                    now.toLocaleTimeString('vi-VN') + " | " + now.toLocaleDateString('vi-VN');
+                        }
+                        setInterval(updateTime, 1000);
+                        updateTime();
+                    </script>
+
+
+                    <div class="col-md-3 welcome-content">
                         <div class="user">
                             <div class="dropdown">
                                 <c:choose>
@@ -142,7 +203,7 @@
                                         <!-- Sử dụng họ tên nếu có, nếu không thì dùng tên tài khoản -->
                                         <c:set var="displayName" value="${not empty sessionScope.fullname ? sessionScope.fullname : sessionScope.username}" />
 
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 17px;">
                                             Xin chào, ${displayName}
                                         </a>
                                         <div class="dropdown-menu">
@@ -150,6 +211,7 @@
                                             <a href="LogoutServlet" class="dropdown-item">Đăng xuất</a>
                                         </div>
                                     </c:when>
+
                                     <c:otherwise>
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tài khoản của tôi</a>
                                         <div class="dropdown-menu">
@@ -160,6 +222,15 @@
                                 </c:choose>
                             </div>
                         </div>
+
+                        <c:if test="${sessionScope.user.getRoleID() == 3}">
+                            <div class="cart">
+                                <a href="cart.html" class="nav-item nav-link active">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                                <span>(0)</span>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -178,20 +249,39 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav m-auto">
                             <a href="home" class="nav-item nav-link active">Trang chủ</a>
-                            <a href="my-products.jsp" class="nav-item nav-link">Sản phẩm</a>
+
+                            <c:if test="${sessionScope.user.getRoleID() == 3}">
+                                <a href="products" class="nav-item nav-link active">Sản phẩm</a>
+                                <a href="#" class="nav-item nav-link active">Đơn hàng của tôi</a>
+
+                            </c:if>
+
+                            <c:if test="${sessionScope.user.getRoleID() == 5}">
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Sản phẩm</a>
+                                    <div class="dropdown-menu">
+                                        <a href="products" class="dropdown-item">Tẩt cả sản phẩm</a>
+                                        <a href="my-products" class="dropdown-item">Sản phẩm của tôi</a>
+                                    </div>
+                                </div>
+                            </c:if>
+                                
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu">
-                                    <a href="my-products.jsp" class="dropdown-item">Product</a>
-                                    <a href="product-detail.jsp" class="dropdown-item">Product Detail</a>
-                                    <a href="cart.jsp" class="dropdown-item">Cart</a>
-                                    <a href="wishlist.jsp" class="dropdown-item">Wishlist</a>
-                                    <a href="checkout.jsp" class="dropdown-item">Checkout</a>
-                                    <a href="login.jsp" class="dropdown-item">Login & Register</a>
-                                    <a href="my-account.jsp" class="dropdown-item">My Account</a>
+                                    <a href="product-list.html" class="dropdown-item">Product</a>
+                                    <a href="product-detail.html" class="dropdown-item">Product Detail</a>
+                                    <a href="cart.html" class="dropdown-item">Cart</a>
+                                    <a href="wishlist.html" class="dropdown-item">Wishlist</a>
+                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
+                                    <a href="login.html" class="dropdown-item">Login & Register</a>
+                                    <a href="my-account.html" class="dropdown-item">My Account</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+
+                            <c:if test="${sessionScope.user.getRoleID() == 5}">
+                                <a href="seller-dashboard" class="nav-item nav-link">Trang người bán</a>
+                            </c:if>
                         </div>
                     </div>
                 </nav>

@@ -22,7 +22,7 @@ public class ProfileDao extends DBContext {
 
     public CustomerProfile getCustomer(int id, int roleid) {
         CustomerProfile cp = null;
-        String sql = "select * from Users where userID = ? and roleID = ?";
+        String sql = "select * from Users a join CustomerProfiles b on a.UserID = b.CustomerID where userID = ? and roleID = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
@@ -50,8 +50,7 @@ public class ProfileDao extends DBContext {
     }
 
     public void update(double height, double weight, double bmi, String activitylevel, String goal, int id, int roleid) {
-        String sql = "update a set a.height = ?, a.weight = ?, a.bmi = ?, a.activitylevel = ?, a.goal = ? from users a where a.userid = ? and a.roleid = ?";
-
+        String sql = "update CustomerProfiles set Height = ?, Weight = ?, BMI = ?, ActivityLevel = ?,  Goal = ? where CustomerID = ? and roleid = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setDouble(1, height);
@@ -63,26 +62,26 @@ public class ProfileDao extends DBContext {
             ps.setInt(7, roleid);
             ps.executeUpdate();
         } catch (Exception e) {
-            System.out.println("Lỗi khi cập nhật thông tin cơ thể: " + e.getMessage());
+            System.out.println(e);
         }
     }
-
+    
     public void updateprofilecustomer(String phone, String gender, int id, int roleid) {
-        String sql = "update a set Phone = ?, Gender = ? from Users a where userID = ? and roleid = ?";
+        String sql = "update a set Phone = ?, Gender = ? from CustomerProfiles a join Users b on a.customerID = b.UserID where customerID = ? and b.roleid = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, phone);
             ps.setString(2, gender);
             ps.setInt(3, id);
             ps.setInt(4, roleid);
-
+ 
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-
-    public void updateprofileuser(String fullname, String email, int id, int roleid) {
+    
+      public void updateprofileuser(String fullname, String email, int id, int roleid) {
         String sql = "update Users set Fullname = ?, Email = ? where UserID = ? and roleid = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -90,7 +89,50 @@ public class ProfileDao extends DBContext {
             ps.setString(2, email);
             ps.setInt(3, id);
             ps.setInt(4, roleid);
+ 
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    
+    
+    
 
+    public List<Requests> getAllRequestsForNutritionist() {
+        List<Requests> list = new ArrayList<>();
+        String sql = "select a.RequestID, a.CustomerID, b.Fullname, a.RequestDate, a.PreferredDate, a.Status, a.ResponseNote from ConsulationRequests a join Users b ON a.CustomerID = b.UserID";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int requestID = rs.getInt("RequestID");
+                int customerID = rs.getInt("CustomerID");
+                String customerName = rs.getString("Fullname");
+
+                Date requestDate = rs.getDate("RequestDate");
+                Date preferredDate = rs.getDate("PreferredDate");
+                String status = rs.getString("Status");
+                String note = rs.getString("ResponseNote");
+                Requests c = new Requests(requestID, customerID, customerName, requestDate, preferredDate, status, note);
+                list.add(c);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public void updateResponse(int requestID, String status, String note) {
+        String sql = "update ConsulationRequests set Status = ?, ResponseNote = ? where RequestID = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setString(2, note);
+            ps.setInt(3, requestID);
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
@@ -111,30 +153,10 @@ public class ProfileDao extends DBContext {
 
     public static void main(String[] args) {
         ProfileDao dao = new ProfileDao();
-
-        // Thử cập nhật chỉ số cơ thể cho user có ID = 3, role = 3
-        double testHeight = 175.0;
-        double testWeight = 80;
-        double testBMI = testWeight / Math.pow(testHeight / 100.0, 2); // BMI = kg / m^2
-        String testActivity = "Trung bình";
-        String testGoal = "Tăng cơ";
-        int testUserId = 3;
-        int testRole = 3;
-
-        dao.update(testHeight, testWeight, testBMI, testActivity, testGoal, testUserId, testRole);
-
-        // In lại để kiểm tra
-        CustomerProfile updated = dao.getCustomer(testUserId, testRole);
-        if (updated != null) {
-            System.out.println("✅ Cập nhật thành công!");
-            System.out.println("Chiều cao: " + updated.getHeight());
-            System.out.println("Cân nặng: " + updated.getWeight());
-            System.out.println("BMI: " + updated.getBMI());
-            System.out.println("Mức độ hoạt động: " + updated.getActivitylevel());
-            System.out.println("Mục tiêu: " + updated.getGoal());
-        } else {
-            System.out.println("❌ Không tìm thấy hồ sơ khách hàng sau khi cập nhật.");
-        }
+        CustomerProfile cp = dao.getCustomer(3, 3);
+//        List<Requests> r = dao.getAllRequestsForNutritionist();
+        dao.updateprofilecustomer("0912837472", "Nam", 3, 3);
+        System.out.println(cp.toString());
+//        System.out.println(r.toString());
     }
-
 }

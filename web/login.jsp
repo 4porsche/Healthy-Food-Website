@@ -367,8 +367,8 @@
 
         <!-- Header với logo bên trái -->
         <div class="top-header">
-            <a href="home">
-                 <img src="img/header-logo.png" alt="Logo">
+            <a href="home.jsp">
+                <img src="img/logo.png" alt="Logo">
             </a>
         </div>
 
