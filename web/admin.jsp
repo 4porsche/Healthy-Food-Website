@@ -7,7 +7,7 @@
         <title>Admin Panel - Healthy Food</title>
         <style>
             :root {
-                --primary: #3C603C;
+                --primary: #4CAF50;
                 --primary-dark: #388E3C;
                 --primary-light: #C8E6C9;
                 --secondary: #FF9800;
@@ -373,116 +373,127 @@
                 }
 
             }
+            .admin-info {
+                position: relative;
+                cursor: pointer;
+            }
+
+            .logout-dropdown a {
+                display: block;
+                padding: 10px 15px;
+                color: #333;
+                text-decoration: none;
+                white-space: nowrap;
+            }
+
+            .logout-dropdown a:hover {
+                background-color: #f5f5f5;
+            }
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
         <div class="sidebar">
             <div class="sidebar-header">
-                <h3>Healthy Food Admin</h3>
+                <h3>Healthy Food</h3>
             </div>
             <div class="sidebar-menu">
-                <a href="admin-dashboard?action=view">
-                    <i class="fas fa-users"></i> View Users
+                <a href="AdminServlet?action=view">
+                    <i class="fas fa-users"></i> Xem Người Dùng
                 </a>
-                <!--            <button onclick="document.getElementById('toggleForm').scrollIntoView({behavior: 'smooth'});">
-                                <i class="fas fa-toggle-on"></i> Activate/Disable Account
-                            </button>-->
-                <!--            <button onclick="document.getElementById('assignRoleForm').scrollIntoView({behavior: 'smooth'});">
-                                <i class="fas fa-user-tag"></i> Assign Roles
-                            </button>-->
-                <!--            <button onclick="document.getElementById('crudForm').scrollIntoView({behavior: 'smooth'});">
-                                <i class="fas fa-user-cog"></i> CRUD Account
-                            </button>-->
                 <button onclick="document.getElementById('searchForm').scrollIntoView({behavior: 'smooth'});">
-                    <i class="fas fa-search"></i> Search Account
+                    <i class="fas fa-search"></i> Tìm Tài Khoản
                 </button>
             </div>
         </div>
 
         <div class="main-content">
             <div class="header">
-                <h2>Admin Dashboard</h2>
-                <div class="admin-info">
-                    <div class="admin-avatar">A</div>
-                    <div>
-                        <h4>Admin User</h4>
-                        <p>Administrator</p>
+                <h2>Bảng Điều Khiển Admin</h2>
+                <div class="admin-dropdown">
+                    <div class="admin-info" id="adminInfo">
+                        <div class="admin-avatar">Q</div>
+                        <div>
+                            <h4>Quản Trị Viên</h4>
+                            <p>Administrator</p>
+                        </div>
+                    </div>
+                    <div class="dropdown-content" id="dropdownContent">
+                       
                     </div>
                 </div>
             </div>
 
-            <!-- Activate/Disable Account Section -->
+            <!-- Tìm kiếm tài khoản -->
             <div class="section" id="searchForm">
-                <h3><i class="fas fa-search"></i> Search Accounts</h3>
-                
-                <form action="admin-dashboard" method="get" style="margin-bottom: 20px;">
+                <h3><i class="fas fa-search"></i> Tìm Kiếm Tài Khoản</h3>
+                <form action="AdminServlet" method="get" style="margin-bottom: 20px;">
                     <input type="hidden" name="action" value="search">
                     <div class="form-row">
                         <div class="form-group" style="flex: 3;">
-                            <label for="searchQuery">Search by Keyword:</label>
-                            <input type="text" id="searchQuery" name="query" placeholder="Search by name, email, username...">
+                            <label for="searchQuery">Tìm theo từ khóa:</label>
+                            <input type="text" id="searchQuery" name="query" placeholder="Tìm theo tên, email, tên đăng nhập...">
                         </div>
                         <div class="form-group" style="flex: 1; align-self: flex-end;">
                             <button type="submit" class="btn-primary" style="width: 100%;">
-                                <i class="fas fa-search"></i> Search
+                                <i class="fas fa-search"></i> Tìm Kiếm
                             </button>
                         </div>
                     </div>
                 </form>
 
-                <form action="admin-dashboard" method="get">
+                <form action="AdminServlet" method="get">
                     <input type="hidden" name="action" value="filter">
                     <div class="form-row">
                         <div class="form-group" style="flex: 3;">
-                            <label for="filterRoleId">Filter by Role:</label>
+                            <label for="filterRoleId">Lọc theo vai trò:</label>
                             <select id="filterRoleId" name="roleId">
-                                <option value="all" selected>All Roles</option>
-                                <option value="1">Administrator</option>
-                                <option value="3">Customer</option>
-                                <option value="4">Nutritionist</option>
-                                <option value="5">Seller</option>
-                                <option value="6">Shipper</option>
+                                <option value="all" selected>Tất cả vai trò</option>
+                                <option value="1">Quản trị viên</option>
+                                <option value="3">Khách hàng</option>
+                                <option value="4">Chuyên gia dinh dưỡng</option>
+                                <option value="5">Người bán</option>
+                                <option value="6">Người giao hàng</option>
                             </select>
                         </div>
                         <div class="form-group" style="flex: 1; align-self: flex-end;">
                             <button type="submit" class="btn-outline" style="width: 100%;">
-                                <i class="fas fa-filter"></i> Filter
+                                <i class="fas fa-filter"></i> Lọc
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
 
-            <!-- View Account List Section -->
+            <!-- Danh sách tài khoản -->
             <div class="section">
                 <div class="add-account-btn">
                     <button class="btn-primary" onclick="showAddAccountForm()">
-                        <i class="fas fa-plus-circle"></i> Add Account
+                        <i class="fas fa-plus-circle"></i> Thêm Tài Khoản
                     </button>
                 </div>
 
-                <h3><i class="fas fa-list"></i> User Accounts</h3>
+                <h3><i class="fas fa-list"></i> Danh Sách Tài Khoản</h3>
                 <%
                     List<User> users = (List<User>) request.getAttribute("userList");
                     if (users == null || users.isEmpty()) {
                         out.println("<div style='padding: 20px; text-align: center; background: #f9f9f9; border-radius: 8px;'>");
                         out.println("<i class='fas fa-exclamation-circle' style='font-size: 2rem; color: #FF9800; margin-bottom: 15px;'></i>");
-                        out.println("<h3 style='color: #555;'>No users found</h3>");
-                        out.println("<p>No user data is available at this time</p>");
+                        out.println("<h3 style='color: #555;'>Không tìm thấy người dùng</h3>");
+                        out.println("<p>Hiện không có dữ liệu người dùng</p>");
                         out.println("</div>");
                     } else {
                 %>
                 <table>
                     <thead>
                         <tr>
-                            <th>User ID</th>
-                            <th>Full Name</th>
-                            <th>Username</th>
+                            <th>ID Người Dùng</th>
+                            <th>Họ Tên</th>
+                            <th>Tên Đăng Nhập</th>
                             <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>Vai Trò</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -490,12 +501,12 @@
                             for (User user : users) {
                                 String roleName = "";
                                 switch(user.getRoleID()) {
-                                    case 1: roleName = "Admin"; break;
-                                    case 3: roleName = "Customer"; break;
-                                    case 4: roleName = "Nutritionist"; break;
-                                    case 5: roleName = "Seller"; break;
-                                    case 6: roleName = "Shipper"; break;
-                                    default: roleName = "Unknown";
+                                    case 1: roleName = "Quản trị"; break;
+                                    case 3: roleName = "Khách hàng"; break;
+                                    case 4: roleName = "Dinh dưỡng"; break;
+                                    case 5: roleName = "Người bán"; break;
+                                    case 6: roleName = "Giao hàng"; break;
+                                    default: roleName = "Khác";
                                 }
                         %>
                         <tr>
@@ -506,29 +517,29 @@
                             <td><%= roleName %></td>
                             <td>
                                 <% if(user.isIsActive()) { %>
-                                <span class="status-active">Active</span>
+                                <span class="status-active">Hoạt động</span>
                                 <% } else { %>
-                                <span class="status-inactive">Inactive</span>
+                                <span class="status-inactive">Vô hiệu</span>
                                 <% } %>
                             </td>
                             <td>
                                 <div class="action-buttons">
                                     <button class="btn-secondary btn-sm" onclick="showEditForm(
-                                                '<%= user.getUserID() %>',
-                                                '<%= user.getFullname() != null ? user.getFullname().replace("'", "\\'") : "" %>',
-                                                '<%= user.getUsername() != null ? user.getUsername().replace("'", "\\'") : "" %>',
-                                                '<%= user.getEmail() != null ? user.getEmail().replace("'", "\\'") : "" %>',
-                                                '<%= user.getRoleID() %>',
-                                                '<%= user.isIsActive() %>'
-                                                )">
-                                        <i class="fas fa-edit"></i> Edit
+                                                    '<%= user.getUserID() %>',
+                                                    '<%= user.getFullname() != null ? user.getFullname().replace("'", "\\'") : "" %>',
+                                                    '<%= user.getUsername() != null ? user.getUsername().replace("'", "\\'") : "" %>',
+                                                    '<%= user.getEmail() != null ? user.getEmail().replace("'", "\\'") : "" %>',
+                                                    '<%= user.getRoleID() %>',
+                                                    '<%= user.isIsActive() %>'
+                                                    )">
+                                        <i class="fas fa-edit"></i> Sửa
                                     </button>
-                                    <form action=admin-dashboard" method="post" style="display:inline;">
+                                    <form action="AdminServlet" method="post" style="display:inline;">
                                         <input type="hidden" name="action" value="crud">
                                         <input type="hidden" name="crudAction" value="delete">
                                         <input type="hidden" name="userId" value="<%= user.getUserID() %>">
                                         <button type="submit" class="btn-danger btn-sm">
-                                            <i class="fas fa-trash-alt"></i> Delete
+                                            <i class="fas fa-trash-alt"></i> Xóa
                                         </button>
                                     </form>
                                 </div>
@@ -544,123 +555,123 @@
                 %>
             </div>
 
-            <!-- Add Account Form (Initially Hidden) -->
+            <!-- Form thêm tài khoản -->
             <div class="section" id="addAccountForm" style="display: none;">
-                <h3><i class="fas fa-user-plus"></i> Add New Account</h3>
-                <form action="admin-dashboard" method="post">
+                <h3><i class="fas fa-user-plus"></i> Thêm Tài Khoản Mới</h3>
+                <form action="AdminServlet" method="post">
                     <input type="hidden" name="action" value="crud">
                     <input type="hidden" name="crudAction" value="create">
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="addFullname">Full Name:</label>
-                            <input type="text" id="addFullname" name="fullname" required placeholder="Enter full name">
+                            <label for="addFullname">Họ và tên:</label>
+                            <input type="text" id="addFullname" name="fullname" required placeholder="Nhập họ tên đầy đủ">
                         </div>
                         <div class="form-group">
-                            <label for="addUsername">Username:</label>
-                            <input type="text" id="addUsername" name="username" required placeholder="Enter username">
+                            <label for="addUsername">Tên đăng nhập:</label>
+                            <input type="text" id="addUsername" name="username" required placeholder="Nhập tên đăng nhập">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="addEmail">Email:</label>
-                            <input type="email" id="addEmail" name="email" required placeholder="Enter email">
+                            <input type="email" id="addEmail" name="email" required placeholder="Nhập địa chỉ email">
                         </div>
                         <div class="form-group">
-                            <label for="addPassword">Password:</label>
-                            <input type="password" id="addPassword" name="password" required placeholder="Enter password">
+                            <label for="addPassword">Mật khẩu:</label>
+                            <input type="password" id="addPassword" name="password" required placeholder="Nhập mật khẩu">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="addRoleId">Role:</label>
+                            <label for="addRoleId">Vai trò:</label>
                             <select id="addRoleId" name="roleId" required>
-                                <option value="" disabled selected>Select a role</option>
-                                <option value="1">Administrator</option>
-                                <option value="3">Customer</option>
-                                <option value="4">Nutritionist</option>
-                                <option value="5">Seller</option>
-                                <option value="6">Shipper</option>
+                                <option value="" disabled selected>Chọn vai trò</option>
+                                <option value="1">Quản trị viên</option>
+                                <option value="3">Khách hàng</option>
+                                <option value="4">Chuyên gia dinh dưỡng</option>
+                                <option value="5">Người bán</option>
+                                <option value="6">Người giao hàng</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="addActive">Account Status:</label>
+                            <label for="addActive">Trạng thái tài khoản:</label>
                             <div style="margin-top: 10px;">
                                 <input type="checkbox" id="addActive" name="isActive" checked style="width: auto; margin-right: 10px;">
-                                <label for="addActive" style="display: inline; font-weight: normal;">Active Account</label>
+                                <label for="addActive" style="display: inline; font-weight: normal;">Tài khoản hoạt động</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="crud-actions">
                         <button type="submit" class="btn-primary">
-                            <i class="fas fa-plus-circle"></i> Create Account
+                            <i class="fas fa-plus-circle"></i> Tạo Tài Khoản
                         </button>
                         <button type="button" class="btn-outline" onclick="hideAddAccountForm()">
-                            <i class="fas fa-times"></i> Cancel
+                            <i class="fas fa-times"></i> Hủy
                         </button>
                     </div>
                 </form>
             </div>
 
-            <!-- Edit Account Form (Initially Hidden) -->
+            <!-- Form chỉnh sửa tài khoản -->
             <div class="section" id="editAccountForm" style="display: none;">
-                <h3><i class="fas fa-user-edit"></i> Edit Account</h3>
-                <form action="admin-dashboard" method="post">
+                <h3><i class="fas fa-user-edit"></i> Chỉnh Sửa Tài Khoản</h3>
+                <form action="AdminServlet" method="post">
                     <input type="hidden" name="action" value="crud">
                     <input type="hidden" name="crudAction" value="update">
                     <input type="hidden" id="editUserId" name="userId">
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="editFullname">Full Name:</label>
-                            <input type="text" id="editFullname" name="fullname" required placeholder="Enter full name">
+                            <label for="editFullname">Họ và tên:</label>
+                            <input type="text" id="editFullname" name="fullname" required placeholder="Nhập họ tên đầy đủ">
                         </div>
                         <div class="form-group">
-                            <label for="editUsername">Username:</label>
-                            <input type="text" id="editUsername" name="username" required placeholder="Enter username">
+                            <label for="editUsername">Tên đăng nhập:</label>
+                            <input type="text" id="editUsername" name="username" required placeholder="Nhập tên đăng nhập">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="editEmail">Email:</label>
-                            <input type="email" id="editEmail" name="email" required placeholder="Enter email">
+                            <input type="email" id="editEmail" name="email" required placeholder="Nhập địa chỉ email">
                         </div>
                         <div class="form-group">
-                            <label for="editPassword">Password (leave blank to keep current):</label>
-                            <input type="password" id="editPassword" name="password" placeholder="Enter new password">
+                            <label for="editPassword">Mật khẩu (để trống nếu giữ nguyên):</label>
+                            <input type="password" id="editPassword" name="password" placeholder="Nhập mật khẩu mới">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="editRoleId">Role:</label>
+                            <label for="editRoleId">Vai trò:</label>
                             <select id="editRoleId" name="roleId" required>
-                                <option value="1">Administrator</option>
-                                <option value="3">Customer</option>
-                                <option value="4">Nutritionist</option>
-                                <option value="5">Seller</option>
-                                <option value="6">Shipper</option>
+                                <option value="1">Quản trị viên</option>
+                                <option value="3">Khách hàng</option>
+                                <option value="4">Chuyên gia dinh dưỡng</option>
+                                <option value="5">Người bán</option>
+                                <option value="6">Người giao hàng</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="editActive">Account Status:</label>
+                            <label for="editActive">Trạng thái tài khoản:</label>
                             <div style="margin-top: 10px;">
                                 <input type="checkbox" id="editActive" name="isActive" style="width: auto; margin-right: 10px;">
-                                <label for="editActive" style="display: inline; font-weight: normal;">Active Account</label>
+                                <label for="editActive" style="display: inline; font-weight: normal;">Tài khoản hoạt động</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="crud-actions">
                         <button type="submit" class="btn-secondary">
-                            <i class="fas fa-sync-alt"></i> Update Account
+                            <i class="fas fa-sync-alt"></i> Cập Nhật
                         </button>
                         <button type="button" class="btn-outline" onclick="hideEditAccountForm()">
-                            <i class="fas fa-times"></i> Cancel
+                            <i class="fas fa-times"></i> Hủy
                         </button>
                     </div>
                 </form>
@@ -678,6 +689,47 @@
         </div>
 
         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const adminInfo = document.querySelector('.admin-info');
+
+                // Tạo dropdown menu
+                const dropdown = document.createElement('div');
+                dropdown.className = 'logout-dropdown';
+                dropdown.innerHTML = '<a href="#" id="logoutLink">Đăng xuất</a>';
+                dropdown.style.display = 'none';
+                dropdown.style.position = 'absolute';
+                dropdown.style.backgroundColor = '#fff';
+                dropdown.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                dropdown.style.borderRadius = '4px';
+                dropdown.style.overflow = 'hidden';
+                dropdown.style.zIndex = '1000';
+
+                // Thêm dropdown vào DOM
+                adminInfo.parentNode.insertBefore(dropdown, adminInfo.nextSibling);
+
+                // Xử lý sự kiện click avatar
+                const adminAvatar = document.querySelector('.admin-avatar');
+                adminAvatar.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                });
+
+                // Xử lý sự kiện click đăng xuất
+                document.getElementById('logoutLink').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.location.href = 'LogoutServlet'; // Gọi servlet đăng xuất
+                });
+
+                // Đóng dropdown khi click bất kỳ đâu
+                document.addEventListener('click', function () {
+                    dropdown.style.display = 'none';
+                });
+
+                // Ngăn đóng dropdown khi click vào dropdown
+                dropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            });
             // Function to show/hide add account form
             function showAddAccountForm() {
                 document.getElementById('addAccountForm').style.display = 'block';

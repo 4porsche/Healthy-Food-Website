@@ -593,7 +593,6 @@ button.btn {
     color: #3C603C;
     font-size: 18px;
     font-weight: 600;
-    text-align: center;
 }
 
 .product-item .product-content .ratting i {
@@ -605,7 +604,6 @@ button.btn {
     font-size: 30px;
     color: #3C603C;
     font-weight: 700;
-    text-align: center;
 }
 
 .product-item .product-content .price span {

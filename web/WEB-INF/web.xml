@@ -36,6 +36,38 @@
         <servlet-name>UpdateStatusController</servlet-name>
         <servlet-class>controller.UpdateStatusController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>controller.CartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <servlet-class>controller.UpdateCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>controller.AddToCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <servlet-class>controller.RemoveFromCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateVNPayPaymentServlet</servlet-name>
+        <servlet-class>controller.CreateVNPayPaymentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>controller.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VNPayReturnServlet</servlet-name>
+        <servlet-class>controller.VNPayReturnServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderDetailCusServlet</servlet-name>
+        <servlet-class>controller.OrderDetailCusServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
@@ -96,6 +128,26 @@
         <servlet-name>GoogleLoginServlet</servlet-name>
         <servlet-class>controller.GoogleLoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MenuSuggestionServlet</servlet-name>
+        <servlet-class>controller.MenuSuggestionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReviewSuggestionServlet</servlet-name>
+        <servlet-class>controller.ReviewSuggestionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RevenueReportServlet</servlet-name>
+        <servlet-class>controller.RevenueReportServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderManagementServlet</servlet-name>
+        <servlet-class>controller.OrderManagementServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderDetailServlet</servlet-name>
+        <servlet-class>controller.OrderDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -126,7 +178,8 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdminServlet</servlet-name>
-        <url-pattern>/admin-dashboard</url-pattern>
+        <url-pattern>/AdminServlet
+        </url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GoogleLoginServlet</servlet-name>
@@ -144,4 +197,60 @@
         <servlet-name>UpdateStatusController</servlet-name>
         <url-pattern>/updatestatus</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MenuSuggestionServlet</servlet-name>
+        <url-pattern>/MenuSuggestionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReviewSuggestionServlet</servlet-name>
+        <url-pattern>/ReviewSuggestionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RevenueReportServlet</servlet-name>
+        <url-pattern>/RevenueReportServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderManagementServlet</servlet-name>
+        <url-pattern>/OrderManagementServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDetailServlet</servlet-name>
+        <url-pattern>/OrderDetailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <url-pattern>/update-cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/add-to-cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <url-pattern>/remove-from-cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateVNPayPaymentServlet</servlet-name>
+        <url-pattern>/create-vnpay-payment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/checkout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VNPayReturnServlet</servlet-name>
+        <url-pattern>/vnpay-return</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDetailCusServlet</servlet-name>
+        <url-pattern>/order-detail</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>60</session-timeout>
+        <!-- 60 phút -->
+    </session-config>
 </web-app>
