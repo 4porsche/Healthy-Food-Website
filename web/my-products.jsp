@@ -140,7 +140,6 @@
         </div>
         <!-- Breadcrumb End -->
 
-
         <!-- Product List Start -->
         <div class="product-view">
             <div class="container">
@@ -162,7 +161,6 @@
                                                 </div>
                                             </form>
                                         </div>
-
                                     </div>
 
                                     <div class="col-md-4">
@@ -254,26 +252,14 @@
 
                         <div class="sidebar-widget tag">
                             <h2 class="title">Tags</h2>
-                            <a href="#" value="bún">bún</a>
-                            <a href="#" value="bánh tráng">bánh tráng</a>
-                            <a href="#" value="vỏ tortilla">vỏ tortilla</a>
-                            <a href="#" value="yến mạch">yến mạch</a>
-                            <a href="#" value="gà">gà</a>
-                            <a href="#" value="hải sản">hải sản</a>
-                            <a href="#" value="trứng">trứng</a>
-                            <a href="#" value="hạt">hạt</a>
-                            <a href="#" value="nấm">nấm</a>
-                            <a href="#" value="đậu hũ">đậu hũ</a>
-                            <a href="#" value="đậu que">đậu que</a>
-                            <a href="#" value="rong biển">rong biển</a>
-                            <a href="#" value="trái cây">trái cây</a>
+                            <c:forEach var="tag" items="${tagList}">
+                                <a href="my-products?tag=${tag}" value="${tag}">${tag}</a>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Product List End -->
-
 
         <%@ include file="footer.jsp" %>
 
