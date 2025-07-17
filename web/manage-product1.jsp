@@ -587,8 +587,6 @@
                                     </td>
                                 </tr>
                             </c:forEach>
-
-
                         </tbody>
                     </table>
 
@@ -663,9 +661,6 @@
                         <button type="button" class="btn-cancel" onclick="closePopup('popup-add')">Hủy</button>
                         <button type="submit" class="btn-submit">Thêm</button>
                     </div>
-
-
-
                 </div>
             </div>
         </form>
