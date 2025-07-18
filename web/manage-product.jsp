@@ -626,8 +626,8 @@
             </div>
         </c:if>
 
-        <a href="home">
-            <button class="btn-home">Quay lại trang chủ</button>
+        <a href="seller-dashboard">
+            <button class="btn-home">Quay lại</button>
         </a>
 
         <!--        <div id="notification" class="notification"></div>-->
