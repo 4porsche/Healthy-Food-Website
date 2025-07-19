@@ -722,7 +722,7 @@ public class ProductDAO extends DBContext {
     }
 
     public Set<String> getAllTagsBySeller(int sellerId) {
-        List<Product> allProducts = getMyProduct(sellerId); // Phải gọi đúng method lấy ALL product, KHÔNG bị filter
+        List<Product> allProducts = getMyProduct(sellerId); 
         Set<String> allTags = new LinkedHashSet<>();
 
         for (Product product : allProducts) {
@@ -734,6 +734,129 @@ public class ProductDAO extends DBContext {
             }
         }
         return allTags;
+    }
+    
+    public List<Product> sortProductNewestList() {
+        String sql = "SELECT * FROM Products ORDER BY ProductID DESC";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int sellerId = rs.getInt("SellerID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                String ingredient = rs.getString("Ingredient");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+                String imageUrl = rs.getString("ImageUrl");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Product> sortProductPopularList() {
+        String sql = "SELECT \n"
+                + "    P.*,\n"
+                + "    ISNULL(SUM(OD.Quantity), 0) AS TotalSold\n"
+                + "FROM \n"
+                + "    Products P\n"
+                + "LEFT JOIN \n"
+                + "    OrderDetails OD ON P.ProductID = OD.ProductID\n"
+                + "GROUP BY \n"
+                + "    P.ProductID, P.SellerID, P.CategoryID, P.ProductName, P.Price, P.Description,\n"
+                + "    P.Ingredient, P.Weight, P.Calories, P.Protein, P.Fat, P.Carbs, P.Tags, P.ImageUrl\n"
+                + "ORDER BY \n"
+                + "    TotalSold DESC";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int sellerId = rs.getInt("SellerID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                String ingredient = rs.getString("Ingredient");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+                String imageUrl = rs.getString("ImageUrl");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public Set<String> getAllTags() {
+        List<Product> allProducts = getAllProduct();
+        Set<String> allTags = new LinkedHashSet<>();
+
+        for (Product product : allProducts) {
+            if (product.getTags() != null && !product.getTags().trim().isEmpty()) {
+                String[] tags = product.getTags().split(",");
+                for (String tag : tags) {
+                    allTags.add(tag.trim());
+                }
+            }
+        }
+        return allTags;
+    }
+   
+    public List<Product> getProductByTag(String tag) {
+        String sql = "SELECT * FROM Products WHERE Tags LIKE ?";
+        List<Product> list = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + tag + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("ProductID");
+                int sellerId = rs.getInt("SellerID");
+                int categoryId = rs.getInt("CategoryID");
+                String productName = rs.getString("ProductName");
+                int price = rs.getInt("Price");
+                String description = rs.getString("Description");
+                String ingredient = rs.getString("Ingredient");
+                double weight = rs.getDouble("Weight");
+                double calories = rs.getDouble("Calories");
+                double protein = rs.getDouble("Protein");
+                double fat = rs.getDouble("Fat");
+                double carbs = rs.getDouble("Carbs");
+                String tags = rs.getString("Tags");
+                String imageUrl = rs.getString("ImageUrl");
+
+                Product p = new Product(productId, sellerId, categoryId, productName, price, description, ingredient, weight, calories, protein, fat, carbs, tags, imageUrl);
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
     }
 
 }

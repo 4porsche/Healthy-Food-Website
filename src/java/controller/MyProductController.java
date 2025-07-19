@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -51,16 +52,21 @@ public class MyProductController extends HttpServlet {
 
         if (selectedTag != null && !selectedTag.trim().isEmpty()) {
             productList = dao.getMyProductByTag(sellerId, selectedTag);
+            
         } else if (categoryId != -1) {
             productList = dao.getMyProductByCategory(8, categoryId);
+            
         } else if (searchTxt != null && !searchTxt.trim().isEmpty()) {
             productList = dao.getMySearchedList(searchTxt, sellerId);
+            productList = (productList != null) ? productList : new ArrayList<>();
+            
         } else if (sortType != null && !sortType.trim().isEmpty()) {
             if ("newest".equals(sortType)) {
                 productList = dao.sortMyProductNewestList(sellerId);
             } else {
                 productList = dao.sortMyProductPopularList(sellerId);
             }
+            
         } else {
             productList = dao.getMyProduct(sellerId);
         }

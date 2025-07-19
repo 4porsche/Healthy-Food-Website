@@ -124,14 +124,18 @@
                             <%-- Search + Sort Product End --%>
 
                             <%-- View Search + Sort Product Result Start --%>
+                            <c:set var="pageSize" value="6" />
+                            <c:set var="currentPage" value="${param.page != null ? param.page : 1}" />
+
                             <c:choose>
                                 <c:when test="${empty productList}">
-                                    <tr><td colspan="5">Không tìm thấy kết quả phù hợp.</td></tr>
+                                    <div class="col-lg-12">
+                                        <div class="alert alert-warning text-center py-4" role="alert" style="font-size: 18px;">
+                                            Không tìm thấy kết quả phù hợp với từ khóa "<strong>${txtS}</strong>".
+                                        </div>
+                                    </div>
                                 </c:when>
                                 <c:otherwise>
-
-                                    <c:set var="pageSize" value="6" />
-                                    <c:set var="currentPage" value="${param.page != null ? param.page : 1}" />
                                     <c:set var="totalProducts" value="${productList.size()}" />
                                     <c:set var="totalPagesRaw" value="${(totalProducts + pageSize - 1) / pageSize}" />
                                     <c:set var="totalPages" value="${fn:substringBefore(totalPagesRaw, '.')}" />

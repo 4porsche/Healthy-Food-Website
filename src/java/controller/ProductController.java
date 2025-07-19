@@ -6,9 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import model.Product;
 import repository.ProductDAO;
 
@@ -24,45 +26,67 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO dao = new ProductDAO();
-//        Map<String, Integer> categoriesList = dao.getProductCountByCategory();
-//        List<Product> productList = dao.getAllProduct();
+        HttpSession session = request.getSession();
+        if (session == null || session.getAttribute("userid") == null) {
+            response.sendRedirect("login.jsp?error=sessionExpired");
+            return;
+        }
 
-//        request.setAttribute("categoriesList", categoriesList);
-//        request.setAttribute("productList", productList);
+        int sellerId = (Integer) session.getAttribute("userid");
+
+        String searchTxt = request.getParameter("txt");
+        String sortType = request.getParameter("sort");
+        String selectedTag = request.getParameter("tag");
+        String categoryId_raw = request.getParameter("categoryId");
+        int categoryId = -1;
+        if (categoryId_raw != null && !categoryId_raw.trim().isEmpty()) {
+            categoryId = Integer.parseInt(categoryId_raw);
+        }
+
+        ProductDAO dao = new ProductDAO();
+
+        List<Product> productList = null;
+
+        if (selectedTag != null && !selectedTag.trim().isEmpty()) {
+            productList = dao.getProductByTag(selectedTag);
+            
+        } else if (categoryId != -1) {
+            productList = dao.getProductByCategory(categoryId);
+            
+        } else if (searchTxt != null && !searchTxt.trim().isEmpty()) {
+            productList = dao.getSearchedList(searchTxt);
+            productList = (productList != null) ? productList : new ArrayList<>();
+            
+        } else if (sortType != null && !sortType.trim().isEmpty()) {
+            if ("newest".equals(sortType)) {
+                productList = dao.sortProductNewestList();
+            } else {
+                productList = dao.sortProductPopularList();
+            }
+            
+        } else {
+            productList = dao.getAllProduct();
+        }
+
+        Map<Integer, String> categoryNameMap = dao.getCategoryMap();
+        Map<Integer, Integer> categoryCountMap = dao.getProductCountByCategory();
+
+        Set<String> allTags = dao.getAllTags();
+
+        request.setAttribute("tagList", allTags);
+        request.setAttribute("productList", productList);
+        request.setAttribute("categoryNameMap", categoryNameMap);
+        request.setAttribute("categoryCountMap", categoryCountMap);
+        request.setAttribute("selectedCategoryId", categoryId);
+        request.setAttribute("txtS", searchTxt);
+        request.setAttribute("sortT", sortType);
         request.getRequestDispatcher("products.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String searchTxt = request.getParameter("txt");
-        String sortType = request.getParameter("sort");
-
-        ProductDAO dao = new ProductDAO();
-
-        List<Product> productList = null;
-        List<Product> searchedList = dao.getSearchedList(searchTxt);
-        List<Product> sortedList = null;
         
-        if (sortType == null || sortType.isEmpty()) {
-            productList = dao.getAllProduct();
-        }
-        else if ("newest".equals(sortType)) {
-            sortedList = dao.sortNewestList();
-        } else if ("popular".equals(sortType))  {
-            sortedList = dao.sortPopularList();
-        }
-        
-        Map<Integer, Integer> categoriesList = dao.getProductCountByCategory();
-        
-        request.setAttribute("productList", productList);
-        request.setAttribute("categoriesList", categoriesList);
-        request.setAttribute("searchedList", searchedList);
-        request.setAttribute("sortedList", sortedList);
-        request.setAttribute("txtS", searchTxt);
-        request.setAttribute("sortT", sortType);
-        request.getRequestDispatcher("products.jsp").forward(request, response);
     }
 
 }
