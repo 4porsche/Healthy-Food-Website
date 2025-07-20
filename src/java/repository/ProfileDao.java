@@ -22,7 +22,7 @@ public class ProfileDao extends DBContext {
 
     public CustomerProfile getCustomer(int id, int roleid) {
         CustomerProfile cp = null;
-        String sql = "select * from Users a join CustomerProfiles b on a.UserID = b.CustomerID where userID = ? and roleID = ?";
+        String sql = "select * from Users where userID = ? and roleID = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
@@ -50,7 +50,7 @@ public class ProfileDao extends DBContext {
     }
 
     public void update(double height, double weight, double bmi, String activitylevel, String goal, int id, int roleid) {
-        String sql = "update CustomerProfiles set Height = ?, Weight = ?, BMI = ?, ActivityLevel = ?,  Goal = ? where CustomerID = ? and roleid = ?";
+        String sql = "update Users set Height = ?, Weight = ?, BMI = ?, ActivityLevel = ?,  Goal = ? where UserID = ? and roleid = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setDouble(1, height);
@@ -67,7 +67,7 @@ public class ProfileDao extends DBContext {
     }
     
     public void updateprofilecustomer(String phone, String gender, int id, int roleid) {
-        String sql = "update a set Phone = ?, Gender = ? from CustomerProfiles a join Users b on a.customerID = b.UserID where customerID = ? and b.roleid = ?";
+        String sql = "update Users set Phone = ?, Gender = ? where userID = ? and roleid = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, phone);
