@@ -32,6 +32,7 @@
                     </div>
                 </div>
             </c:if>
+
             <c:if test="${not empty sessionScope.user}">
                 <h2 class="text-center text-success mb-4">Hồ sơ khách hàng</h2>
 
@@ -142,8 +143,8 @@
 
             </c:if>
         </div>
-
         <%@ include file="footer.jsp" %>
+        <!-- Footer Bottom End -->
 
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>

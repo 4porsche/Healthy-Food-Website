@@ -28,14 +28,6 @@
         <servlet-name>UpdateProfileController</servlet-name>
         <servlet-class>controller.UpdateProfileController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>SubmitRequestController</servlet-name>
-        <servlet-class>controller.SubmitRequestController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UpdateStatusController</servlet-name>
-        <servlet-class>controller.UpdateStatusController</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
@@ -135,13 +127,5 @@
     <servlet-mapping>
         <servlet-name>UpdateProfileController</servlet-name>
         <url-pattern>/updateprofile</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SubmitRequestController</servlet-name>
-        <url-pattern>/submitRequest</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateStatusController</servlet-name>
-        <url-pattern>/updatestatus</url-pattern>
     </servlet-mapping>
 </web-app>

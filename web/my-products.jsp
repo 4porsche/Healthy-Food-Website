@@ -85,7 +85,6 @@
         </div>
         <!-- Breadcrumb End -->
 
-
         <!-- Product List Start -->
         <div class="product-view">
             <div class="container">
@@ -107,7 +106,6 @@
                                                 </div>
                                             </form>
                                         </div>
-
                                     </div>
 
                                     <div class="col-md-4">
@@ -246,20 +244,11 @@
                             <c:forEach var="tag" items="${tagList}">
                                 <a href="my-products?tag=${tag}" value="${tag}">${tag}</a>
                             </c:forEach>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
 
         <%@ include file="footer.jsp" %>
 

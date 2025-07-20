@@ -280,7 +280,7 @@
                             </div>
 
                             <c:if test="${sessionScope.user.getRoleID() == 5}">
-                                <a href="seller-dashboard" class="nav-item nav-link">Trang người bán</a>
+                                <a href="seller-dashboard" class="nav-item nav-link">Kênh người bán</a>
                             </c:if>
                         </div>
                     </div>

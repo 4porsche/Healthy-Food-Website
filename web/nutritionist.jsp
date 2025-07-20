@@ -5,13 +5,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Consultation Requests</title>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/nutri.css" rel="stylesheet">
+
     </head>
     <body>
         <div class="container d-flex justify-content-center">
             <div class="col-md-12">
+
                 <h2 class="text-center text-success mt-4 mb-3">Yêu cầu tư vấn khách hàng</h2>
 
                 <!-- Search and Filter Form -->
@@ -175,10 +178,12 @@
                 </div>
             </div>
 
+
             <script>
                 function confirmDelete() {
                     return confirm("Bạn có chắc chắn muốn hủy yêu cầu này?");
                 }
+
 
                 // JS validation khi bấm "Lưu" mà chưa có ghi chú
                 document.querySelectorAll("form[action='updatestatus']").forEach(form => {
@@ -191,5 +196,6 @@
                     });
                 });
             </script>
+
         </body>
     </html>
