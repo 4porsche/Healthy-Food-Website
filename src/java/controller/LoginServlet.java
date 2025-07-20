@@ -13,7 +13,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -29,13 +29,13 @@ public class LoginServlet extends HttpServlet {
             int roleID = user.getRoleID();
             switch (roleID) {
                 case 1:
-                    response.sendRedirect("admin-dashboard");
+                    response.sendRedirect("AdminServlet");
                     break;
                 case 3:
                     response.sendRedirect("home");
                     break;
                 case 4:
-                    response.sendRedirect("nutritionist-dashboard");
+                    response.sendRedirect("requests");
                     break;
                 case 5:
                     response.sendRedirect("seller-dashboard");

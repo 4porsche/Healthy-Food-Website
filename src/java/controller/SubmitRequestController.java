@@ -104,7 +104,12 @@ public class SubmitRequestController extends HttpServlet {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             Date preferredDate = sdf.parse(preferredDateStr);
-
+            Date now = new Date();
+            if (preferredDate.before(now)) {
+                session.setAttribute("requestMessage", "Thời gian tư vấn phải sau thời gian hiện tại.");
+                response.sendRedirect("profile?userid=" + customerId);
+                return;
+            }
             // Thêm yêu cầu và nhận lại object đã có RequestID
             rd.addRequest(customerId, preferredDate);
 

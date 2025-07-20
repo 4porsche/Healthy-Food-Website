@@ -12,7 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import model.CustomerProfile;
+import model.Requests;
+import model.User;
+import repository.RequestsDao;
 
 /**
  *
@@ -32,24 +36,51 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        ProfileDao dao = new ProfileDao();
-        if (request.getParameter("userid") == null || request.getParameter("userid").isEmpty()) {
-//            request.setAttribute("error", "Chưa có ID người dùng.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+
+// Kiểm tra người dùng đã đăng nhập chưa
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            response.sendRedirect("login.jsp");
             return;
         }
-        int userID = Integer.parseInt(request.getParameter("userid"));
-        HttpSession session = request.getSession();
-        CustomerProfile cp = (CustomerProfile) session.getAttribute("account");
-        cp = dao.getCustomer(userID, 3);
-//            CustomerProfile cp = dao.getCustomer(3);
+
+// Kiểm tra userid có hợp lệ không
+        String userIdParam = request.getParameter("userid");
+        if (userIdParam == null || userIdParam.isEmpty()) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        int userID;
+        try {
+            userID = Integer.parseInt(userIdParam);
+        } catch (NumberFormatException e) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+// Lấy thông tin khách hàng từ DAO
+        ProfileDao dao = new ProfileDao();
+        CustomerProfile cp = dao.getCustomer(userID, 3);
         if (cp == null) {
+            request.setAttribute("error", "Không tìm thấy hồ sơ khách hàng.");
             request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
             return;
         }
-        request.setAttribute("userid", userID);
+
+// Lấy danh sách yêu cầu tư vấn
+        RequestsDao rd = new RequestsDao();
+        List<Requests> requests = rd.getConsultationsByUserId(userID); // sử dụng đúng id người dùng
+
+// Đặt thuộc tính cho JSP
         request.setAttribute("customer", cp);
+        request.setAttribute("userid", userID);
+        request.setAttribute("requests", requests);
+
+// Chuyển hướng đến trang JSP
         request.getRequestDispatcher("customerprofile.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
