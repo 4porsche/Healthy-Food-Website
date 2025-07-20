@@ -68,6 +68,10 @@
         <servlet-name>OrderDetailCusServlet</servlet-name>
         <servlet-class>controller.OrderDetailCusServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProfileForNutriController</servlet-name>
+        <servlet-class>controller.ProfileForNutriController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
@@ -248,6 +252,10 @@
     <servlet-mapping>
         <servlet-name>OrderDetailCusServlet</servlet-name>
         <url-pattern>/order-detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfileForNutriController</servlet-name>
+        <url-pattern>/profilefornutri</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>

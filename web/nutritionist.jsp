@@ -59,7 +59,7 @@
                                 <td>${c.requestID}</td>
                                 <td>${c.customerName}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm" href="profile?userid=${c.customerID}">Xem</a>
+                                    <a class="btn btn-primary btn-sm" href="profilefornutri?userid=${c.customerID}">Xem</a>
                                 </td>
                                 <td>${c.requestDate}</td>
                                 <td class="text-capitalize">
