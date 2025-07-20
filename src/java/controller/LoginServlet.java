@@ -38,10 +38,10 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect("requests");
                     break;
                 case 5:
-                    response.sendRedirect("seller.jsp");
+                    response.sendRedirect("seller-dashboard");
                     break;
                 case 6:
-                    response.sendRedirect("shipper.jsp");
+                    response.sendRedirect("shipper-dashboard");
                     break;
                 default:
                     response.sendRedirect("login.jsp?error=role");

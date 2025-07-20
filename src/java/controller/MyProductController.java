@@ -7,10 +7,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import model.Product;
 import model.Categories;
+import model.Users;
 import repository.ProductDAO;
 
 @WebServlet(name = "MyProductController", urlPatterns = {"/my-products"})
@@ -25,35 +28,17 @@ public class MyProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        HttpSession session = request.getSession(false);
-//        int sellerId = 0;
-//        
-//        if (session != null) {
-//            sellerId = (int) session.getAttribute("userId");
-//        }
-        int sellerId = 8;
-
-        ProductDAO dao = new ProductDAO();
-
-        Map<Integer, String> categoryNameMap = dao.getCategoryMap();
-        Map<Integer, Integer> categoryCountMap = dao.getMyProductCountByCategory(sellerId);
-
-        List<Product> productList = dao.getMyProduct(sellerId);
-
-        request.setAttribute("productList", productList);
-        request.setAttribute("categoryNameMap", categoryNameMap);
-        request.setAttribute("categoryCountMap", categoryCountMap);
-        request.getRequestDispatcher("my-products.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int sellerId = 8;
+        if (session == null || session.getAttribute("userid") == null) {
+            response.sendRedirect("login.jsp?error=sessionExpired");
+            return;
+        }
+
+        int sellerId = (Integer) session.getAttribute("userid");
 
         String searchTxt = request.getParameter("txt");
         String sortType = request.getParameter("sort");
+        String selectedTag = request.getParameter("tag");
         String categoryId_raw = request.getParameter("categoryId");
         int categoryId = -1;
         if (categoryId_raw != null && !categoryId_raw.trim().isEmpty()) {
@@ -63,7 +48,10 @@ public class MyProductController extends HttpServlet {
         ProductDAO dao = new ProductDAO();
 
         List<Product> productList = null;
-        if (categoryId != -1) {
+
+        if (selectedTag != null && !selectedTag.trim().isEmpty()) {
+            productList = dao.getMyProductByTag(sellerId, selectedTag);
+        } else if (categoryId != -1) {
             productList = dao.getMyProductByCategory(8, categoryId);
         } else if (searchTxt != null && !searchTxt.trim().isEmpty()) {
             productList = dao.getMySearchedList(searchTxt, sellerId);
@@ -80,6 +68,9 @@ public class MyProductController extends HttpServlet {
         Map<Integer, String> categoryNameMap = dao.getCategoryMap();
         Map<Integer, Integer> categoryCountMap = dao.getMyProductCountByCategory(sellerId);
 
+        Set<String> allTags = dao.getAllTagsBySeller(sellerId);
+
+        request.setAttribute("tagList", allTags);
         request.setAttribute("productList", productList);
         request.setAttribute("categoryNameMap", categoryNameMap);
         request.setAttribute("categoryCountMap", categoryCountMap);
@@ -87,6 +78,12 @@ public class MyProductController extends HttpServlet {
         request.setAttribute("txtS", searchTxt);
         request.setAttribute("sortT", sortType);
         request.getRequestDispatcher("my-products.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
     }
 
 }
