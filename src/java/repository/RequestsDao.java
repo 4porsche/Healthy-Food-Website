@@ -75,6 +75,26 @@ public class RequestsDao extends DBContext {
         }
         return null;
     }
+    
+     public List<Requests> getConsultationsByUserId(int userId) {
+        List<Requests> list = new ArrayList<>();
+        String sql = "SELECT * FROM ConsulationRequests WHERE customerID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Requests r = new Requests();
+                r.setRequestID(rs.getInt("RequestID"));
+                r.setPreferredDate(rs.getTimestamp("PreferredDate"));
+                r.setStatus(rs.getString("Status"));
+                r.setResponseNote(rs.getString("ResponseNote"));
+                list.add(r);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public int countPageConsultation(int perPage) {
         String sql = "select count(*) from ConsulationRequests";
