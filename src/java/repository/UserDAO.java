@@ -87,6 +87,7 @@ public class UserDAO extends DBContext {
                 rs.getString("Username"),
                 rs.getString("Password"),
                 rs.getString("Email"),
+                    rs.getString("Phone"),
                 rs.getInt("RoleID"),
                 rs.getBoolean("IsActive"),
                 rs.getString("google_id")
@@ -127,6 +128,7 @@ public class UserDAO extends DBContext {
                 rs.getString("Username"),
                 rs.getString("Password"),
                 rs.getString("Email"),
+                      rs.getString("Phone"),
                 rs.getInt("RoleID"),
                 rs.getBoolean("IsActive"),
                 rs.getString("google_id")

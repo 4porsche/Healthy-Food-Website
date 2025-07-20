@@ -40,28 +40,27 @@ public class OrderDetailDAO extends DBContext{
             stmt.executeBatch(); // Thực thi tất cả cùng lúc
         }
     }
-   public List<OrderDetail> getOrderDetailsByOrderId(int orderId) throws SQLException {
-        List<OrderDetail> details = new ArrayList<>();
-        String sql = "SELECT * FROM OrderDetails WHERE OrderID = ?";
+ public List<OrderDetail> getOrderDetailsByOrderId(int orderId) throws SQLException, Exception {
+    List<OrderDetail> details = new ArrayList<>();
+    String sql = "SELECT * FROM OrderDetails WHERE OrderID = ?";
+    
+    try (Connection conn = new DBContext().getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
         
-        try (Connection conn = super.connection;
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setInt(1, orderId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    OrderDetail detail = new OrderDetail();
-                    
-                    detail.setOrderID(rs.getInt("OrderID"));
-                    detail.setProductID(rs.getInt("ProductID"));
-                    detail.setQuantity(rs.getInt("Quantity"));
-                    detail.setPrice(rs.getInt("Price"));
-                    detail.setProductName(rs.getString("ProductName"));
-                    detail.setImage(rs.getString("ImageUrl")); // Lấy từ ImageUrl
-                    details.add(detail);
-                }
+        stmt.setInt(1, orderId);
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                OrderDetail detail = new OrderDetail();
+                detail.setOrderID(rs.getInt("OrderID"));
+                detail.setProductID(rs.getInt("ProductID"));
+                detail.setQuantity(rs.getInt("Quantity"));
+                detail.setPrice(rs.getInt("Price"));
+                detail.setProductName(rs.getString("ProductName"));
+                detail.setImage(rs.getString("ImageUrl"));
+                details.add(detail);
             }
         }
-        return details;
     }
+    return details;
+}
 }

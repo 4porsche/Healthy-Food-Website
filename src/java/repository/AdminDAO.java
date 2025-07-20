@@ -10,10 +10,12 @@ import model.User;
 
 public class AdminDAO extends DBContext {
 
-    public List<User> getAllUsers() {
+     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM Users";
-        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); 
+             ResultSet rs = ps.executeQuery()) {
+            
             while (rs.next()) {
                 User user = new User(
                         rs.getInt("UserID"),
@@ -21,14 +23,15 @@ public class AdminDAO extends DBContext {
                         rs.getString("Username"),
                         rs.getString("Password"),
                         rs.getString("Email"),
+                        rs.getString("Phone"), // Thêm trường Phone
                         rs.getInt("RoleID"),
                         rs.getBoolean("IsActive"),
                         rs.getString("google_id")
                 );
                 users.add(user);
-                System.out.println("Retrieved user: " + user.getUsername()); // Debug output
+                System.out.println("Retrieved user: " + user.getUsername());
             }
-            System.out.println("Total users retrieved: " + users.size()); // Debug output
+            System.out.println("Total users retrieved: " + users.size());
         } catch (SQLException e) {
             System.out.println("SQL Error in getAllUsers: " + e.getMessage());
             e.printStackTrace();
@@ -64,16 +67,17 @@ public class AdminDAO extends DBContext {
     }
 
     public boolean createUser(User user) {
-        String sql = "INSERT INTO Users (Fullname, Username, Password, Email, RoleID, IsActive, google_id) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (Fullname, Username, Password, Email, Phone, RoleID, IsActive, google_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; // Thêm trường Phone
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, user.getFullname());
             ps.setString(2, user.getUsername());
-            ps.setString(3, user.getPassword()); // Sử dụng password từ user
+            ps.setString(3, user.getPassword());
             ps.setString(4, user.getEmail());
-            ps.setInt(5, user.getRoleID());
-            ps.setBoolean(6, user.isIsActive());
-            ps.setString(7, user.getGoogleId()); // Thêm google_id
+            ps.setString(5, user.getPhone()); // Thiết lập giá trị phone
+            ps.setInt(6, user.getRoleID());
+            ps.setBoolean(7, user.isIsActive());
+            ps.setString(8, user.getGoogleId());
             int rows = ps.executeUpdate();
             return rows > 0;
         } catch (SQLException e) {
@@ -81,19 +85,20 @@ public class AdminDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
-
     }
 
-    public boolean updateUser(User user) {
-        String sql = "UPDATE Users SET Fullname = ?, Username = ?, Password = ?, Email = ?, RoleID = ?, IsActive = ? WHERE UserID = ?";
+     public boolean updateUser(User user) {
+        String sql = "UPDATE Users SET Fullname = ?, Username = ?, Password = ?, "
+                + "Email = ?, Phone = ?, RoleID = ?, IsActive = ? WHERE UserID = ?"; // Thêm trường Phone
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, user.getFullname());
             ps.setString(2, user.getUsername());
             ps.setString(3, user.getPassword());
             ps.setString(4, user.getEmail());
-            ps.setInt(5, user.getRoleID());
-            ps.setBoolean(6, user.isIsActive());
-            ps.setInt(7, user.getUserID());
+            ps.setString(5, user.getPhone()); // Thiết lập giá trị phone
+            ps.setInt(6, user.getRoleID());
+            ps.setBoolean(7, user.isIsActive());
+            ps.setInt(8, user.getUserID());
             int rows = ps.executeUpdate();
             return rows > 0;
         } catch (SQLException e) {
@@ -118,11 +123,12 @@ public class AdminDAO extends DBContext {
 
     public List<User> searchUsers(String query) {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM Users WHERE Fullname LIKE ? OR Username LIKE ? OR Email LIKE ?";
+        String sql = "SELECT * FROM Users WHERE Fullname LIKE ? OR Username LIKE ? OR Email LIKE ? OR Phone LIKE ?"; // Thêm Phone
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, "%" + query + "%");
             ps.setString(2, "%" + query + "%");
             ps.setString(3, "%" + query + "%");
+            ps.setString(4, "%" + query + "%"); // Tìm kiếm theo phone
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 users.add(new User(
@@ -131,6 +137,7 @@ public class AdminDAO extends DBContext {
                         rs.getString("Username"),
                         rs.getString("Password"),
                         rs.getString("Email"),
+                        rs.getString("Phone"), // Thêm trường Phone
                         rs.getInt("RoleID"),
                         rs.getBoolean("IsActive"),
                         rs.getString("google_id")
@@ -143,7 +150,7 @@ public class AdminDAO extends DBContext {
         return users;
     }
 
-    public List<User> filterUsersByRole(int roleId) {
+      public List<User> filterUsersByRole(int roleId) {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM Users WHERE RoleID = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -156,6 +163,7 @@ public class AdminDAO extends DBContext {
                         rs.getString("Username"),
                         rs.getString("Password"),
                         rs.getString("Email"),
+                        rs.getString("Phone"), // Thêm trường Phone
                         rs.getInt("RoleID"),
                         rs.getBoolean("IsActive"),
                         rs.getString("google_id")

@@ -190,7 +190,8 @@
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="<%= item.getImageUrl() != null ? item.getImageUrl() : "img/default-product.png" %>" 
+                                                        <!-- SỬA TẠI ĐÂY: getImageUrl() -> getImage() -->
+                                                        <img src="<%= item.getImage() != null ? item.getImage() : "img/default-product.png" %>" 
                                                              alt="<%= item.getProductName() %>" 
                                                              class="product-img me-3">
                                                         <div>

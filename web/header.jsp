@@ -113,6 +113,10 @@
                 gap: 50px;
             }
 
+            /* Thêm icon cho lịch sử đơn hàng */
+            .bi-history {
+                margin-right: 5px;
+            }
         </style>
     </head>
 
@@ -147,6 +151,8 @@
                                         </a>
                                         <div class="dropdown-menu">
                                             <a href="profile?userid=${sessionScope.userid}" class="dropdown-item">Xem hồ sơ</a>
+                                            <!-- THÊM LIÊN KẾT ĐẾN LỊCH SỬ ĐƠN HÀNG TRONG DROPDOWN -->
+                                            <a href="order-history" class="dropdown-item">Lịch sử đơn hàng</a>
                                             <a href="LogoutServlet" class="dropdown-item">Đăng xuất</a>
                                         </div>
                                     </c:when>
@@ -179,6 +185,14 @@
                         <div class="navbar-nav m-auto">
                             <a href="home" class="nav-item nav-link active">Trang chủ</a>
                             <a href="my-products.jsp" class="nav-item nav-link">Sản phẩm</a>
+                            
+                            <!-- THÊM MỤC LỊCH SỬ ĐƠN HÀNG VÀO MENU CHÍNH -->
+                            <c:if test="${not empty sessionScope.user}">
+                                <a href="order-history" class="nav-item nav-link">
+                                    <i class="bi bi-clock-history"></i> Lịch sử đơn hàng
+                                </a>
+                            </c:if>
+                            
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu">
@@ -198,5 +212,8 @@
             </div>
         </div>
         <!-- Header End -->
+        
+        <!-- Thêm Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     </body>
 </html>

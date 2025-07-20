@@ -39,7 +39,7 @@
         <div class="card result-card">
             <% 
                 String status = request.getParameter("status");
-                String orderId = request.getParameter("orderId");
+                String orderId = request.getParameter("orderID");
                 
                 if ("success".equals(status)) {
             %>
@@ -64,7 +64,7 @@
             
             
            <div class="text-center mt-4">
-    <a href="order-detail?orderId=${param.orderId}" class="btn btn-primary">
+    <a href="order-detail?orderID=${param.orderId}" class="btn btn-primary">
         <i class="bi bi-eye me-2"></i>Xem chi tiết đơn hàng
     </a>
     <a href="home" class="btn btn-outline-secondary ms-2">

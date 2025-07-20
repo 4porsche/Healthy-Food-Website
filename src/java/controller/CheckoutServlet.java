@@ -8,13 +8,12 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import model.CartItem;
 import model.Order;
 import model.OrderDetail;
+import model.User;
 import repository.OrderDetailDAO;
 import repository.OrderDAO;
 import util.VNPayHelper;
@@ -24,14 +23,22 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String fullname = request.getParameter("fullname");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        
+        // Kiểm tra đăng nhập
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        
+        String fullname = request.getParameter("fullname");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
         String paymentMethod = request.getParameter("paymentMethod");
         
         // Lấy giỏ hàng từ session
-        HttpSession session = request.getSession();
         Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
         
         // Kiểm tra giỏ hàng rỗng
@@ -46,15 +53,16 @@ public class CheckoutServlet extends HttpServlet {
             total += item.getPrice() * item.getQuantity();
         }
         
-        // Tạo đối tượng Order - userID có thể null
+        // Tạo đối tượng Order - sử dụng userID từ session
         Order order = new Order();
+        order.setUserID(user.getUserID()); // Lưu userID của người dùng
         order.setCustomerName(fullname);
         order.setCustomerPhone(phone);
         order.setCustomerEmail(email);
         order.setDeliveryAddress(address);
         order.setTotalPrice(total);
         order.setDeliveryStatus("pending");
-        order.setOrderDate(new java.sql.Date(new Date().getTime()));
+        order.setOrderDate(new java.sql.Date(System.currentTimeMillis()));
         
         // Tạo danh sách OrderDetail
         List<OrderDetail> orderDetails = new ArrayList<>();

@@ -1,3 +1,4 @@
+<%@page import="model.User"%>
 <%@page import="model.CartItem"%>
 <%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -8,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thanh toán</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         .container {
             max-width: 800px;
@@ -42,6 +44,29 @@
 <body>
     <%@ include file="header.jsp" %>
 
+    <%
+        // Kiểm tra đăng nhập
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            String returnUrl = request.getRequestURL().toString();
+            if (request.getQueryString() != null) {
+                returnUrl += "?" + request.getQueryString();
+            }
+            response.sendRedirect("login.jsp?returnUrl=" + java.net.URLEncoder.encode(returnUrl, "UTF-8"));
+            return;
+        }
+
+        // Lấy giỏ hàng từ session
+        Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
+        double total = 0.0;
+        if (cart != null && !cart.isEmpty()) {
+            for (CartItem item : cart.values()) {
+                double itemTotal = item.getPrice() * item.getQuantity();
+                total += itemTotal;
+            }
+        }
+    %>
+
     <div class="container">
         <div class="card">
             <div class="card-header bg-primary text-white">
@@ -60,29 +85,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <%
-                                    Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
-                                    double total = 0.0;
-                                    if (cart != null && !cart.isEmpty()) {
-                                        for (CartItem item : cart.values()) {
-                                            double itemTotal = item.getPrice() * item.getQuantity();
-                                            total += itemTotal;
-                                %>
+                                <% if (cart != null && !cart.isEmpty()) { 
+                                    for (CartItem item : cart.values()) { 
+                                        double itemTotal = item.getPrice() * item.getQuantity(); %>
                                 <tr>
                                     <td><%= item.getProductName() %></td>
                                     <td><%= item.getQuantity() %></td>
-                                    <!-- Sửa định dạng hiển thị giá -->
                                     <td><%= String.format("%,.0f", itemTotal) %>đ</td>
                                 </tr>
-                                <%
-                                        }
-                                    }
-                                %>
+                                <% } %>
                                 <tr class="table-active">
                                     <td colspan="2"><strong>Tổng cộng</strong></td>
-                                    <!-- Sửa định dạng hiển thị tổng -->
                                     <td><strong><%= String.format("%,.0f", total) %>đ</strong></td>
                                 </tr>
+                                <% } else { %>
+                                <tr>
+                                    <td colspan="3" class="text-center">Giỏ hàng trống</td>
+                                </tr>
+                                <% } %>
                             </tbody>
                         </table>
                     </div>
@@ -92,15 +112,18 @@
                         <form id="checkoutForm" action="checkout" method="POST">
                             <div class="form-group">
                                 <label for="fullname">Họ và tên</label>
-                                <input type="text" class="form-control" id="fullname" name="fullname" required>
+                                <input type="text" class="form-control" id="fullname" name="fullname" 
+                                       value="<%= user.getFullname() %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="phone">Số điện thoại</label>
-                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                <input type="tel" class="form-control" id="phone" name="phone" 
+                                       value="<%= user.getPhone() != null ? user.getPhone() : "" %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       value="<%= user.getEmail() %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="address">Địa chỉ giao hàng</label>

@@ -16,16 +16,25 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String returnUrl = request.getParameter("returnUrl");
 
         UserDAO dao = new UserDAO();
         User user = dao.login(username, password);
 
         if (user != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", user); // Lưu cả đối tượng User
-            session.setAttribute("userid", user.getUserID()); // Lưu userid vào session
-            session.setAttribute("username", user.getUsername()); // Hoặc user.getFullName() nếu có
+            session.setAttribute("user", user);
+            session.setAttribute("userid", user.getUserID());
+            session.setAttribute("username", user.getUsername());
             session.setAttribute("fullname", user.getFullname());
+
+            // Chuyển hướng đến URL trước đó nếu có
+            if (returnUrl != null && !returnUrl.isEmpty()) {
+                response.sendRedirect(returnUrl);
+                return;
+            }
+
+            // Chuyển hướng theo role nếu không có returnUrl
             int roleID = user.getRoleID();
             switch (roleID) {
                 case 1:
@@ -43,11 +52,11 @@ public class LoginServlet extends HttpServlet {
                 case 6:
                     response.sendRedirect("shipper.jsp");
                     break;
-                default:
-                    response.sendRedirect("login.jsp?error=role");
-                    break;
                 case 7: // Manager
                     response.sendRedirect("managerHome.jsp");
+                    break;
+                default:
+                    response.sendRedirect("login.jsp?error=role");
                     break;
             }
         } else {

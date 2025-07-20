@@ -491,6 +491,7 @@
                             <th>Họ Tên</th>
                             <th>Tên Đăng Nhập</th>
                             <th>Email</th>
+                            <th>Số Điện Thoại</th> <!-- Thêm cột Số Điện Thoại -->
                             <th>Vai Trò</th>
                             <th>Trạng Thái</th>
                             <th>Thao Tác</th>
@@ -514,6 +515,7 @@
                             <td><%= user.getFullname() != null ? user.getFullname() : "N/A" %></td>
                             <td><%= user.getUsername() != null ? user.getUsername() : "N/A" %></td>
                             <td><%= user.getEmail() != null ? user.getEmail() : "N/A" %></td>
+                            <td><%= user.getPhone() != null ? user.getPhone() : "N/A" %></td> <!-- Hiển thị số điện thoại -->
                             <td><%= roleName %></td>
                             <td>
                                 <% if(user.isIsActive()) { %>
@@ -529,6 +531,7 @@
                                                     '<%= user.getFullname() != null ? user.getFullname().replace("'", "\\'") : "" %>',
                                                     '<%= user.getUsername() != null ? user.getUsername().replace("'", "\\'") : "" %>',
                                                     '<%= user.getEmail() != null ? user.getEmail().replace("'", "\\'") : "" %>',
+                                                    '<%= user.getPhone() != null ? user.getPhone().replace("'", "\\'") : "" %>', <!-- Thêm phone -->
                                                     '<%= user.getRoleID() %>',
                                                     '<%= user.isIsActive() %>'
                                                     )">
@@ -579,12 +582,16 @@
                             <input type="email" id="addEmail" name="email" required placeholder="Nhập địa chỉ email">
                         </div>
                         <div class="form-group">
-                            <label for="addPassword">Mật khẩu:</label>
-                            <input type="password" id="addPassword" name="password" required placeholder="Nhập mật khẩu">
+                            <label for="addPhone">Số điện thoại:</label> <!-- Thêm trường phone -->
+                            <input type="tel" id="addPhone" name="phone" required placeholder="Nhập số điện thoại">
                         </div>
                     </div>
 
                     <div class="form-row">
+                        <div class="form-group">
+                            <label for="addPassword">Mật khẩu:</label>
+                            <input type="password" id="addPassword" name="password" required placeholder="Nhập mật khẩu">
+                        </div>
                         <div class="form-group">
                             <label for="addRoleId">Vai trò:</label>
                             <select id="addRoleId" name="roleId" required>
@@ -596,6 +603,9 @@
                                 <option value="6">Người giao hàng</option>
                             </select>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="addActive">Trạng thái tài khoản:</label>
                             <div style="margin-top: 10px;">
@@ -641,12 +651,16 @@
                             <input type="email" id="editEmail" name="email" required placeholder="Nhập địa chỉ email">
                         </div>
                         <div class="form-group">
-                            <label for="editPassword">Mật khẩu (để trống nếu giữ nguyên):</label>
-                            <input type="password" id="editPassword" name="password" placeholder="Nhập mật khẩu mới">
+                            <label for="editPhone">Số điện thoại:</label> <!-- Thêm trường phone -->
+                            <input type="tel" id="editPhone" name="phone" required placeholder="Nhập số điện thoại">
                         </div>
                     </div>
 
                     <div class="form-row">
+                        <div class="form-group">
+                            <label for="editPassword">Mật khẩu (để trống nếu giữ nguyên):</label>
+                            <input type="password" id="editPassword" name="password" placeholder="Nhập mật khẩu mới">
+                        </div>
                         <div class="form-group">
                             <label for="editRoleId">Vai trò:</label>
                             <select id="editRoleId" name="roleId" required>
@@ -657,6 +671,9 @@
                                 <option value="6">Người giao hàng</option>
                             </select>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="editActive">Trạng thái tài khoản:</label>
                             <div style="margin-top: 10px;">
@@ -755,6 +772,19 @@
 
             function hideEditAccountForm() {
                 document.getElementById('editAccountForm').style.display = 'none';
+                // Function to show/hide edit account form (cập nhật thêm phone)
+            function showEditForm(userId, fullname, username, email, phone, roleId, isActive) {
+                document.getElementById('editUserId').value = userId;
+                document.getElementById('editFullname').value = fullname;
+                document.getElementById('editUsername').value = username;
+                document.getElementById('editEmail').value = email;
+                document.getElementById('editPhone').value = phone; // Thiết lập giá trị phone
+                document.getElementById('editRoleId').value = roleId;
+                document.getElementById('editActive').checked = (isActive === 'true');
+
+                document.getElementById('editAccountForm').style.display = 'block';
+                document.getElementById('editAccountForm').scrollIntoView({behavior: 'smooth'});
+            }
             }
         </script>
     </body>
