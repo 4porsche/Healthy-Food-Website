@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Requests;
 import repository.ProfileDao;
+import repository.RequestsDao;
 
 /**
  *
@@ -58,9 +59,36 @@ public class RequestsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProfileDao pd = new ProfileDao();
-        List<Requests> list = pd.getAllRequestsForNutritionist();
-        request.setAttribute("requests", list);
+        RequestsDao rd = new RequestsDao();
+
+        // Lấy thông tin tìm kiếm và lọc
+        String search = request.getParameter("search");     // tên khách hàng
+        String status = request.getParameter("status");     // Accepted / Pending / Rejected
+        String pageRaw = request.getParameter("page");
+
+        int page = 1;
+        int pageSize = 10;
+
+        if (pageRaw != null) {
+            try {
+                page = Integer.parseInt(pageRaw);
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+
+        // Truy vấn danh sách yêu cầu tư vấn theo search + filter
+        List<Requests> list = rd.getFilteredRequests(search, status, page, pageSize);
+        int totalRecords = rd.countFilteredRequests(search, status);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        
+        // Gửi dữ liệu về JSP
+        request.setAttribute("list", list);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("search", search);
+        request.setAttribute("status", status);
+
         request.getRequestDispatcher("nutritionist.jsp").forward(request, response);
     }
 
